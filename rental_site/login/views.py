@@ -37,5 +37,6 @@ def register(request):
     )
     request.session['username']
     print(request.session.get('username'))
+    print("bashar is desiging login")
     return redirect('/home/')
   return render(request, 'registration.html')
