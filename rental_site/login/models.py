@@ -56,3 +56,9 @@ class User(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   update_at = models.DateTimeField(auto_now=True)
 
+class LandLord(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='landlord')
+  phone_num = models.IntegerField()
+  bio = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  update_at = models.DateTimeField(auto_now=True)  
