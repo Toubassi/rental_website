@@ -1,23 +1,305 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Sign In | HomeFinder</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- our custom style -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
   </head>
+
   <body>
-    <h1>Log In</h1>
-    <form action="/login/" method="post">
-      {% csrf_token %}
-      <label for="username">Username:</label>
-      <input type="text" name="Username" id="username" />
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" />
-      <input type="submit" value="LogIn" />
-    </form>
-    <p>
-      Byeeeeeeeee
-      <a href="/register/">Don't have an account? Register here</a>
-    </p>
+    <a class="skip-link" href="#signin-form">Skip to sign in</a>
+
+    <!-- Floating pill navigation -->
+    <header class="site-header">
+      <nav class="nav-pill" id="nav" aria-label="Main navigation">
+        <a href="/" class="brand">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2.5 3.5 9v12.5h6.2v-6.3h4.6v6.3h6.2V9L12 2.5z" />
+          </svg>
+          <span>HomeFinder</span>
+        </a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="navMenu"
+          aria-label="Open menu"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/login/" class="is-active" aria-current="page">Sign In</a></li>
+          </ul>
+          <a href="/register/" class="btn btn-nav">
+            <span>Get Started</span>
+            <span class="btn-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="login-layout">
+      <!-- Left: welcome -->
+      <section class="welcome" aria-labelledby="welcome-title">
+        <div class="welcome-copy">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 2.5 3.5 9v12.5h6.2v-6.3h4.6v6.3h6.2V9L12 2.5z" />
+            </svg>
+          </span>
+          <h1 id="welcome-title">Welcome Back</h1>
+          <p class="welcome-lead">
+            Find your place, reconnect with HomeFinder, and continue your journey to a comfortable home.
+          </p>
+        </div>
+
+        <figure class="hero-photo">
+          <!-- Shown until the photo exists: drop your image at static/img/login-hero.jpg -->
+          <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="3" />
+            <circle cx="9" cy="9" r="1.6" />
+            <path d="M21 16l-5-5-8 8" />
+          </svg>
+          <img
+            src="{% static 'img/login-hero.jpg' %}"
+            alt="A bright, comfortable shared living room with natural light"
+            width="1200"
+            height="1400"
+            onerror="this.remove()"
+          />
+          <figcaption class="photo-caption">A place that feels like yours.</figcaption>
+        </figure>
+      </section>
+
+      <!-- Right: sign-in form -->
+      <section class="form-panel" aria-labelledby="signin-title">
+        <div class="form-card">
+          <h2 id="signin-title">Sign in to your account</h2>
+          <p class="form-lead">Welcome back! Enter your details to continue.</p>
+
+          <form id="signin-form" method="post" action="/login/" novalidate {% if error %}data-server-error="true"{% endif %}>
+            {% csrf_token %}
+
+            <div class="field {% if error %}has-error{% endif %}">
+              <label for="username">Email or Username</label>
+              <input
+                class="input"
+                type="text"
+                id="username"
+                name="username"
+                value="{{ username|default:'' }}"
+                placeholder="Enter your email or username"
+                autocomplete="username"
+                autocapitalize="none"
+                spellcheck="false"
+                required
+                aria-describedby="username-error"
+                {% if error %}aria-invalid="true"{% endif %}
+              />
+              <p class="field-error" id="username-error" aria-live="polite" hidden></p>
+            </div>
+
+            <div class="field {% if error %}has-error{% endif %}">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <input
+                  class="input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                  aria-describedby="password-error"
+                  {% if error %}aria-invalid="true"{% endif %}
+                />
+                <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path class="eye-slash" d="M3 3l18 18" />
+                  </svg>
+                </button>
+              </div>
+              <p class="field-error" id="password-error" aria-live="polite" {% if not error %}hidden{% endif %}>{% if error %}{{ error }}{% endif %}</p>
+            </div>
+
+            <div class="form-row">
+              <label class="check">
+                <input type="checkbox" name="remember" />
+                <span class="check-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                  </svg>
+                </span>
+                <span>Remember me</span>
+              </label>
+              <a href="/forgot-password/" class="text-link">Forgot password?</a>
+            </div>
+
+            {% if success %}
+              <div class="alert alert-success" role="status">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M8 12.5l3 3 5-6" />
+                </svg>
+                <span>You're signed in. Taking you to your homepage…</span>
+              </div>
+            {% endif %}
+
+            <button
+              type="submit"
+              class="btn btn-primary {% if success %}is-success{% endif %}"
+              id="signin-btn"
+              {% if success %}aria-disabled="true"{% endif %}
+            >
+              <span class="btn-label">{% if success %}Signed in{% else %}Sign In{% endif %}</span>
+              <span class="btn-arrow" aria-hidden="true">
+                <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+                <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+                <span class="spinner"></span>
+              </span>
+            </button>
+          </form>
+
+          <p class="form-foot">
+            Don’t have an account?
+            <a href="/register/" class="text-link">Create one</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const form = document.getElementById("signin-form");
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const submitBtn = document.getElementById("signin-btn");
+        const btnLabel = submitBtn.querySelector(".btn-label");
+        const pwToggle = document.getElementById("togglePassword");
+        const nav = document.getElementById("nav");
+        const navToggle = document.getElementById("navToggle");
+
+        /* ---- Mobile menu ---- */
+        navToggle.addEventListener("click", () => {
+          const open = nav.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", String(open));
+          navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        });
+
+        /* ---- Show / hide password ---- */
+        pwToggle.addEventListener("click", () => {
+          const show = password.type === "password";
+          password.type = show ? "text" : "password";
+          pwToggle.classList.toggle("is-visible", show);
+          pwToggle.setAttribute("aria-pressed", String(show));
+          pwToggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+        });
+
+        /* ---- Inline validation ---- */
+        const checks = [
+          { input: username, empty: (v) => v.trim() === "", message: "Enter your email or username." },
+          { input: password, empty: (v) => v === "", message: "Enter your password." },
+        ];
+
+        function setError(input, message) {
+          const field = input.closest(".field");
+          const err = document.getElementById(input.id + "-error");
+          field.classList.add("has-error");
+          input.setAttribute("aria-invalid", "true");
+          err.textContent = message;
+          err.hidden = false;
+        }
+
+        function clearError(input) {
+          const field = input.closest(".field");
+          const err = document.getElementById(input.id + "-error");
+          field.classList.remove("has-error");
+          input.removeAttribute("aria-invalid");
+          err.textContent = "";
+          err.hidden = true;
+        }
+
+        checks.forEach(({ input }) => {
+          input.addEventListener("input", () => {
+            if (form.dataset.serverError) {
+              // the server message covers both fields, so clear both together
+              checks.forEach((c) => clearError(c.input));
+              delete form.dataset.serverError;
+            } else {
+              clearError(input);
+            }
+          });
+        });
+
+        /* ---- Loading state ---- */
+        function setLoading(on) {
+          submitBtn.classList.toggle("is-loading", on);
+          submitBtn.setAttribute("aria-disabled", String(on));
+          submitBtn.setAttribute("aria-busy", String(on));
+          btnLabel.textContent = on ? "Signing in…" : "Sign In";
+        }
+
+        form.addEventListener("submit", (e) => {
+          if (submitBtn.getAttribute("aria-disabled") === "true") {
+            e.preventDefault(); // ignore double clicks while signing in
+            return;
+          }
+
+          let firstInvalid = null;
+          checks.forEach(({ input, empty, message }) => {
+            if (empty(input.value)) {
+              setError(input, message);
+              firstInvalid = firstInvalid || input;
+            } else {
+              clearError(input);
+            }
+          });
+
+          if (firstInvalid) {
+            e.preventDefault();
+            firstInvalid.focus();
+            return;
+          }
+
+          setLoading(true);
+        });
+
+        // Coming back with the browser's back button should not leave the button stuck
+        window.addEventListener("pageshow", (e) => {
+          if (e.persisted && !submitBtn.classList.contains("is-success")) setLoading(false);
+        });
+      })();
+    </script>
   </body>
 </html>
