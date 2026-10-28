@@ -23,7 +23,7 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    image_url = models.ImageField
+    image_url = models.ImageField(upload_to='properties/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
