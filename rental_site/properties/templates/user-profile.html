@@ -1,0 +1,317 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HomeFinder | My Profile</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Shared public website CSS -->
+    <link rel="stylesheet" href="/properties/static/css/user-profile.css" />
+  </head>
+
+  <body class="profile-page">
+    <div class="profile-shell">
+      <!-- ============ NAVIGATION ============ -->
+      <header class="profile-navbar">
+        <a href="" class="profile-brand">
+          <span class="profile-brand-icon">⌂</span>
+          HomeFinder
+        </a>
+
+        <nav class="profile-nav-links" aria-label="Main navigation">
+          <a href="">Home</a>
+          <a href="">Explore</a>
+          <a href="">About Us</a>
+          <a href="">Contact</a>
+        </nav>
+
+        <!-- Account menu -->
+        <details class="profile-menu">
+          <summary>
+            <span class="profile-avatar-small">♙</span>
+
+            <span>
+              <!-- {% if user.is_authenticated %} {{ user.username }} {% else %} -->
+              Username
+              <!-- {% endif %} -->
+            </span>
+
+            <span aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="profile-dropdown">
+            <a href="" class="dropdown-current"> My Profile </a>
+
+            <a href="">
+              <span>⌂</span>
+              Add Accommodation
+            </a>
+
+            <a href="">
+              <span>⇥</span>
+              Sign Out
+            </a>
+          </div>
+        </details>
+      </header>
+
+      <main class="profile-content">
+        <!-- ============ BREADCRUMB ============ -->
+        <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+          <a href="">Home</a>
+          <span>›</span>
+          <span>My Profile</span>
+        </nav>
+
+        <!-- ============ PAGE HEADING ============ -->
+        <section class="profile-page-heading">
+          <p class="eyebrow">Your Account</p>
+
+          <h1>My Profile</h1>
+
+          <p>
+            Manage your personal information and keep your HomeFinder account up
+            to date.
+          </p>
+        </section>
+
+        <!-- ============ PROFILE SUMMARY ============ -->
+        <section class="profile-summary-card">
+          <div class="profile-avatar-large" aria-hidden="true">♙</div>
+
+          <div class="profile-summary-info">
+            <span class="member-badge">HomeFinder Member</span>
+
+            <h2>
+              <!-- {% if user.is_authenticated %} {{
+              user.get_full_name|default:user.username }} {% else %}  -->
+              Full Name
+              <!-- {% endif %} -->
+            </h2>
+
+            <p>
+              <span aria-hidden="true">♙</span>
+              <!-- {% if user.is_authenticated %} @{{ user.username }} {% else %} -->
+              @username
+              <!-- {% endif %} -->
+            </p>
+
+            <p>
+              <span aria-hidden="true">✉</span>
+              <!-- {% if user.is_authenticated %} {{ user.email }} {% else %} -->
+              Email Address
+              <!-- {% endif %} -->
+            </p>
+          </div>
+
+          <a href="#personal-information" class="profile-edit-button">
+            <span aria-hidden="true">✎</span>
+            Edit Profile
+          </a>
+        </section>
+
+        <!-- ============ PERSONAL INFORMATION ============ -->
+        <section class="profile-section-card" id="personal-information">
+          <div class="profile-section-heading">
+            <h2>Personal Information</h2>
+            <p>Update the details associated with your account.</p>
+          </div>
+
+          <form method="post" action="" class="profile-form">
+            {% csrf_token %}
+
+            <!-- Helps the view distinguish this form from the password form. -->
+            <input type="hidden" name="form_type" value="profile" />
+
+            <div class="profile-fields-grid">
+              <div class="profile-field">
+                <label for="full-name">Full Name</label>
+
+                <input
+                  type="text"
+                  id="full-name"
+                  name="full_name"
+                  class="profile-input"
+                  placeholder="Enter your full name"
+                  value="{{ user.get_full_name }}"
+                  required
+                />
+              </div>
+
+              <div class="profile-field">
+                <label for="username">Username</label>
+
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="profile-input"
+                  placeholder="Choose a username"
+                  value="{{ user.username }}"
+                  required
+                />
+              </div>
+
+              <div class="profile-field">
+                <label for="email">Email Address</label>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="profile-input"
+                  placeholder="Enter your email address"
+                  value="{{ user.email }}"
+                  required
+                />
+              </div>
+
+              <div class="profile-field">
+                <label for="date-of-birth">Date of Birth</label>
+
+                <input
+                  type="date"
+                  id="date-of-birth"
+                  name="date_of_birth"
+                  class="profile-input"
+                />
+              </div>
+            </div>
+
+            <div class="profile-form-actions">
+              <button type="submit" class="profile-primary-button">
+                Save Changes <span aria-hidden="true">↗</span>
+              </button>
+
+              <a href="" class="profile-cancel-button"> Cancel </a>
+            </div>
+
+            <p class="profile-form-note">
+              Your personal information should only be visible to authorized
+              users when needed.
+            </p>
+          </form>
+        </section>
+
+        <!-- ============ CHANGE PASSWORD ============ -->
+        <section class="profile-section-card password-section">
+          <div class="password-heading">
+            <div class="password-icon" aria-hidden="true">♙</div>
+
+            <div>
+              <h2>Change Password</h2>
+              <p>Choose a strong password to keep your account secure.</p>
+            </div>
+          </div>
+
+          <form method="post" action="" class="profile-form">
+            {% csrf_token %}
+
+            <input type="hidden" name="form_type" value="password" />
+
+            <div class="password-fields-grid">
+              <div class="profile-field">
+                <label for="current-password">Current Password</label>
+
+                <input
+                  type="password"
+                  id="current-password"
+                  name="current_password"
+                  class="profile-input"
+                  placeholder="Enter your current password"
+                  autocomplete="current-password"
+                  required
+                />
+              </div>
+
+              <div class="profile-field">
+                <label for="new-password">New Password</label>
+
+                <input
+                  type="password"
+                  id="new-password"
+                  name="new_password"
+                  class="profile-input"
+                  placeholder="Enter your new password"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+
+              <div class="profile-field">
+                <label for="confirm-password">Confirm New Password</label>
+
+                <input
+                  type="password"
+                  id="confirm-password"
+                  name="confirm_password"
+                  class="profile-input"
+                  placeholder="Re-enter your new password"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="profile-primary-button password-submit"
+            >
+              Update Password <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+        </section>
+
+        <!-- ============ ACCOUNT ACTIONS ============ -->
+        <section class="profile-account-actions">
+          <div>
+            <h2>Account Actions</h2>
+            <p>Signing out takes you back to the HomeFinder homepage.</p>
+          </div>
+
+          <a href="" class="profile-signout-button">
+            <span aria-hidden="true">⇥</span>
+            Sign Out
+          </a>
+        </section>
+      </main>
+
+      <!-- ============ FOOTER ============ -->
+      <footer class="profile-footer">
+        <div class="profile-footer-main">
+          <div class="profile-footer-brand">
+            <a href="" class="profile-brand">
+              <span class="profile-brand-icon">⌂</span>
+              HomeFinder
+            </a>
+
+            <p>
+              Helping students and working professionals find a place to call
+              home.
+            </p>
+          </div>
+
+          <div class="profile-footer-links">
+            <h3>Quick Links</h3>
+            <a href="">Home</a>
+            <a href="">About Us</a>
+            <a href="">Contact</a>
+            <a href="">Sign Out</a>
+          </div>
+        </div>
+
+        <div class="profile-footer-bottom">
+          © 2026 HomeFinder. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
