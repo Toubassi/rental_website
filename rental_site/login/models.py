@@ -14,20 +14,13 @@ class UserManager(models.Manager):
     name = postData.get('name', '').strip()
     email = postData.get('email', '').strip().lower()
     username = postData.get('username', '').strip()
-<<<<<<< HEAD
     dob = postData.get('dob', '').strip()
     password = postData.get('password', '')          # passwords are NOT stripped
     confirm_password = postData.get('confirm_password', '')
-=======
-    bday = postData.get('dob', '').strip()    
-    password = postData.get('password', "").strip()
-    confirm_password = postData.get('confirm_password', '').strip()
->>>>>>> origin/master
 
     if not name:
       errors['name'] = 'Please enter your full name.'
 
-<<<<<<< HEAD
     if not EMAIL_REGEX.match(email):
       errors['email'] = 'Invalid email address.'
     elif User.objects.filter(email=email).exists():
@@ -36,12 +29,6 @@ class UserManager(models.Manager):
     if not username:
       errors['username'] = 'Please choose a username.'
     elif User.objects.filter(username=username).exists():
-=======
-    if User.objects.filter(email=email):
-      errors['email'] = 'This email is already in use.'
-
-    if User.objects.filter(username=username):
->>>>>>> origin/master
       errors['username'] = 'This username is already taken.'
 
     if len(password) < 8:
