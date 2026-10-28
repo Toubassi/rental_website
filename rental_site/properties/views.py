@@ -10,5 +10,7 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
+def accommodation(request):
+    return render(request, 'my_accommodation.html')
 def explore(request):
     return render(request, 'explore.html')
