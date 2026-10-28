@@ -14,7 +14,7 @@ class Property(models.Model):
     landlord = models.ForeignKey(LandLord, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     desc = models.TextField()
-    monthly_rent = models.IntegerField()
+    monthly_rent = models.PositiveBigIntegerField()  #<-- blocks negative rent.
     city = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     is_available = models.BooleanField(default=True)
@@ -23,7 +23,7 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    image_url = models.CharField(max_length=255)
+    image_url = models.ImageField
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -20,6 +20,8 @@ def register(request):
 
     if User.objects.count() == 0:
       level = 0
+    else:
+      level = 1
 
     name = request.POST['name']
     username = request.POST['username']
@@ -35,6 +37,11 @@ def register(request):
       email=email,
       password=hashed_pw,
     )
+<<<<<<< HEAD
     request.session['username']
+=======
+    request.session['username'] = username
+    print("bashar is desiging login")
+>>>>>>> origin/master
     return redirect('/home/')
   return render(request, 'registration.html')
