@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,7 +15,7 @@
       crossorigin="anonymous"
     />
     <!-- our custom style -->
-    <link href="/properties/static/css/home.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
   </head>
   <body>
     <div class="page-frame">
@@ -117,7 +118,7 @@
                   aria-label="Apartment image placeholder"
                 >
                   <img
-                    src="/properties/static/images/appartment-pic.png"
+                    src="/rental_site/login/static/images/appartment-pic.png"
                     alt="appartment"
                   />
                 </div>
@@ -131,7 +132,7 @@
                   aria-label="Studio image placeholder"
                 >
                   <img
-                    src="/properties/static/images/studio-app.png"
+                    src="/login/static/images/studio-app.png"
                     alt="studio-apart"
                   />
                 </div>
@@ -145,7 +146,7 @@
                   aria-label="Family home image placeholder"
                 >
                   <img
-                    src="/properties/static/images/living-room.jpg"
+                    src="/login/static/images/living-room.jpg"
                     alt="appartment1"
                   />
                 </div>
@@ -159,7 +160,7 @@
                   aria-label="Furnished apartment image placeholder"
                 >
                   <img
-                    src="/properties/static/images/appartment2.jpeg"
+                    src="/login/static/images/appartment2.jpeg"
                     alt="appartment2"
                   />
                 </div>
@@ -172,7 +173,7 @@
                   role="img"
                   aria-label="More property images placeholder"
                 >
-                  <img src="/properties/static/images/appartment3.jpg" alt="" />
+                  <img src="/login/static/images/appartment3.jpg" alt="" />
                 </div>
                 <p class="category-name">Contact {{ landlord }}</p>
               </article>
@@ -279,7 +280,7 @@
               aria-label="Welcoming home image placeholder"
             >
               <img
-                src="/properties/static/images/palestine-tower.jpeg"
+                src="/login/static/images/palestine-tower.jpeg"
                 alt=""
               />
             </div>
@@ -374,7 +375,7 @@
         manually updating the copyright notice every year. #}
 
         <div class="footer-bottom">
-          © {{ current_year | default(2026) }} HomeFinder. All rights reserved.
+
         </div>
       </footer>
     </div>
