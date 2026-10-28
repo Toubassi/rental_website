@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeFinder</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="#" class="logo">HomeFinder</a>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Explore</a>
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Contact</a>
+        </nav>
+        <details class="profile-menu">
+            <summary>Username</summary>
+            <a href="#">My Profile</a>
+            <a href="#">Add Accommodation</a>
+            <a href="#">Sign Out</a>
+        </details>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="footer-brand">
+            <h3>HomeFinder</h3>
+            <p>Helping students and working professionals find a place to call home.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Sign Out</a>
+        </div>
+        <p class="copyright">© 2026 HomeFinder. All rights reserved.</p>
+    </footer>
+</body>
+</html>

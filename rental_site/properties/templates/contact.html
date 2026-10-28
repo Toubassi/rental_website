@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+
+<main class="contact-page">
+
+  <!-- HERO -->
+  <section class="contact-hero">
+    <div class="contact-hero-text">
+      <p class="contact-eyebrow">Get in touch</p>
+      <h1>We’re Here to Help</h1>
+      <p class="contact-lead">Have a question about finding accommodation or using HomeFinder? We’d love to hear from you. Send us a message, and our team will do its best to help.</p>
+    </div>
+    <div class="contact-hero-image">
+      <!-- TODO: team adds the photo later, e.g. <img src="{% static 'images/contact-hero.jpg' %}" alt="Shared living space"> -->
+    </div>
+  </section>
+
+  <!-- MAIN CONTACT SECTION -->
+  <section class="contact-main">
+
+    <!-- Left: contact information -->
+    <div class="contact-info">
+      <h2>Let’s Talk</h2>
+      <p class="contact-info-lead">Whether you’re looking for a place to live, offering accommodation, or simply have a suggestion, feel free to get in touch.</p>
+
+      <article class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg>
+        </div>
+        <div class="contact-card-body">
+          <h3>Email Us</h3>
+          <!-- TODO: replace with the project's real contact email before launch -->
+          <p class="contact-email">support@homefinder.example</p>
+        </div>
+      </article>
+
+      <article class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z"/></svg>
+        </div>
+        <div class="contact-card-body">
+          <h3>General Questions</h3>
+          <p>Ask us about HomeFinder and how to use the platform.</p>
+        </div>
+      </article>
+
+      <article class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+        </div>
+        <div class="contact-card-body">
+          <h3>Feedback &amp; Suggestions</h3>
+          <p>Share ideas that could make HomeFinder better.</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- Right: contact form -->
+    <div class="contact-form-card">
+      <h2>Send Us a Message</h2>
+      <p class="contact-topics-label">What can we help you with?</p>
+      <div class="contact-topics">
+        <span class="contact-topic">Finding Accommodation</span>
+        <span class="contact-topic">Listing Accommodation</span>
+        <span class="contact-topic">Technical Support</span>
+        <span class="contact-topic">General Feedback</span>
+      </div>
+
+      <form action="" method="post" novalidate class="contact-form">
+        {% csrf_token %}
+        <div>
+          <label class="contact-label" for="full_name">Full Name</label>
+          <input class="contact-field" type="text" id="full_name" name="full_name" placeholder="Enter your full name" autocomplete="name">
+        </div>
+        <div>
+          <label class="contact-label" for="email">Email Address</label>
+          <input class="contact-field" type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email">
+        </div>
+        <div>
+          <label class="contact-label" for="subject">Subject</label>
+          <input class="contact-field" type="text" id="subject" name="subject" placeholder="What is your message about?">
+        </div>
+        <div>
+          <label class="contact-label" for="message">Message</label>
+          <textarea class="contact-field contact-area" id="message" name="message" rows="5" placeholder="Write your message here…"></textarea>
+        </div>
+        <button type="submit" class="contact-pill contact-pill-forest contact-submit">
+          Send Message
+          <span class="contact-ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </button>
+      </form>
+      <p class="contact-note">We’ll use your information to respond to your inquiry.</p>
+    </div>
+
+  </section>
+
+  <!-- CLOSING CALL TO ACTION -->
+  <section class="contact-cta">
+    <div class="contact-cta-text">
+      <h2>Still Looking for Your Next Home?</h2>
+      <p>Explore HomeFinder and take the next step toward finding accommodation that suits your needs.</p>
+    </div>
+    <!-- TODO: href should go to the homepage -->
+    <a href="#" class="contact-pill contact-pill-cream">
+      Explore HomeFinder
+      <span class="contact-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+      </span>
+    </a>
+  </section>
+
+</main>
+{% endblock %}
