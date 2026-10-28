@@ -12,17 +12,17 @@ class UserManager(models.Manager):
 
     email = postData.get('email', '').strip()
     username = postData.get('username', '').strip()
-    bday = postData.get('bday', '').strip()    
+    bday = postData.get('dob', '').strip()    
     password = postData.get('password', "").strip()
     confirm_password = postData.get('confirm_password', '').strip()
 
     if not EMAIL_REGEX.match(postData["email"]):
       errors['email'] = "Invalid email address."
 
-    if User.objects.filter(email):
-      errors['email'] = 'This username is already in use.'
+    if User.objects.filter(email=email):
+      errors['email'] = 'This email is already in use.'
 
-    if User.objects.filter(username):
+    if User.objects.filter(username=username):
       errors['username'] = 'This username is already taken.'
 
     if len(password) < 8:
