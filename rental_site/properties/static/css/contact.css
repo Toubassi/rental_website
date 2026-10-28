@@ -1,0 +1,53 @@
+.contact-page {
+    color: #292D2A;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.contact-page h1,
+.contact-page h2,
+.contact-page h3 {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    color: #24483F;
+    margin: 0;
+
+}
+
+.contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    border: 0;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.contact-pill-forest { background: #24483F; color: #fff; }
+
+.contact-pill-cream {
+    height: 60px;
+    padding: 0 9px 32px;
+    font-size: 18px;
+    background: #FAF7F0;
+    color: #24483F;
+}
+
+.contact-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    flex: none
+}
+
+.contact-pill-forest .contact-ico { background: #FAF7F0; color:#24483F; }
+.contact-pill-cream .contact-ico { background: #24483F; color:#FAF7F0; }
+
+
