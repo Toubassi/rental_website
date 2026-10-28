@@ -37,7 +37,11 @@ def register(request):
       email=email,
       password=hashed_pw,
     )
+<<<<<<< HEAD
+    request.session['username']
+=======
     request.session['username'] = username
     print("bashar is desiging login")
+>>>>>>> origin/master
     return redirect('/home/')
   return render(request, 'registration.html')

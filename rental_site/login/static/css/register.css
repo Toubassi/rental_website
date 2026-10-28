@@ -1,0 +1,248 @@
+/* HomeFinder - Registration page.
+   Colors: Forest #24483F | Cream #FAF7F0 | Sage #DCE6DA | Charcoal #292D2A | Terracotta #C8795A (decoration only, never text) */
+
+:root {
+    --hf-forest: #24483F;
+    --hf-cream: #FAF7F0;
+    --hf-sage: #DCE6DA;
+    --hf-charcoal: #292D2A;
+    --hf-terracotta: #C8795A;
+}
+
+.reg-body {
+    background: var(--hf-cream);
+    color: var(--hf-charcoal);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    min-height: 100vh;
+}
+
+.reg-page {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+/* ---------- Left photo placeholder ---------- */
+.reg-photo {
+    position: relative;
+    height: 100%;
+    min-height: 680px;
+    overflow: hidden;
+    border-radius: 32px;
+    background: var(--hf-sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reg-photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reg-photo-chip {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 12px;
+    color: var(--hf-charcoal);
+}
+
+.reg-photo-icon {
+    color: #6F8A7F;
+}
+
+.reg-arch {
+    position: absolute;
+    right: 56px;
+    bottom: 0;
+    border: 1.5px solid rgba(255, 255, 255, .85);
+    border-bottom: 0;
+    border-radius: 999px 999px 0 0;
+}
+.reg-arch-outer { width: 170px; height: 146px; }
+.reg-arch-inner { width: 134px; height: 112px; right: 74px; }
+
+/* ---------- Right form card ---------- */
+.reg-card {
+    height: 100%;
+    padding: 36px 40px 32px;
+    border-radius: 32px;
+    background: #fff;
+}
+
+.reg-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.reg-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--hf-forest);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.reg-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    border: 1.5px solid rgba(36, 72, 63, .35);
+    border-radius: 999px;
+    color: var(--hf-charcoal);
+    font-size: 14px;
+}
+.reg-back:hover { background: var(--hf-sage); color: var(--hf-charcoal); }
+
+.reg-title {
+    margin: 0;
+    color: var(--hf-forest);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.reg-subtitle {
+    margin: 4px 0 20px;
+    font-size: 15px;
+}
+
+.reg-alert {
+    padding: 10px 16px;
+    border: 1.5px solid var(--hf-terracotta);
+    border-radius: 16px;
+    background: #fff;
+    color: var(--hf-charcoal);
+    font-size: 14px;
+}
+
+/* ---------- Form controls ---------- */
+.reg-card .form-label {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--hf-charcoal);
+}
+
+.reg-card .form-control {
+    height: 46px;
+    padding: 0 18px;
+    border: 1.5px solid rgba(36, 72, 63, .35);
+    border-radius: 999px;
+    background-color: var(--hf-cream);
+    color: var(--hf-charcoal);
+    font-size: 14px;
+}
+.reg-card .form-control::placeholder { color: #5E6B64; }
+.reg-card .form-control:focus {
+    border-color: var(--hf-forest);
+    box-shadow: 0 0 0 3px rgba(36, 72, 63, .2);
+    background-color: var(--hf-cream);
+}
+/* Bootstrap draws its own red icon on invalid fields; we use our own colors instead */
+.reg-card .form-control.is-invalid {
+    border-color: var(--hf-terracotta);
+    background-image: none;
+    padding-right: 18px;
+}
+.reg-card .form-control.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(200, 121, 90, .3);
+}
+
+/* Error messages sit directly under their field */
+.reg-card .invalid-feedback {
+    margin-top: 6px;
+    padding-left: 6px;
+    color: var(--hf-charcoal);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ---------- Password show/hide ---------- */
+.reg-password { position: relative; }
+.reg-password .form-control { padding-right: 52px !important; }
+
+.reg-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--hf-forest);
+    cursor: pointer;
+}
+.reg-toggle:hover { background: var(--hf-sage); }
+.reg-toggle:focus-visible { outline: 2px solid var(--hf-forest); outline-offset: 2px; }
+.reg-toggle .icon-eye-off { display: none; }
+.reg-toggle.is-showing .icon-eye { display: none; }
+.reg-toggle.is-showing .icon-eye-off { display: block; }
+
+/* ---------- Submit button ---------- */
+.reg-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    padding: 0 8px 0 24px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--hf-forest);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+}
+.reg-submit:hover, .reg-submit:focus-visible { background: #1B332D; color: #fff; }
+.reg-submit:focus-visible { outline: 3px solid rgba(36, 72, 63, .4); outline-offset: 2px; }
+.reg-submit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--hf-cream);
+    color: var(--hf-forest);
+}
+
+.reg-signin {
+    margin: 18px 0 0;
+    text-align: center;
+    font-size: 14px;
+}
+.reg-signin a {
+    color: var(--hf-forest);
+    text-decoration: underline;
+    text-decoration-color: var(--hf-terracotta);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+/* ---------- Phones / tablets: single column ---------- */
+@media (max-width: 575.98px) {
+    .reg-page { padding: 12px; }
+    .reg-card { padding: 24px 20px; border-radius: 24px; }
+    .reg-title { font-size: 32px; }
+}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 import re
 from datetime import date
 
@@ -10,41 +11,73 @@ class UserManager(models.Manager):
   def userValidator(self, postData):
     errors = {}
 
-    email = postData.get('email', '').strip()
+    name = postData.get('name', '').strip()
+    email = postData.get('email', '').strip().lower()
     username = postData.get('username', '').strip()
+<<<<<<< HEAD
+    dob = postData.get('dob', '').strip()
+    password = postData.get('password', '')          # passwords are NOT stripped
+    confirm_password = postData.get('confirm_password', '')
+=======
     bday = postData.get('dob', '').strip()    
     password = postData.get('password', "").strip()
     confirm_password = postData.get('confirm_password', '').strip()
+>>>>>>> origin/master
 
-    if not EMAIL_REGEX.match(postData["email"]):
-      errors['email'] = "Invalid email address."
+    if not name:
+      errors['name'] = 'Please enter your full name.'
 
+<<<<<<< HEAD
+    if not EMAIL_REGEX.match(email):
+      errors['email'] = 'Invalid email address.'
+    elif User.objects.filter(email=email).exists():
+      errors['email'] = 'An account with this email already exists.'
+
+    if not username:
+      errors['username'] = 'Please choose a username.'
+    elif User.objects.filter(username=username).exists():
+=======
     if User.objects.filter(email=email):
       errors['email'] = 'This email is already in use.'
 
     if User.objects.filter(username=username):
+>>>>>>> origin/master
       errors['username'] = 'This username is already taken.'
 
     if len(password) < 8:
       errors['password'] = 'Password must be at least 8 characters.'
 
-    if not bday:
-      errors['bday'] = 'Please enter a birthdate.'
+    if not dob:
+      errors['dob'] = 'Please enter a birthdate.'
     else:
       try:
-        birthdate = date.fromisoformat(bday)
+        birthdate = date.fromisoformat(dob)
         today = date.today()
-        if birthdate >= today:
-          errors['bday'] = 'You must be born to register'
-        elif birthdate > date.today().replace(year=date.today().year - 17):
-          errors['bday'] = 'You must be at least 17 years old to register.'
+        if birthdate > today:
+          errors['dob'] = 'Date of birth cannot be in the future.'
+        elif birthdate.year < 1900:
+          errors['dob'] = 'Please enter a valid birthdate.'
+        elif birthdate > today.replace(year=today.year - 17):
+          errors['dob'] = 'You must be at least 17 years old to register.'
       except ValueError:
-        errors['bday'] = 'Please enter a valid birthdate.'
+        errors['dob'] = 'Please enter a valid birthdate.'
+
     if password != confirm_password:
       errors['confirm_password'] = 'Passwords do not match.'
     return errors
 
-    
+  def register(self, postData):
+    # Only these fields are saved. user_level is never read from the form,
+    # so it stays at the model default (1 = normal user).
+    return self.create(
+      name=postData['name'].strip(),
+      username=postData['username'].strip(),
+      email=postData['email'].strip().lower(),
+      dob=date.fromisoformat(postData['dob'].strip()),
+      password=make_password(postData['password']),   # Django's hasher: salted hash, never plain text
+    )
+
+
 class User(models.Model):
   name = models.CharField(max_length=255)
   username = models.CharField(max_length=255, unique=True)
@@ -61,4 +94,4 @@ class LandLord(models.Model):
   phone_num = models.IntegerField()
   bio = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
-  update_at = models.DateTimeField(auto_now=True)  
+  update_at = models.DateTimeField(auto_now=True)
