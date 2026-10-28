@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HomeFinder | Admin Dashboard</title>
+
+    <!-- Bootstrap 6 Alpha -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+      crossorigin="anonymous"
+    />
+
+    <!-- our custom stryple -->
+    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+  </head>
+
+  <body>
+    <div class="admin-shell">
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="admin-sidebar">
+        <a href="" class="admin-brand">
+          <span class="brand-icon" aria-hidden="true">⌂</span>
+          <span>HomeFinder</span>
+        </a>
+
+        <div class="admin-label">
+          <span aria-hidden="true">◉</span>
+          ADMIN PANEL
+        </div>
+
+        <nav class="admin-nav" aria-label="Admin navigation">
+          <a href="" class="admin-nav-link active">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            Dashboard
+          </a>
+
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon" aria-hidden="true">♙</span>
+            Manage Users
+          </a>
+
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon" aria-hidden="true">⌂</span>
+            Manage Properties
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a href="" class="sidebar-bottom-link">
+            <span aria-hidden="true">↗</span>
+            View Public Website
+          </a>
+
+          <a href="" class="sidebar-bottom-link">
+            <span aria-hidden="true">⇥</span>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main class="admin-main">
+        <!-- Dashboard heading -->
+        <header class="admin-header">
+          <div class="header-text">
+            <h1>Admin Dashboard</h1>
+
+            <p>Manage HomeFinder users and property listings.</p>
+          </div>
+
+          <div class="admin-profile">
+            <div class="profile-avatar" aria-hidden="true">♙</div>
+
+            <div class="profile-info">
+              <!-- {# Later, display the name of the authenticated administrator.
+              This helps the administrator identify which account is being used.
+              #} -->
+              <strong> {{ admin_name | default('Admin Name') }} </strong>
+
+              <span>Administrator</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ============ STATISTICS ============ -->
+        <section class="stats-grid" aria-label="Dashboard statistics">
+          <article class="stat-card">
+            <div class="stat-heading">
+              <span class="stat-icon" aria-hidden="true">♙</span>
+              <span>Total Users</span>
+            </div>
+
+            <!-- {# The view can pass the actual number of registered users. #} -->
+            <div class="stat-bottom">
+              <strong class="stat-number">
+                {{ total_users | default('00') }}
+              </strong>
+              <span class="stat-note">Registered</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-heading">
+              <span class="stat-icon" aria-hidden="true">⌂</span>
+              <span>Total Property Listings</span>
+            </div>
+
+            <div class="stat-bottom">
+              <strong class="stat-number">
+                {{ total_properties | default('00') }}
+              </strong>
+              <span class="stat-note">All listings</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-heading">
+              <span class="stat-icon" aria-hidden="true">◷</span>
+              <span>Available Listings</span>
+            </div>
+
+            <div class="stat-bottom">
+              <strong class="stat-number">
+                {{ available_listings | default('00') }}
+              </strong>
+              <span class="stat-note">For rent</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-heading">
+              <span class="stat-icon" aria-hidden="true">⊘</span>
+              <span>Rented Listings</span>
+            </div>
+
+            <div class="stat-bottom">
+              <strong class="stat-number">
+                {{ rented_listings | default('00') }}
+              </strong>
+              <span class="stat-note">Unavailable</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- ============ RECENT PROPERTIES ============ -->
+        <section class="admin-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Recent Properties</h2>
+              <span class="sample-label">Sample data</span>
+            </div>
+
+            <a href="" class="panel-link">
+              View All Listings <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Landlord</th>
+                  <th>Bedrooms</th>
+                  <th>Date Listed</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- {# These rows are examples for the layout. Later, a Jinja loop
+                can generate them from recent_properties supplied by the view.
+                #} -->
+
+                <tr>
+                  <td>
+                    <strong>Sunny Apartment</strong>
+                    <span class="cell-subtitle">Ramallah</span>
+                  </td>
+                  <td>Landlord Name 1</td>
+                  <td>2 bedrooms</td>
+                  <td>28/10/2026</td>
+                  <td>
+                    <span class="status-pill status-available">
+                      Available
+                    </span>
+                  </td>
+                  <td>
+                    <a href="" class="table-action">View</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>Modern Studio</strong>
+                    <span class="cell-subtitle">Al-Bireh</span>
+                  </td>
+                  <td>Landlord Name 2</td>
+                  <td>1 bedroom</td>
+                  <td>27/10/2026</td>
+                  <td>
+                    <span class="status-pill status-available">
+                      Available
+                    </span>
+                  </td>
+                  <td>
+                    <a href="" class="table-action">View</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>Family Apartment</strong>
+                    <span class="cell-subtitle">Birzeit</span>
+                  </td>
+                  <td>Landlord Name 3</td>
+                  <td>3 bedrooms</td>
+                  <td>26/10/2026</td>
+                  <td>
+                    <span class="status-pill status-rented"> Rented </span>
+                  </td>
+                  <td>
+                    <a href="" class="table-action">View</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>City View Apartment</strong>
+                    <span class="cell-subtitle">Ramallah</span>
+                  </td>
+                  <td>Landlord Name 4</td>
+                  <td>2 bedrooms</td>
+                  <td>25/10/2026</td>
+                  <td>
+                    <span class="status-pill status-available">
+                      Available
+                    </span>
+                  </td>
+                  <td>
+                    <a href="" class="table-action">View</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>Cozy Apartment</strong>
+                    <span class="cell-subtitle">Nablus</span>
+                  </td>
+                  <td>Landlord Name 5</td>
+                  <td>1 bedroom</td>
+                  <td>24/10/2026</td>
+                  <td>
+                    <span class="status-pill status-rented"> Rented </span>
+                  </td>
+                  <td>
+                    <a href="" class="table-action">View</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============ RECENT USERS ============ -->
+        <section class="admin-panel users-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Recent Users</h2>
+              <span class="sample-label">Sample data</span>
+            </div>
+
+            <a href="" class="panel-link">
+              View All Users <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Profile</th>
+                  <th>Date Joined</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- {# Example users. Later, replace these rows with data from the
+                User model. Since an account can be both a renter and a
+                landlord, the profile column should not be treated as mutually
+                exclusive account types. #} -->
+
+                <tr>
+                  <td>Emil Example</td>
+                  <td>user1@example.com</td>
+                  <td>Landlord profile</td>
+                  <td>20/10/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Sam Example</td>
+                  <td>user2@example.com</td>
+                  <td>Renter</td>
+                  <td>21/10/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Lina Example</td>
+                  <td>user3@example.com</td>
+                  <td>Landlord profile</td>
+                  <td>22/10/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Adam Example</td>
+                  <td>user4@example.com</td>
+                  <td>Renter</td>
+                  <td>23/10/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Maya Example</td>
+                  <td>user5@example.com</td>
+                  <td>Landlord profile</td>
+                  <td>24/10/2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

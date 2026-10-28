@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HomeFinder | Manage Accommodation</title>
+
+    <!-- Bootstrap 6 Alpha -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Shared admin stylesheet -->
+    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+  </head>
+
+  <body class="manage-accommodation-page">
+    <div class="admin-shell">
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="admin-sidebar">
+        <a href="" class="admin-brand">
+          <span class="brand-icon">⌂</span>
+          <span>HomeFinder</span>
+        </a>
+
+        <div class="admin-label">
+          <span>◉</span>
+          ADMIN PANEL
+        </div>
+
+        <nav class="admin-nav" aria-label="Admin navigation">
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon">▦</span>
+            Dashboard
+          </a>
+
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon">♙</span>
+            Manage Users
+          </a>
+
+          <a href="" class="admin-nav-link active">
+            <span class="nav-icon">⌂</span>
+            Manage Accommodation
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a href="" class="sidebar-bottom-link">
+            <span>↗</span>
+            View Public Website
+          </a>
+
+          <a href="" class="sidebar-bottom-link">
+            <span>⇥</span>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main class="admin-main">
+        <!-- Page heading -->
+        <header class="admin-header">
+          <div class="header-text">
+            <h1>Manage Accommodation</h1>
+
+            <p>Check, approve and remove accommodation listings.</p>
+          </div>
+
+          <div class="admin-profile">
+            <div class="profile-avatar">♙</div>
+
+            <div class="profile-info">
+              <!-- <strong>{{ admin_name|default:"Admin Name" }}</strong> -->
+              <span>Administrator</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ============ SEARCH AND FILTERS ============ -->
+        <section class="accommodation-toolbar">
+          <form action="" method="get">
+            <div class="accommodation-search-form">
+              <div class="accommodation-search-input">
+                <span aria-hidden="true">⌕</span>
+
+                <input
+                  type="search"
+                  name="q"
+                  placeholder="Search accommodation or provider"
+                  aria-label="Search accommodation or provider"
+                />
+              </div>
+
+              <button type="submit" class="search-button">
+                <span aria-hidden="true">⌕</span>
+                Search
+              </button>
+            </div>
+
+            <div class="accommodation-filter-row">
+              <div class="accommodation-filter">
+                <label for="accommodation-type"> ACCOMMODATION TYPE </label>
+
+                <select id="accommodation-type" name="type">
+                  <option value="">All Types</option>
+                  <option value="student-room">Student Room</option>
+                  <option value="shared">Shared Accommodation</option>
+                  <option value="private-room">Private Room</option>
+                  <option value="worker-housing">Worker Housing</option>
+                </select>
+              </div>
+
+              <div class="accommodation-filter">
+                <label for="availability"> AVAILABILITY </label>
+
+                <select id="availability" name="availability">
+                  <option value="">All</option>
+                  <option value="available">Available</option>
+                  <option value="unavailable">Unavailable</option>
+                </select>
+              </div>
+
+              <div class="accommodation-filter">
+                <label for="listing-status"> LISTING STATUS </label>
+
+                <select id="listing-status" name="status">
+                  <option value="">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+
+              <button type="submit" class="apply-filters-button">
+                Apply Filters
+              </button>
+
+              <a href="" class="clear-filters"> Clear Filters </a>
+            </div>
+          </form>
+        </section>
+
+        <!-- ============ ACCOMMODATION TABLE ============ -->
+        <section class="admin-panel accommodation-table-panel">
+          <div class="table-wrapper">
+            <table class="admin-table accommodation-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Accommodation Title</th>
+                  <th>Provider</th>
+                  <th>Type</th>
+                  <th>Monthly Rent</th>
+                  <th>Date Submitted</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- {# Sample rows for the design. Later, a Jinja loop can display
+                real properties from the database. #} -->
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 1</td>
+                  <td>Provider Name 1</td>
+                  <td>Student Room</td>
+                  <td>900</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-pending"> ◷ Pending </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="approve-button">
+                        Approve
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 2</td>
+                  <td>Provider Name 2</td>
+                  <td>Shared Accommodation</td>
+                  <td>800</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-approved">
+                      ✓ Approved
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="remove-button">
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 3</td>
+                  <td>Provider Name 3</td>
+                  <td>Private Room</td>
+                  <td>1,200</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-pending"> ◷ Pending </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="approve-button">
+                        Approve
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 4</td>
+                  <td>Provider Name 4</td>
+                  <td>Worker Housing</td>
+                  <td>700</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-unavailable">
+                      ⊘ Unavailable
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="remove-button">
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 5</td>
+                  <td>Provider Name 5</td>
+                  <td>Student Room</td>
+                  <td>650</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-approved">
+                      ✓ Approved
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="remove-button">
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="accommodation-thumbnail">▧</div>
+                  </td>
+
+                  <td>Accommodation Title 6</td>
+                  <td>Provider Name 6</td>
+                  <td>Private Room</td>
+                  <td>1,000</td>
+                  <td>DD/MM/YYYY</td>
+
+                  <td>
+                    <span class="status-pill status-rejected">
+                      × Rejected
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="accommodation-actions">
+                      <a href="" class="table-action">View</a>
+                      <button type="button" class="remove-button">
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ============ PAGINATION ============ -->
+          <div class="users-pagination">
+            <div class="pagination-info">Showing 1–6 of 00 listings</div>
+
+            <div class="pagination-note">
+              Confirm before rejecting or removing a listing.
+            </div>
+
+            <nav class="pagination-controls" aria-label="Listing pages">
+              <a href="" class="page-button">‹ Previous</a>
+
+              <a href="" class="page-number current-page">1</a>
+              <a href="" class="page-number">2</a>
+              <a href="" class="page-number">3</a>
+
+              <span class="page-ellipsis">…</span>
+
+              <a href="" class="page-button">Next ›</a>
+            </nav>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

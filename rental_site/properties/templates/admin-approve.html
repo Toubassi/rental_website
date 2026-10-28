@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HomeFinder | Review Accommodation</title>
+
+    <!-- Bootstrap 6 Alpha -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Shared admin styles -->
+    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+  </head>
+
+  <body class="review-accommodation-page">
+    <div class="admin-shell">
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="admin-sidebar">
+        <a href="" class="admin-brand">
+          <span class="brand-icon">⌂</span>
+          <span>HomeFinder</span>
+        </a>
+
+        <div class="admin-label">
+          <span>◉</span>
+          ADMIN PANEL
+        </div>
+
+        <nav class="admin-nav" aria-label="Admin navigation">
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon">▦</span>
+            Dashboard
+          </a>
+
+          <a href="" class="admin-nav-link">
+            <span class="nav-icon">♙</span>
+            Manage Users
+          </a>
+
+          <a href="" class="admin-nav-link active">
+            <span class="nav-icon">⌂</span>
+            Manage Accommodation
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a href="" class="sidebar-bottom-link">
+            <span>↗</span>
+            View Public Website
+          </a>
+
+          <a href="" class="sidebar-bottom-link">
+            <span>⇥</span>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main class="admin-main">
+        <!-- Breadcrumbs -->
+        <nav class="review-breadcrumbs" aria-label="Breadcrumb">
+          <a href="">Admin Dashboard</a>
+          <span>›</span>
+
+          <a href="">Manage Accommodation</a>
+          <span>›</span>
+
+          <span>Review</span>
+        </nav>
+
+        <!-- Page heading -->
+        <header class="admin-header review-header">
+          <div class="header-text">
+            <h1>Review Accommodation</h1>
+
+            <p>Check the listing details, then approve or reject it.</p>
+          </div>
+
+          <div class="admin-profile">
+            <div class="profile-avatar">♙</div>
+
+            <div class="profile-info">
+              <strong>{{ admin_name|default:"Admin Name" }}</strong>
+              <span>Administrator</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ============ REVIEW LAYOUT ============ -->
+        <div class="review-layout">
+          <!-- ============ PROPERTY INFORMATION ============ -->
+          <section class="review-property-card">
+            <div class="review-property-heading">
+              <div>
+                <h2>{{ accommodation.title|default:"Accommodation Title" }}</h2>
+
+                <span class="sample-label">
+                  Sample listing: details are placeholders
+                </span>
+              </div>
+
+              <div class="review-status-wrapper">
+                <span class="detail-label">STATUS</span>
+
+                <span class="review-status"> ◷ Pending </span>
+              </div>
+            </div>
+
+            <!-- Main property photo -->
+            <div class="review-main-photo">
+              <!-- {# Later, replace this placeholder with the property's main
+              uploaded image. Real photos help administrators evaluate the
+              listing before approval. #} -->
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <path d="m21 15-5-5L5 21"></path>
+              </svg>
+
+              <span class="photo-caption">Main photo placeholder</span>
+            </div>
+
+            <!-- Additional photos -->
+            <div class="review-thumbnails">
+              <div class="review-thumbnail">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <path d="m21 15-5-5L5 21"></path>
+                </svg>
+                <span>Photo 2</span>
+              </div>
+
+              <div class="review-thumbnail">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <path d="m21 15-5-5L5 21"></path>
+                </svg>
+                <span>Photo 3</span>
+              </div>
+
+              <div class="review-thumbnail">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <path d="m21 15-5-5L5 21"></path>
+                </svg>
+                <span>Photo 4</span>
+              </div>
+            </div>
+
+            <!-- Property description -->
+            <div class="review-description">
+              <h3>DESCRIPTION</h3>
+
+              <p>
+                <!-- {{ accommodation.description|default:"Sample description text.
+                The provider's short description of the accommodation appears
+                here exactly as submitted. No real listing information is shown
+                in this placeholder." }} -->
+              </p>
+            </div>
+
+            <!-- Property amenities -->
+            <div class="review-amenities">
+              <h3>AMENITIES</h3>
+
+              <div class="amenity-list">
+                <span class="amenity-tag"> ♧ Bed and Furniture </span>
+
+                <span class="amenity-tag"> ◉ Wi-Fi </span>
+
+                <span class="amenity-tag"> ▤ Study Desk </span>
+
+                <span class="amenity-tag"> ♨ Shared Kitchen </span>
+
+                <span class="amenity-tag"> ▣ Laundry Facilities </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ RIGHT SIDEBAR ============ -->
+          <div class="review-sidebar">
+            <!-- Moderation -->
+            <section class="review-info-card moderation-card">
+              <h2>Moderation</h2>
+
+              <!-- {# These buttons are visual placeholders. We'll connect them to
+              protected Django POST views and confirmation handling later. #} -->
+
+              <button type="button" class="moderation-approve">
+                ✓ Approve Listing
+              </button>
+
+              <button type="button" class="moderation-reject">
+                × Reject Listing
+              </button>
+
+              <p class="moderation-note">
+                Rejecting a listing should ask for confirmation and optionally
+                collect a reason.
+              </p>
+
+              <a href="" class="return-listings"> ← Return to Listings </a>
+            </section>
+
+            <!-- Listing details -->
+            <section class="review-info-card">
+              <h2>Listing Details</h2>
+
+              <div class="listing-details-grid">
+                <div class="listing-detail">
+                  <span>Accommodation Type</span>
+                  <!-- <strong>
+                    {{ accommodation.accommodation_type|default:"Student Room"
+                    }}
+                  </strong> -->
+                </div>
+
+                <div class="listing-detail">
+                  <span>Monthly Rent</span>
+                  <strong>
+                    {{ accommodation.monthly_rent|default:"000" }} / month
+                  </strong>
+                </div>
+
+                <div class="listing-detail">
+                  <span>City</span>
+                  <strong>
+                    <!-- {{ accommodation.city|default:"City name" }} -->
+                  </strong>
+                </div>
+
+                <div class="listing-detail">
+                  <span>Neighborhood</span>
+                  <!-- <strong>
+                    {{ accommodation.neighborhood|default:"Neighborhood name" }}
+                  </strong> -->
+                </div>
+
+                <div class="listing-detail">
+                  <span>Furnished</span>
+                  <strong>
+                    {{ accommodation.furnished|default:"Not specified" }}
+                  </strong>
+                </div>
+
+                <div class="listing-detail">
+                  <span>Availability</span>
+                  <strong>
+                    <!-- {{ accommodation.status|default:"Available" }} -->
+                  </strong>
+                </div>
+
+                <div class="listing-detail full-width">
+                  <span>Date Submitted</span>
+                  <strong>
+                    <!-- {{
+                    accommodation.created_at|date:"d/m/Y"|default:"DD/MM/YYYY"
+                    }} -->
+                  </strong>
+                </div>
+              </div>
+            </section>
+
+            <!-- Provider details -->
+            <section class="review-info-card provider-card">
+              <h2>Provider</h2>
+
+              <div class="provider-heading">
+                <div class="provider-avatar">♙</div>
+
+                <div>
+                  <strong>
+                    <!-- {{
+                    accommodation.landlord.user.get_full_name|default:"Provider
+                    Name" }} -->
+                  </strong>
+
+                  <span>Accommodation Provider</span>
+                </div>
+              </div>
+
+              <div class="provider-contact">
+                <span>Email</span>
+
+                <strong>
+                  <!-- {{
+                  accommodation.landlord.user.email|default:"provider@example.com"
+                  }} -->
+                </strong>
+              </div>
+
+              <div class="provider-contact">
+                <span>Phone (optional)</span>
+
+                <strong>
+                  <!-- {{ accommodation.landlord.phone_number|default:"Phone number"
+                  }} -->
+                </strong>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
