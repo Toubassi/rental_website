@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HomeFinder | Find Your Next Home</title>
+
+    <!-- Bootstrap 6 Alpha 1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+      crossorigin="anonymous"
+    />
+    <!-- our custom style -->
+    <link href="/properties/static/css/home.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="page-frame">
+      <!-- Header and hero -->
+      <header class="hero">
+        <nav
+          class="d-flex align-items-center justify-content-between flex-wrap gap-3"
+          aria-label="Main navigation"
+        >
+          <a href="" class="brand">
+            <span class="brand-icon" aria-hidden="true">⌂</span>
+            HomeFinder
+          </a>
+
+          <div class="navigation-links">
+            <a href="/">Home</a>
+            <a href="">Explore</a>
+            <a href="">About</a>
+            <a href="">Contact</a>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <!-- When the user is logged in, display their username. Otherwise,
+            show Sign Up and Log In. This helps users recognize their account
+            status and access account options.   -->
+            <!-- {% if current_user %} -->
+            <!-- <a href="" class="auth-button auth-button-light"> -->
+            <!-- {{ current_user.username }} -->
+            <!-- </a> -->
+            <!-- {% else %} -->
+            <a href="" class="auth-button auth-button-light">Sign Up</a>
+            <a href="" class="auth-button">Log In</a>
+            <!-- {% endif %} -->
+          </div>
+        </nav>
+        <div>
+          <input
+            type="search"
+            name="search"
+            id="search"
+            class="hero-search"
+            placeholder="Search your next home..."
+            style="
+              background-color: white;
+              border-style: none;
+              width: fit-content;
+              color: black;
+            "
+          />
+        </div>
+
+        <div class="hero-content">
+          <p class="eyebrow">A better way to find home</p>
+
+          <h1>Find a Place to<br />Call Home</h1>
+
+          <p class="hero-description">
+            Discover apartments that fit your lifestyle, your needs, and your
+            budget.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a href="/login/" class="home-btn home-btn-light">
+              Get Started <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-note">
+          Find your next chapter <span aria-hidden="true">◉</span>
+        </div>
+      </header>
+
+      <main>
+        <!-- Explore section -->
+        <section class="home-section">
+          <div
+            class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4"
+          >
+            <div>
+              <p class="eyebrow">Find your fit</p>
+              <h2 class="section-heading">Explore Your Next Home</h2>
+            </div>
+
+            <p class="section-description">
+              Discover places that fit your lifestyle and budget.
+            </p>
+          </div>
+
+          <!-- {# Later, a Jinja loop can replace these example cards with properties
+          retrieved from the database. Each card can show a real apartment image
+          and details, so new listings appear automatically without editing the
+          HTML. #} -->
+          <div class="category-grid-container">
+            <div class="category-grid">
+              <article class="category-card">
+                <div
+                  class="image-placeholder"
+                  role="img"
+                  aria-label="Apartment image placeholder"
+                >
+                  <img
+                    src="/properties/static/images/appartment-pic.png"
+                    alt="appartment"
+                  />
+                </div>
+                <p class="category-name">Contact {{ landlord }}</p>
+              </article>
+
+              <article class="category-card">
+                <div
+                  class="image-placeholder"
+                  role="img"
+                  aria-label="Studio image placeholder"
+                >
+                  <img
+                    src="/properties/static/images/studio-app.png"
+                    alt="studio-apart"
+                  />
+                </div>
+                <p class="category-name">Contact {{ landlord }}</p>
+              </article>
+
+              <article class="category-card">
+                <div
+                  class="image-placeholder"
+                  role="img"
+                  aria-label="Family home image placeholder"
+                >
+                  <img
+                    src="/properties/static/images/living-room.jpg"
+                    alt="appartment1"
+                  />
+                </div>
+                <p class="category-name">Contact {{ landlord }}</p>
+              </article>
+
+              <article class="category-card">
+                <div
+                  class="image-placeholder"
+                  role="img"
+                  aria-label="Furnished apartment image placeholder"
+                >
+                  <img
+                    src="/properties/static/images/appartment2.jpeg"
+                    alt="appartment2"
+                  />
+                </div>
+                <p class="category-name">Contact {{ landlord }}</p>
+              </article>
+
+              <article class="category-card">
+                <div
+                  class="image-placeholder"
+                  role="img"
+                  aria-label="More property images placeholder"
+                >
+                  <img src="/properties/static/images/appartment3.jpg" alt="" />
+                </div>
+                <p class="category-name">Contact {{ landlord }}</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="category-action">
+            <a href="" class="home-btn home-btn-dark">
+              Browse All Apartments ↗
+            </a>
+          </div>
+        </section>
+
+        <!-- Search section -->
+        <section class="home-section pt-2">
+          <div class="story-grid">
+            <div class="search-panel">
+              <p class="eyebrow">Your search, simplified</p>
+              <h3 class="h5 mb-4">Find a home that fits</h3>
+
+              <!-- {# These fields will later become part of the apartment search
+              form. They will help users filter listings by their preferred
+              location, budget, and number of bedrooms. #} -->
+
+              <form action="" method="get">
+                <label for="location">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="location"
+                  name="location"
+                  placeholder="Enter a city or area"
+                />
+
+                <label for="max-rent">Maximum monthly rent</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="max-rent"
+                  name="max_rent"
+                  placeholder="Enter your budget"
+                />
+
+                <label for="bedrooms">Bedrooms</label>
+                <select class="form-select" id="bedrooms" name="bedrooms">
+                  <option value="">Any number</option>
+                  <option value="1">1 bedroom</option>
+                  <option value="2">2 bedrooms</option>
+                  <option value="3">3 bedrooms</option>
+                  <option value="4">4+ bedrooms</option>
+                </select>
+
+                <button type="submit" class="home-btn home-btn-dark w-100">
+                  Search Apartments ↗
+                </button>
+              </form>
+            </div>
+
+            <div class="story-text">
+              <p class="eyebrow">A simpler way to search</p>
+
+              <h2 class="section-heading">
+                A Better Way to Find Your Next Home
+              </h2>
+
+              <p>
+                Finding a place to live should feel exciting, not overwhelming.
+                Browse apartment listings, compare details, and contact
+                landlords when you find a place that feels right.
+              </p>
+
+              <a href="" class="home-btn home-btn-dark"> Discover More ↗ </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Large image section -->
+        <!-- <section class="home-section pt-0"> -->
+        <!-- {# Replace this placeholder with an actual apartment photo later.
+          Property photos give users a better understanding of the space before
+          contacting a landlord. #} -->
+
+        <!-- <div -->
+        <!-- class="image-placeholder wide-placeholder" -->
+        <!-- role="img" -->
+        <!-- aria-label="Featured apartment image placeholder" -->
+        <!-- > -->
+        <!-- <img src="/properties/static/images/shared-space.jpeg" alt="shared-space"> -->
+        <!-- </div> -->
+        <!-- </section> -->
+
+        <!-- Why choose us section -->
+
+        <section class="home-section pt-0">
+          <div class="mb-4">
+            <p class="eyebrow">Why HomeFinder</p>
+            <h2 class="section-heading">Why Choose HomeFinder</h2>
+          </div>
+
+          <div class="why-grid">
+            <div
+              class="image-placeholder why-image"
+              role="img"
+              aria-label="Welcoming home image placeholder"
+            >
+              <img
+                src="/properties/static/images/palestine-tower.jpeg"
+                alt=""
+              />
+            </div>
+
+            <div class="benefit-list">
+              <article class="benefit-card">
+                <span class="benefit-icon" aria-hidden="true">✓</span>
+
+                <div>
+                  <h3>Simple Apartment Search</h3>
+                  <p>
+                    Find apartments using location, budget, and bedroom filters.
+                  </p>
+                </div>
+              </article>
+
+              <article class="benefit-card">
+                <span class="benefit-icon" aria-hidden="true">✓</span>
+
+                <div>
+                  <h3>Connect with Landlords</h3>
+                  <p>
+                    Contact landlords directly or send an inquiry through our
+                    website.
+                  </p>
+                </div>
+              </article>
+
+              <article class="benefit-card">
+                <span class="benefit-icon" aria-hidden="true">✓</span>
+
+                <div>
+                  <h3>A Clearer Rental Experience</h3>
+                  <p>Review apartment details and availability in one place.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final call to action -->
+        <section class="cta-section mx-2 mb-3">
+          <p class="eyebrow">Your next chapter starts here</p>
+
+          <h2>Ready to Find Your Next Home?</h2>
+
+          <p>
+            Explore available apartments and discover a place that feels like
+            yours.
+          </p>
+
+          <a href="" class="home-btn home-btn-light">
+            Register Here To Find Your Next Home ↗
+          </a>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-brand">
+          <a href="" class="brand mb-3">
+            <span class="brand-icon" aria-hidden="true">⌂</span>
+            HomeFinder
+          </a>
+
+          <p class="footer-description">
+            Helping you discover a place to live, grow, and feel at home.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title">Quick Links</h3>
+
+          <div class="footer-links">
+            <a href="">Home</a>
+            <a href="">Explore Apartments</a>
+            <a href="">About Us</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-title">For the Community</h3>
+
+          <div class="footer-links">
+            <a href="">List a Property</a>
+            <a href="">Contact</a>
+            <a href="">Privacy</a>
+          </div>
+        </div>
+
+        {# The application can supply the current year here. This avoids
+        manually updating the copyright notice every year. #}
+
+        <div class="footer-bottom">
+          © {{ current_year | default(2026) }} HomeFinder. All rights reserved.
+        </div>
+      </footer>
+    </div>
+
+    <!-- Bootstrap 6 uses JavaScript modules -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
