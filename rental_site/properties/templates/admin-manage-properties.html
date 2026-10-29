@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,7 +14,7 @@
     />
 
     <!-- Shared admin stylesheet -->
-    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
   </head>
 
   <body class="manage-accommodation-page">
@@ -36,24 +37,24 @@
             Dashboard
           </a>
 
-          <a href="" class="admin-nav-link">
+          <a href="/admin-manage-users/" class="admin-nav-link">
             <span class="nav-icon">♙</span>
             Manage Users
           </a>
 
-          <a href="" class="admin-nav-link active">
+          <a href="/admin-manage-properties/" class="admin-nav-link active">
             <span class="nav-icon">⌂</span>
             Manage Accommodation
           </a>
         </nav>
 
         <div class="sidebar-bottom">
-          <a href="" class="sidebar-bottom-link">
+          <a href="/dashboard/" class="sidebar-bottom-link">
             <span>↗</span>
             View Public Website
           </a>
 
-          <a href="" class="sidebar-bottom-link">
+          <a href="/logout/" class="sidebar-bottom-link">
             <span>⇥</span>
             Sign Out
           </a>

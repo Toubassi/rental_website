@@ -60,3 +60,7 @@ def register(request):
     request.session['username'] = username
     return redirect('/dashboard/')
   return render(request, 'registration.html')
+
+def logout(request):
+  request.session.flush()
+  return redirect('/')

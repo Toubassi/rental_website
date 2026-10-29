@@ -32,9 +32,9 @@
 
           <div class="navigation-links">
             <a href="/">Home</a>
-            <a href="">Explore</a>
-            <a href="">About</a>
-            <a href="">Contact</a>
+            <a href="/explore/">Explore</a>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
           </div>
 
           <div class="d-flex align-items-center gap-2">
@@ -46,8 +46,10 @@
             <!-- {{ current_user.username }} -->
             <!-- </a> -->
             <!-- {% else %} -->
-            <a href="" class="auth-button auth-button-light">Sign Up</a>
-            <a href="" class="auth-button">Log In</a>
+            <a href="/register/" class="auth-button auth-button-light"
+              >Sign Up</a
+            >
+            <a href="/login/" class="auth-button">Log In</a>
             <!-- {% endif %} -->
           </div>
         </nav>
@@ -279,10 +281,7 @@
               role="img"
               aria-label="Welcoming home image placeholder"
             >
-              <img
-                src="{% static 'images/palestine-tower.jpeg' %}"
-                alt=""
-              />
+              <img src="{% static 'images/palestine-tower.jpeg' %}" alt="" />
             </div>
 
             <div class="benefit-list">
