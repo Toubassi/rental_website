@@ -18,3 +18,6 @@ def explore(request):
 
 def details(request):
     return render(request, 'details.html')
+
+def user_profile(request):
+    return render(request, 'user-profile.html')

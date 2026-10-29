@@ -5,40 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeFinder</title>
+
+    {# Pages that need Bootstrap put its <link> here. It loads first, so our own CSS below wins. #}
+    {% block bootstrap %}{% endblock %}
+
+    {# Shared header + footer (same style as the home page) #}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+    {# Extra CSS for one page, e.g. user-profile.css #}
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <header class="navbar">
-        <a href="#" class="logo">HomeFinder</a>
-        <nav class="nav-links">
-            <a href="{% url 'dashboard' %}">Home</a>
-            <a href="{% url 'explore' %}">Explore</a>
-            <a href="{% url 'about' %}">About Us</a>
-            <a href="{% url 'contact' %}">Contact</a>
+    <!-- ============ HEADER ============ -->
+    <header class="site-header">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="{% url 'dashboard' %}" class="site-brand">
+                <span class="site-brand-icon" aria-hidden="true">⌂</span>
+                HomeFinder
+            </a>
+
+            <div class="site-nav-links">
+                <a href="{% url 'dashboard' %}">Home</a>
+                <a href="{% url 'explore' %}">Explore</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+
+            <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
+            <details class="site-user-menu">
+                <summary class="site-user-summary">
+                    <span class="site-user-avatar" aria-hidden="true">♙</span>
+                    <span>Username</span>
+                    <span aria-hidden="true">⌄</span>
+                </summary>
+
+                <div class="site-user-dropdown">
+                    <a href="{% url 'profile' %}">
+                        <span aria-hidden="true">♙</span>
+                        My Profile
+                    </a>
+
+                    <a href="{% url 'accommodation' %}">
+                        <span aria-hidden="true">▦</span>
+                        My Accommodation
+                    </a>
+
+                    {# TODO: link to the add-accommodation page when it exists #}
+                    <a href="#">
+                        <span aria-hidden="true">⌂</span>
+                        Add Accommodation
+                    </a>
+
+                    <a href="#">
+                        <span aria-hidden="true">⇥</span>
+                        Sign Out
+                    </a>
+                </div>
+            </details>
         </nav>
-        <details class="profile-menu">
-            <summary>Username</summary>
-            <a href="#">My Profile</a>
-            <a href="{% url 'accommodation' %}">Add Accommodation</a>
-            <a href="#">Sign Out</a>
-        </details>
     </header>
 
     {% block content %}{% endblock %}
 
-    <footer class="footer">
-        <div class="footer-brand">
-            <h3>HomeFinder</h3>
-            <p>Helping students and working professionals find a place to call home.</p>
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+        <div class="site-footer-brand">
+            <a href="{% url 'dashboard' %}" class="site-brand">
+                <span class="site-brand-icon" aria-hidden="true">⌂</span>
+                HomeFinder
+            </a>
+            <p class="site-footer-text">Helping students and working professionals find a place to call home.</p>
         </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <a href="{% url 'dashboard' %}">Home</a>
-            <a href="{% url 'about' %}">About Us</a>
-            <a href="{% url 'contact' %}">Contact</a>
-            <a href="#">Sign Out</a>
+
+        <div>
+            <h3 class="site-footer-title">Quick Links</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'dashboard' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
         </div>
-        <p class="copyright">© 2026 HomeFinder. All rights reserved.</p>
+
+        <div>
+            <h3 class="site-footer-title">Your Account</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'profile' %}">My Profile</a>
+                <a href="{% url 'accommodation' %}">My Accommodation</a>
+                <a href="#">Sign Out</a>
+            </div>
+        </div>
+
+        <p class="site-footer-bottom">© {% now "Y" %} HomeFinder. All rights reserved.</p>
     </footer>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
