@@ -1,6 +1,11 @@
 {% extends 'base.html' %} # these are built-in features in django
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="success-message">{{ message }}</p>
+    {% endfor %}
+{% endif %}
 <main>
     <section class="hero">
         <div class="hero-text">

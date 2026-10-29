@@ -1,14 +1,8 @@
-<<<<<<< Updated upstream
-from django.shortcuts import render, redirect
-from .models import User
-from django.contrib import messages
-=======
 from django.shortcuts import render, redirect, HttpResponse
 from .models import LandLord , Property , PropertyImage
 from django.db import transaction, DatabaseError
 from django.contrib import messages
 from login.models import User
->>>>>>> Stashed changes
 
 # Create your views here.
 def dashboard(request):
@@ -23,13 +17,34 @@ def contact(request):
 def accommodation(request):
     return render(request, 'my_accommodation.html')
 
+
 def explore(request):
-    return render(request, 'explore.html')
+    properties = Property.objects.filter(is_available=True).order_by('-created_at')
+
+    cards = []
+    for property in properties:
+        image = property.propertyimage_set.first()
+
+        cards.append({
+            'id': property.id,
+            'title': property.title,
+            'price': property.monthly_rent,
+            'area': property.city,
+            'summary': property.desc,
+            'image_url': image.image_url.url if image else '',
+            'type_label': 'Accommodation',
+            'detail_url': '/details/',
+        })
+
+    return render(request, 'explore.html', {
+        'cards': cards,
+        'currency': '₪',
+    })
+
 
 def details(request):
     return render(request, 'details.html')
 
-<<<<<<< Updated upstream
 def user_profile(request):
     return render(request, 'user-profile.html')
 
@@ -68,7 +83,7 @@ def admin_approve(request):
     if access:
         return access
     return render(request, 'admin-approve.html')
-=======
+
 def add_accommodation(request):
 
     if 'username' not in request.session:
@@ -89,7 +104,14 @@ def add_accommodation(request):
         is_available = request.POST['is_available']
         photos = request.FILES.getlist('photos')
 
-        landlord = LandLord.objects.get(user=user)
+        landlord = LandLord.objects.filter(user=user).first()
+
+        if landlord is None:
+            landlord = LandLord.objects.create(
+                user=user,
+                phone_num=int(request.POST['phone']),
+                bio=''
+                )
 
         property = Property.objects.create(
             landlord=landlord,
@@ -106,7 +128,7 @@ def add_accommodation(request):
             image_url=photo
             )
         messages.success(request, 'Accommodation added successfully!')
-        return redirect('/accommodation/')
+        return redirect('/explore/')
 
     return render(request, 'add_accommodation.html', {
         'account': user,
@@ -114,14 +136,3 @@ def add_accommodation(request):
     })
 
 
-def add_accommodation_success(request):
-    # the success page is only shown for a listing that was really saved by this person
-    user_id = request.session.get('user_id')
-    property_id = request.session.get('added_property_id')
-    new_property = None
-    if user_id and property_id:
-        new_property = Property.objects.filter(id=property_id, landlord__user__id=user_id).first()
-    if new_property is None:
-        return redirect('add_accommodation')
-    return render(request, 'add_accommodation_success.html', {'new_property': new_property, 'account': new_property.landlord.user})
->>>>>>> Stashed changes
