@@ -58,5 +58,5 @@ def register(request):
       return redirect('/register/')
 
     request.session['username'] = username
-    return redirect('/login/')
+    return redirect('/dashboard/')
   return render(request, 'registration.html')
