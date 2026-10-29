@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import User
 from django.contrib import messages
+from login.models import User, LandLord
+from .models import Property, PropertyImage
 
 
 # Create your views here.
