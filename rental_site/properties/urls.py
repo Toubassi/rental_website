@@ -7,10 +7,15 @@ urlpatterns = [
     path('accommodation/', views.accommodation, name='accommodation'),
     path('explore/', views.explore, name='explore'),
     path('details/', views.details, name='details'),
+<<<<<<< Updated upstream
     path('profile/', views.user_profile, name='profile'),
 
     path('admin-dashboard/', views.adminDashboard, name='admin-dashboard'),
     path('admin-manage-users/', views.admin_manage_users, name='admin-manage-users'),
     path('admin-manage-properties/', views.admin_manage_properties, name='admin-manage-properties'),
     path('admin-approve/', views.admin_approve, name='admin-approve'),
+=======
+    path('add-accommodation/', views.add_accommodation, name='add_accommodation'),
+    path('add-accommodation/success/', views.add_accommodation_success, name='add_accommodation_success'),
+>>>>>>> Stashed changes
 ]
