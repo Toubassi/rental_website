@@ -6,24 +6,38 @@ from .models import Property, PropertyImage
 
 # Create your views here.
 def dashboard(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'dashboard.html')
 
 def about(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'about.html')
 
 def contact(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'contact.html')
 
 def accommodation(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'my_accommodation.html')
 
 def explore(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'explore.html')
 
 def details(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'details.html')
 
 def user_profile(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
     return render(request, 'user-profile.html')
 
 
