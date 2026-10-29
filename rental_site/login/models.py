@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
 import re
-from datetime import date
+from datetime import date, datetime
 
 # Create your models here.
 
@@ -38,7 +38,7 @@ class UserManager(models.Manager):
       errors['dob'] = 'Please enter a birthdate.'
     else:
       try:
-        birthdate = date.fromisoformat(dob)
+        birthdate = datetime.strptime(dob, '%d/%m/%Y').date()    # the form sends DD/MM/YYYY
         today = date.today()
         if birthdate > today:
           errors['dob'] = 'Date of birth cannot be in the future.'

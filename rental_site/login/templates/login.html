@@ -190,7 +190,11 @@
               </span>
             </button>
           </form>
- 
+          {% if messages %}
+              <div class="alert reg-alert" role="alert">
+                {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+              </div>
+            {% endif %}
           <p class="form-foot">
             Don’t have an account?
             <a href="/register/" class="text-link">Create one</a>

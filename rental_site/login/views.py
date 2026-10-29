@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import User
 from django.contrib import messages
+from django.db import IntegrityError
 import bcrypt
+from datetime import datetime
+
 # Create your views here.
 def home(request):
   return render(request, 'home.html')
@@ -9,15 +12,15 @@ def home(request):
 def login(request):
   if request.method == "POST":
     try:
-      user =  User.objects.get(email = request.POST['user_email'])
+      user =  User.objects.get(email = request.POST['username'])
       if user:
         if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
-          request.session['user_email'] = user.email
-          return redirect('/properties/dashboard/')
+          request.session['username'] = user.email
+          return redirect('/dashboard/')
     except:
       messages.error(request, "The email or password is incorrect")
       return redirect('/login/')
-    request.session['user_email'] = user.email
+    request.session['username'] = user.email
     return redirect('/login/')
   return render(request, 'login.html')
 
@@ -29,8 +32,31 @@ def register(request):
         messages.error(request, value)
       return redirect('/register/')
 
-    # register() saves the user and hashes the password with Django's make_password
-    user = User.objects.register(request.POST)
-    request.session['username'] = user.username
-    return redirect('/home/')
+    if User.objects.count() == 0:
+      level = 0
+    else:
+      level = 1
+
+    name = request.POST['name'].strip()
+    username = request.POST['username'].strip()
+    email = request.POST['email'].strip().lower()
+    dob = datetime.strptime(request.POST['dob'].strip(), '%d/%m/%Y').date()   # DD/MM/YYYY -> a real date
+    password = request.POST['password']
+    hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+    try:
+      User.objects.create(
+        name = name,
+        username=username,
+        dob=dob,
+        email=email,
+        password=hashed_pw,
+      )
+    except IntegrityError:
+      # two identical submits at the same moment: the database refuses the second one
+      messages.error(request, 'That username or email is already registered.')
+      return redirect('/register/')
+
+    request.session['username'] = username
+    return redirect('/login/')
   return render(request, 'registration.html')
