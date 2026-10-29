@@ -14,14 +14,14 @@
       <p class="about-lead">Finding the right place to live should feel simple, not stressful. HomeFinder helps students and working professionals discover comfortable, affordable accommodation that fits their needs.</p>
       <div class="about-hero-actions">
         <!-- TODO: href should go to the homepage -->
-        <a href="#" class="about-pill about-pill-forest">
+        <a href="{% url 'home' %}" class="about-pill about-pill-forest">
           Explore HomeFinder
           <span class="about-ico">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </a>
         <!-- TODO: href should go to Registration -->
-        <a href="#" class="about-link">Get Started</a>
+        <a href="{% url 'register' %}" class="about-link">Get Started</a>
       </div>
     </div>
     <div class="about-hero-image">
@@ -125,7 +125,7 @@
     <h2>Your Next Chapter Starts Here</h2>
     <p>Whether you're studying, starting a new job, or looking for a shared place to live, HomeFinder can help you take the next step.</p>
     <!-- TODO: href should go to Registration -->
-    <a href="#" class="about-pill about-pill-cream">
+    <a href="{% url 'register' %}" class="about-pill about-pill-cream">
       Get Started
       <span class="about-ico">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>

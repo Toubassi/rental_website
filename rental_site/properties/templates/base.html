@@ -11,15 +11,15 @@
     <header class="navbar">
         <a href="#" class="logo">HomeFinder</a>
         <nav class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Explore</a>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <a href="{% url 'explore' %}">Explore</a>
             <a href="{% url 'about' %}">About Us</a>
-            <a href="#">Contact</a>
+            <a href="{% url 'contact' %}">Contact</a>
         </nav>
         <details class="profile-menu">
             <summary>Username</summary>
             <a href="#">My Profile</a>
-            <a href="#">Add Accommodation</a>
+            <a href="{% url 'accommodation' %}">Add Accommodation</a>
             <a href="#">Sign Out</a>
         </details>
     </header>
@@ -33,9 +33,9 @@
         </div>
         <div class="footer-links">
             <h4>Quick Links</h4>
-            <a href="#">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="{% url 'contact' %}">Contact</a>
             <a href="#">Sign Out</a>
         </div>
         <p class="copyright">© 2026 HomeFinder. All rights reserved.</p>
