@@ -1,248 +1,436 @@
 /* HomeFinder - Registration page.
-   Colors: Forest #24483F | Cream #FAF7F0 | Sage #DCE6DA | Charcoal #292D2A | Terracotta #C8795A (decoration only, never text) */
-
+   Every number below comes from the wireframe (Desktop 1440 / Tablet 768 / Mobile 390).
+   Sizes are written in rem (1rem = 16px) so the whole page can be scaled in ONE place (the html rule below).
+   Example: 52px in the wireframe = 3.25rem here (52 / 16).
+ 
+   Colors: Forest #24483F | Cream #FAF7F0 | Sage #DCE6DA | Charcoal #292D2A | Terracotta #C8795A (decoration only, never text)
+   The layout is written here, NOT with Bootstrap's grid, so the page looks the same even if Bootstrap fails to load. */
+ 
+ 
+/* Fonts: Fraunces (headings) and DM Sans (text) are loaded from Google Fonts by the <link> in registration.html.
+   If Google Fonts is blocked or offline, the browser uses the fallback fonts listed in each font-family below. */
+ 
 :root {
-    --hf-forest: #24483F;
-    --hf-cream: #FAF7F0;
-    --hf-sage: #DCE6DA;
-    --hf-charcoal: #292D2A;
-    --hf-terracotta: #C8795A;
+  --hf-forest: #24483F;
+  --hf-cream: #FAF7F0;
+  --hf-sage: #DCE6DA;
+  --hf-charcoal: #292D2A;
+  --hf-terracotta: #C8795A;
 }
-
+ 
+/* ---------- Make the page the same size-relationship as the wireframe on every laptop ----------
+   On a laptop (992px and wider) the root font size follows the window:
+     1.1111vw  = the wireframe is 1440px wide, so 16px * (window width / 1440)
+     100vh / 62 = the whole page also fits the window height (the page is about 62 rem tall)
+   and it is never smaller than 12.5px (readable) or bigger than 20px.
+   Everything else is in rem, so everything grows and shrinks together. */
+@media (min-width: 992px) {
+  html { font-size: clamp(12.5px, min(1.1111vw, calc(100vh / 62)), 20px); }
+}
+ 
+/* ---------- Page frame (wireframe: 1440 wide, padding 36, gap 36) ---------- */
+.reg-body,
+.reg-body *,
+.reg-body *::before,
+.reg-body *::after {
+  box-sizing: border-box;
+}
+ 
 .reg-body {
-    background: var(--hf-cream);
-    color: var(--hf-charcoal);
-    font-family: 'DM Sans', system-ui, sans-serif;
-    min-height: 100vh;
+  margin: 0;
+  background: var(--hf-cream);
+  color: var(--hf-charcoal);
+  font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  font-size: 1.0625rem;          /* 17px */
+  line-height: 1.5;
 }
-
-.reg-page {
-    padding-top: 24px;
-    padding-bottom: 24px;
+ 
+.reg-frame {
+  display: flex;
+  gap: 2.25rem;                  /* 36px */
+  width: 100%;
+  max-width: 90rem;              /* 1440px: on a very wide screen the page stays centered */
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2.25rem;              /* 36px */
 }
-
+ 
 /* ---------- Left photo placeholder ---------- */
-.reg-photo {
-    position: relative;
-    height: 100%;
-    min-height: 680px;
-    overflow: hidden;
-    border-radius: 32px;
-    background: var(--hf-sage);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.reg-side {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 2rem;           /* 32px */
+  background: var(--hf-sage);
 }
-
-.reg-photo-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+ 
+.reg-photo-img {                 /* used later, when a real photo replaces the placeholder */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
-.reg-photo-chip {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: #fff;
-    font-size: 12px;
-    color: var(--hf-charcoal);
-}
-
+ 
 .reg-photo-icon {
-    color: #6F8A7F;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3.5rem;                 /* 56px */
+  height: 3.5rem;
+  margin: -1.75rem 0 0 -1.75rem;
+  opacity: .6;
 }
-
+ 
+.reg-chip {
+  position: absolute;
+  top: 1.75rem;                  /* 28px */
+  left: 1.75rem;
+  padding: .375rem 1rem;         /* 6px 16px */
+  border-radius: 999px;
+  background: #fff;
+  color: var(--hf-charcoal);
+  font-size: .875rem;            /* 14px */
+  line-height: 1.5;
+  white-space: nowrap;
+}
+ 
 .reg-arch {
-    position: absolute;
-    right: 56px;
-    bottom: 0;
-    border: 1.5px solid rgba(255, 255, 255, .85);
-    border-bottom: 0;
-    border-radius: 999px 999px 0 0;
+  position: absolute;
+  bottom: 0;
+  border: 1.5px solid rgba(250, 247, 240, .8);
+  border-bottom: 0;
 }
-.reg-arch-outer { width: 170px; height: 146px; }
-.reg-arch-inner { width: 134px; height: 112px; right: 74px; }
-
-/* ---------- Right form card ---------- */
+.reg-arch-1 {
+  right: 3.5rem;                 /* 56px */
+  width: 9.375rem;               /* 150px */
+  height: 13.375rem;             /* 214px */
+  border-radius: 4.6875rem 4.6875rem 0 0;
+}
+.reg-arch-2 {
+  right: 5rem;                   /* 80px */
+  width: 6.375rem;               /* 102px */
+  height: 9.875rem;              /* 158px */
+  border-color: rgba(250, 247, 240, .6);
+  border-radius: 3.1875rem 3.1875rem 0 0;
+}
+ 
+/* ---------- Right: white card ---------- */
+.reg-main {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+}
+ 
 .reg-card {
-    height: 100%;
-    padding: 36px 40px 32px;
-    border-radius: 32px;
-    background: #fff;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.25rem 3.5rem;       /* 36px 56px */
+  border-radius: 2.25rem;        /* 36px */
+  background: #fff;
+  box-shadow: 0 .75rem 2.25rem rgba(36, 72, 63, .08);
 }
-
+ 
+.reg-inner {                     /* the form column: never wider than 500px (31.25rem) */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 31.25rem;
+}
+ 
 .reg-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  flex-wrap: wrap;               /* only wraps on a very narrow phone (under about 340px) */
+  min-height: 3rem;              /* 48px */
+  margin-bottom: .875rem;        /* 14px */
 }
-
+ 
 .reg-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--hf-forest);
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 24px;
-    font-weight: 600;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .625rem;                  /* 10px */
+  color: var(--hf-forest);
+  text-decoration: none;
 }
-
+.reg-logo:hover { color: var(--hf-forest); }
+.reg-logo svg { width: 2.375rem; height: 2.375rem; flex: none; }   /* 38px */
+.reg-logo span {
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-size: 1.6875rem;          /* 27px */
+  font-weight: 500;
+  line-height: 1.5;
+}
+ 
 .reg-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 16px;
-    border: 1.5px solid rgba(36, 72, 63, .35);
-    border-radius: 999px;
-    color: var(--hf-charcoal);
-    font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  height: 2.75rem;               /* 44px */
+  margin: 0;
+  padding: 0 1.125rem;           /* 0 18px */
+  border: 1.5px solid rgba(36, 72, 63, .35);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--hf-forest);
+  font-size: .9375rem;           /* 15px */
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
 }
-.reg-back:hover { background: var(--hf-sage); color: var(--hf-charcoal); }
-
+.reg-back:hover { background: var(--hf-sage); color: var(--hf-forest); border-color: rgba(36, 72, 63, .35); }
+.reg-back svg { width: 1.125rem; height: 1.125rem; flex: none; }   /* 18px */
+ 
+/* The middle part is centered vertically inside the card */
+.reg-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+ 
 .reg-title {
-    margin: 0;
-    color: var(--hf-forest);
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 40px;
-    font-weight: 600;
-    line-height: 1.15;
+  margin: 0;
+  color: var(--hf-forest);
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-size: 2.75rem;            /* 44px */
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
-
+ 
 .reg-subtitle {
-    margin: 4px 0 20px;
-    font-size: 15px;
+  margin: .375rem 0 1.375rem;    /* 6px 0 22px */
+  font-size: 1.125rem;           /* 18px */
+  line-height: 1.5;
 }
-
-.reg-alert {
-    padding: 10px 16px;
-    border: 1.5px solid var(--hf-terracotta);
-    border-radius: 16px;
-    background: #fff;
-    color: var(--hf-charcoal);
-    font-size: 14px;
+ 
+.reg-alert {                     /* the flash messages (not in the wireframe, same style family) */
+  margin: 0 0 .875rem;
+  padding: .625rem 1rem;
+  border: 1.5px solid var(--hf-terracotta);
+  border-radius: 1rem;
+  background: #fff;
+  color: var(--hf-charcoal);
+  font-size: .9375rem;
+  line-height: 1.5;
 }
-
-/* ---------- Form controls ---------- */
+ 
+/* ---------- Form ---------- */
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: .875rem;                  /* 14px */
+  margin: 0;
+}
+ 
 .reg-card .form-label {
-    margin-bottom: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--hf-charcoal);
+  display: block;
+  margin: 0 0 .375rem;           /* 0 0 6px */
+  color: var(--hf-charcoal);
+  font-size: .9375rem;           /* 15px */
+  font-weight: 500;
+  line-height: 1.5;
 }
-
+ 
 .reg-card .form-control {
-    height: 46px;
-    padding: 0 18px;
-    border: 1.5px solid rgba(36, 72, 63, .35);
-    border-radius: 999px;
-    background-color: var(--hf-cream);
-    color: var(--hf-charcoal);
-    font-size: 14px;
+  display: block;
+  width: 100%;
+  height: 3.25rem;               /* 52px */
+  margin: 0;
+  padding: 0 1.5rem;             /* 0 24px */
+  border: 1.5px solid #839A90;
+  border-radius: 999px;
+  background-color: var(--hf-cream);
+  background-image: none;
+  color: var(--hf-charcoal);
+  font-family: inherit;
+  font-size: 1rem;               /* 16px */
+  line-height: 1.5;
+  box-shadow: none;
 }
-.reg-card .form-control::placeholder { color: #5E6B64; }
+.reg-card .form-control::placeholder { color: #667069; opacity: 1; }
 .reg-card .form-control:focus {
-    border-color: var(--hf-forest);
-    box-shadow: 0 0 0 3px rgba(36, 72, 63, .2);
-    background-color: var(--hf-cream);
+  outline: 0;
+  border-color: var(--hf-forest);
+  background-color: #fff;
+  color: var(--hf-charcoal);
+  box-shadow: 0 0 0 .25rem rgba(36, 72, 63, .22);
 }
-/* Bootstrap draws its own red icon on invalid fields; we use our own colors instead */
-.reg-card .form-control.is-invalid {
-    border-color: var(--hf-terracotta);
-    background-image: none;
-    padding-right: 18px;
+.reg-card .form-control.has-icon { padding-right: 3.75rem; }   /* room for the icon button: 60px */
+ 
+/* Field + icon button (calendar, eye) */
+.reg-field { position: relative; }
+ 
+.reg-ibtn {
+  position: absolute;
+  top: 50%;
+  right: .25rem;                 /* 4px */
+  width: 2.75rem;                /* 44px */
+  height: 2.75rem;
+  margin: -1.375rem 0 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--hf-forest);
+  cursor: pointer;
 }
-.reg-card .form-control.is-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(200, 121, 90, .3);
+.reg-ibtn:hover { background: var(--hf-sage); }
+.reg-ibtn svg { width: 1.375rem; height: 1.375rem; }               /* 22px */
+.reg-ibtn .icon-eye-off { display: none; }
+.reg-ibtn.is-showing .icon-eye { display: none; }
+.reg-ibtn.is-showing .icon-eye-off { display: block; }
+ 
+/* Hidden helper: the browser's own calendar pop-up uses it (see register.js) */
+.reg-date-picker {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
 }
-
-/* Error messages sit directly under their field */
-.reg-card .invalid-feedback {
-    margin-top: 6px;
-    padding-left: 6px;
-    color: var(--hf-charcoal);
-    font-size: 13px;
-    font-weight: 500;
+ 
+.reg-ibtn:focus-visible,
+.reg-back:focus-visible,
+.reg-submit:focus-visible,
+.reg-signin a:focus-visible {
+  outline: 3px solid var(--hf-forest);
+  outline-offset: 3px;
 }
-
-/* ---------- Password show/hide ---------- */
-.reg-password { position: relative; }
-.reg-password .form-control { padding-right: 52px !important; }
-
-.reg-toggle {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 50%;
-    background: transparent;
-    color: var(--hf-forest);
-    cursor: pointer;
-}
-.reg-toggle:hover { background: var(--hf-sage); }
-.reg-toggle:focus-visible { outline: 2px solid var(--hf-forest); outline-offset: 2px; }
-.reg-toggle .icon-eye-off { display: none; }
-.reg-toggle.is-showing .icon-eye { display: none; }
-.reg-toggle.is-showing .icon-eye-off { display: block; }
-
+ 
 /* ---------- Submit button ---------- */
 .reg-submit {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 50px;
-    padding: 0 8px 0 24px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--hf-forest);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 3.625rem;              /* 58px */
+  margin: .5rem 0 0;             /* 8px on top */
+  padding: 0 .4375rem 0 1.875rem;   /* 0 7px 0 30px */
+  border: 0;
+  border-radius: 999px;
+  background: var(--hf-forest);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1.0625rem;          /* 17px */
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  cursor: pointer;
 }
-.reg-submit:hover, .reg-submit:focus-visible { background: #1B332D; color: #fff; }
-.reg-submit:focus-visible { outline: 3px solid rgba(36, 72, 63, .4); outline-offset: 2px; }
+.reg-submit:hover { background: #1B332D; color: #fff; }
 .reg-submit-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--hf-cream);
-    color: var(--hf-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.75rem;                /* 44px */
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--hf-cream);
+  color: var(--hf-forest);
 }
-
+.reg-submit-icon svg { width: 1.125rem; height: 1.125rem; }        /* 18px */
+ 
 .reg-signin {
-    margin: 18px 0 0;
-    text-align: center;
-    font-size: 14px;
+  margin: 1.25rem 0 0;           /* 20px */
+  text-align: center;
+  font-size: 1rem;               /* 16px */
+  line-height: 1.5;
 }
 .reg-signin a {
-    color: var(--hf-forest);
-    text-decoration: underline;
-    text-decoration-color: var(--hf-terracotta);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
+  color: var(--hf-forest);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--hf-terracotta);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
-
-/* ---------- Phones / tablets: single column ---------- */
-@media (max-width: 575.98px) {
-    .reg-page { padding: 12px; }
-    .reg-card { padding: 24px 20px; border-radius: 24px; }
-    .reg-title { font-size: 32px; }
+.reg-signin a:hover { color: var(--hf-forest); }
+ 
+ 
+/* =====================================================================
+   TABLET (wireframe 768px): smaller photo strip on the left, card on the right
+   ===================================================================== */
+@media (max-width: 991.98px) {
+  .reg-frame { gap: 1rem; padding: 1.5rem; }                         /* 16px / 24px */
+ 
+  .reg-side { flex: none; width: 13.75rem; border-radius: 1.75rem; } /* 220px / 28px */
+  .reg-photo-icon { width: 3rem; height: 3rem; margin: -1.5rem 0 0 -1.5rem; }   /* 48px */
+  .reg-chip { top: .875rem; left: .875rem; padding: .375rem .875rem; }          /* 14px */
+  .reg-chip-more { display: none; }                                  /* tablet says "Photo: student room" */
+  .reg-arch-2 { display: none; }
+  .reg-arch-1 {                                                      /* one arch, centered at the bottom */
+    right: auto;
+    left: 50%;
+    width: 6.875rem;             /* 110px */
+    height: 10rem;               /* 160px */
+    margin-left: -3.4375rem;
+    border-radius: 3.4375rem 3.4375rem 0 0;
+  }
+ 
+  .reg-card { padding: 1.75rem 2rem; border-radius: 2rem; box-shadow: 0 .625rem 1.875rem rgba(36, 72, 63, .08); }   /* 28px 32px */
+  .reg-top { gap: .5rem; margin-bottom: 0; }
+  .reg-logo { gap: .5rem; }
+  .reg-logo svg { width: 2rem; height: 2rem; }                       /* 32px */
+  .reg-logo span { font-size: 1.4375rem; }                           /* 23px */
+  .reg-back { padding: 0 1rem; }
+ 
+  .reg-title { font-size: 2.25rem; }                                 /* 36px */
+  .reg-subtitle { font-size: 1.0625rem; }                            /* 17px */
+ 
+  .reg-card .form-control { height: 3.125rem; padding: 0 1.375rem; } /* 50px / 22px */
+  .reg-card .form-control.has-icon { padding-right: 3.625rem; }      /* 58px */
+  .reg-ibtn { right: .1875rem; }
+ 
+  .reg-submit { height: 3.5rem; padding: 0 .4375rem 0 1.625rem; }    /* 56px / 26px */
+  .reg-submit-icon { width: 2.625rem; height: 2.625rem; }            /* 42px */
+  .reg-signin { margin-top: 1.125rem; }                              /* 18px */
+}
+ 
+ 
+/* =====================================================================
+   PHONE (wireframe 390px): no photo, no white card, form fills the screen
+   (also used up to 767px, because the photo strip needs about 768px to fit)
+   ===================================================================== */
+@media (max-width: 767.98px) {
+  .reg-frame { padding: .75rem 1.25rem 1.25rem; }                    /* 12px 20px 20px */
+  .reg-side { display: none; }
+ 
+  .reg-card { padding: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  .reg-top { min-height: 3.25rem; }                                  /* 52px */
+  .reg-logo svg { width: 1.875rem; height: 1.875rem; }               /* 30px */
+  .reg-logo span { font-size: 1.375rem; }                            /* 22px */
+  .reg-back { gap: .375rem; padding: 0 .875rem; font-size: .875rem; }   /* 6px / 14px */
+ 
+  .reg-content { justify-content: flex-start; margin-top: .875rem; } /* 14px */
+  .reg-title { font-size: 1.9375rem; }                               /* 31px */
+  .reg-subtitle { margin: .25rem 0 1rem; font-size: 1rem; }
+ 
+  .reg-form { gap: .6875rem; }                                       /* 11px */
+  .reg-card .form-label { margin-bottom: .3125rem; }
+  .reg-card .form-control { height: 3rem; padding: 0 1.25rem; background-color: #fff; }   /* 48px / 20px */
+  .reg-card .form-control.has-icon { padding-right: 3.375rem; }      /* 54px */
+  .reg-ibtn { right: .125rem; }
+ 
+  .reg-submit { padding: 0 .5rem 0 1.625rem; }
+  .reg-submit-icon { width: 2.5rem; height: 2.5rem; }                /* 40px */
+ 
+  .reg-signin { margin-top: auto; padding-top: .5rem; }              /* sticks to the bottom of the screen */
+  .reg-signin a { display: inline-block; padding: .5625rem 0; }      /* bigger tap area: 9px */
 }
