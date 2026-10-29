@@ -12,5 +12,9 @@ def contact(request):
 
 def accommodation(request):
     return render(request, 'my_accommodation.html')
+
 def explore(request):
     return render(request, 'explore.html')
+
+def details(request):
+    return render(request, 'details.html')
