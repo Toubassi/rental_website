@@ -55,26 +55,45 @@ def adminDashboard(request):
     access = admin_access(request)
     if access:
         return access
-    return render(request, 'admin-dashboard.html')
+
+    users = User.objects.all()
+    properties = Property.objects.all().order_by('created_at')
+
+    context = {
+        'users': users,
+        'properties': properties,
+    }
+    return render(request, 'admin-dashboard.html', context)
 
 def admin_manage_users(request):
     access = admin_access(request)
 
     if access:
         return access
-    return render(request, 'admin-manage-users.html')
+
+    users = User.objects.all()
+    context = {
+        'users': users,
+    }
+    return render(request, 'admin-manage-users.html', context)
 
 def admin_manage_properties(request):
     access = admin_access(request)
     if access:
         return access
-    return render(request, 'admin-manage-properties.html')
+
+    properties = Property.objects.all().order_by('created_at')
+    context = {
+        'properties': properties,
+    }
+    return render(request, 'admin-manage-properties.html', context)
 
 def admin_approve(request):
     access = admin_access(request)
     if access:
         return access
     return render(request, 'admin-approve.html')
+
 def add_accommodation(request):
 
     if 'username' not in request.session:
