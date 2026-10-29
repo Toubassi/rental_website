@@ -146,7 +146,11 @@
                   </svg>
                 </button>
               </div>
-              <p class="field-error" id="password-error" aria-live="polite" {% if not error %}hidden{% endif %}>{% if error %}{{ error }}{% endif %}</p>
+              <p class="field-error" id="password-error" aria-live="polite" {% if not error %}hidden{% endif %}>{% if messages %}
+    {% for message in messages %}
+        <p class="field-error">{{ message }}</p>
+    {% endfor %}
+{% endif %}</p>
             </div>
  
             <div class="form-row">
