@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accommodation Added - HomeFinder</title>
+
+  <!-- Fonts from Google Fonts (needs internet; if it is blocked the page uses the fallback fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}">
+</head>
+<body class="aa-body">
+
+  <!-- TOP BAR -->
+  <header class="aa-header">
+    <a href="{% url 'dashboard' %}" class="aa-logo">HomeFinder</a>
+    <nav class="aa-nav" aria-label="Main menu">
+      <a href="{% url 'dashboard' %}">Home</a>
+      <a href="{% url 'explore' %}">Explore</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+    <details class="aa-menu">
+      <summary><span>{{ account.username }}</span></summary>
+      <div class="aa-menu-list">
+        <a href="#">My Profile</a>
+        <a href="{% url 'add_accommodation' %}">Add Accommodation</a>
+        <a href="#">Sign Out</a>
+      </div>
+    </details>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="aa-page">
+    <section class="aa-form-wrap aa-success-wrap" aria-label="Accommodation added">
+      <div class="aa-success" role="status">
+        <span class="aa-success-icon" aria-hidden="true">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.6 2.6L16 9.5"/></svg>
+        </span>
+        <h1>Accommodation Added Successfully!</h1>
+        <p>Your accommodation listing has been created.</p>
+        <p class="aa-success-title">{{ new_property.title }}</p>
+
+        <div class="aa-success-actions">
+          <!-- TODO (team): the details page does not have an id yet, so this opens the general details page for now -->
+          <a href="{% url 'details' %}" class="aa-pill aa-pill-forest aa-success-btn">
+            View Accommodation
+            <span class="aa-ico aa-ico-40" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </span>
+          </a>
+          <a href="{% url 'accommodation' %}" class="aa-pill aa-pill-line aa-success-btn aa-success-btn-line">My Accommodation</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="aa-footer">
+    <div class="aa-footer-brand">
+      <h3>HomeFinder</h3>
+      <p>Helping students and working professionals find a place to call home.</p>
+    </div>
+    <div class="aa-footer-links">
+      <h4>Quick Links</h4>
+      <a href="{% url 'dashboard' %}">Home</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="#">Sign Out</a>
+    </div>
+    <p class="aa-copyright">© 2026 HomeFinder. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

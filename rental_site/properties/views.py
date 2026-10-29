@@ -1,6 +1,14 @@
+<<<<<<< Updated upstream
 from django.shortcuts import render, redirect
 from .models import User
 from django.contrib import messages
+=======
+from django.shortcuts import render, redirect, HttpResponse
+from .models import LandLord , Property , PropertyImage
+from django.db import transaction, DatabaseError
+from django.contrib import messages
+from login.models import User
+>>>>>>> Stashed changes
 
 # Create your views here.
 def dashboard(request):
@@ -21,6 +29,7 @@ def explore(request):
 def details(request):
     return render(request, 'details.html')
 
+<<<<<<< Updated upstream
 def user_profile(request):
     return render(request, 'user-profile.html')
 
@@ -59,3 +68,60 @@ def admin_approve(request):
     if access:
         return access
     return render(request, 'admin-approve.html')
+=======
+def add_accommodation(request):
+
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(username=request.session['username']).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+    
+    if request.method == 'POST':
+        title = request.POST['title']
+        desc = request.POST['desc']
+        rent_value = request.POST['monthly_rent']
+        city = request.POST['city']
+        address = request.POST['address']
+        is_available = request.POST['is_available']
+        photos = request.FILES.getlist('photos')
+
+        landlord = LandLord.objects.get(user=user)
+
+        property = Property.objects.create(
+            landlord=landlord,
+            title=title,
+            desc=desc,
+            monthly_rent=int(rent_value),
+            city=city,
+            address=address,
+            is_available=(is_available == 'yes')
+        )
+        for photo in photos:
+            PropertyImage.objects.create(
+            property=property,
+            image_url=photo
+            )
+        messages.success(request, 'Accommodation added successfully!')
+        return redirect('/accommodation/')
+
+    return render(request, 'add_accommodation.html', {
+        'account': user,
+        'landlord': LandLord.objects.filter(user=user).first()
+    })
+
+
+def add_accommodation_success(request):
+    # the success page is only shown for a listing that was really saved by this person
+    user_id = request.session.get('user_id')
+    property_id = request.session.get('added_property_id')
+    new_property = None
+    if user_id and property_id:
+        new_property = Property.objects.filter(id=property_id, landlord__user__id=user_id).first()
+    if new_property is None:
+        return redirect('add_accommodation')
+    return render(request, 'add_accommodation_success.html', {'new_property': new_property, 'account': new_property.landlord.user})
+>>>>>>> Stashed changes

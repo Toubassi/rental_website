@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Accommodation - HomeFinder</title>
+
+  <!-- Fonts from Google Fonts (needs internet; if it is blocked the page uses the fallback fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}">
+</head>
+<body class="aa-body">
+
+  <!-- TOP BAR -->
+  <header class="aa-header">
+    <a href="{% url 'dashboard' %}" class="aa-logo">HomeFinder</a>
+    <nav class="aa-nav" aria-label="Main menu">
+      <a href="{% url 'dashboard' %}">Home</a>
+      <a href="{% url 'explore' %}">Explore</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+    <details class="aa-menu">
+      <summary><span>{{ account.username }}</span></summary>
+      <div class="aa-menu-list">
+        <a href="#">My Profile</a>
+        <a href="{% url 'add_accommodation' %}">Add Accommodation</a>
+        <a href="#">Sign Out</a>
+      </div>
+    </details>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="aa-page">
+
+    <!-- BREADCRUMB -->
+    <nav class="aa-crumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="{% url 'dashboard' %}">Home</a></li>
+        <li aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+          Add Accommodation
+        </li>
+      </ol>
+    </nav>
+
+    <!-- INTRODUCTION -->
+    <section class="aa-intro">
+      <h1>Add Accommodation</h1>
+      <p>Share your available room or accommodation with students and working professionals looking for a place to call home.</p>
+    </section>
+
+    <!-- FORM -->
+    <section class="aa-form-wrap" aria-label="Add accommodation form">
+      <form class="aa-form" method="post" action="{% url 'add_accommodation' %}" enctype="multipart/form-data" id="add-form">
+        {% csrf_token %}
+
+        <p class="aa-required-note"><span class="aa-req" aria-hidden="true">*</span> Required fields</p>
+
+        {% if errors %}
+          <div class="aa-alert" role="alert">
+            {% if errors.form %}{{ errors.form }}{% else %}Please check the fields marked below.{% endif %}
+          </div>
+        {% endif %}
+
+        <!-- SECTION 1: Basic information -->
+        <div class="aa-section">
+          <h2>Basic Information</h2>
+          <div class="aa-stack">
+
+            <div>
+              <label for="id_title" class="aa-label">Accommodation Title<span class="aa-req" aria-hidden="true">*</span></label>
+              <input type="text" id="id_title" name="title" class="aa-field{% if errors.title %} is-error{% endif %}"
+                     value="{{ old.title }}" placeholder="e.g. Furnished Student Room" maxlength="255" required
+                     {% if errors.title %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
+              {% if errors.title %}<p class="aa-msg" id="title-error">{{ errors.title }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label for="id_desc" class="aa-label">Description<span class="aa-req" aria-hidden="true">*</span></label>
+              <textarea id="id_desc" name="desc" class="aa-field aa-area{% if errors.desc %} is-error{% endif %}" rows="5"
+                        placeholder="Describe the room, the shared facilities, and who this accommodation suits." required
+                        {% if errors.desc %}aria-invalid="true" aria-describedby="desc-error"{% endif %}>{{ old.desc }}</textarea>
+              {% if errors.desc %}<p class="aa-msg" id="desc-error">{{ errors.desc }}</p>{% endif %}
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECTION 2: Rental details -->
+        <div class="aa-section">
+          <h2>Rental Details</h2>
+          <div class="aa-grid">
+
+            <div>
+              <label for="id_monthly_rent" class="aa-label">Monthly Rent<span class="aa-req" aria-hidden="true">*</span></label>
+              <input type="number" id="id_monthly_rent" name="monthly_rent" class="aa-field{% if errors.monthly_rent %} is-error{% endif %}"
+                     value="{{ old.monthly_rent }}" placeholder="Enter monthly rent" min="1" step="1" inputmode="numeric" required
+                     {% if errors.monthly_rent %}aria-invalid="true" aria-describedby="rent-error"{% endif %}>
+              {% if errors.monthly_rent %}<p class="aa-msg" id="rent-error">{{ errors.monthly_rent }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label for="id_is_available" class="aa-label">Availability<span class="aa-req" aria-hidden="true">*</span></label>
+              <select id="id_is_available" name="is_available" class="aa-field aa-select{% if errors.is_available %} is-error{% endif %}" required
+                      {% if errors.is_available %}aria-invalid="true" aria-describedby="available-error"{% endif %}>
+                <option value="yes" {% if old.is_available != 'no' %}selected{% endif %}>Available</option>
+                <option value="no" {% if old.is_available == 'no' %}selected{% endif %}>Not available</option>
+              </select>
+              {% if errors.is_available %}<p class="aa-msg" id="available-error">{{ errors.is_available }}</p>{% endif %}
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECTION 3: Location -->
+        <div class="aa-section">
+          <h2>Location</h2>
+          <div class="aa-stack">
+            <div class="aa-grid">
+
+              <div>
+                <label for="id_city" class="aa-label">City<span class="aa-req" aria-hidden="true">*</span></label>
+                <input type="text" id="id_city" name="city" class="aa-field{% if errors.city %} is-error{% endif %}"
+                       value="{{ old.city }}" placeholder="Enter the city" maxlength="255" autocomplete="address-level2" required
+                       {% if errors.city %}aria-invalid="true" aria-describedby="city-error"{% endif %}>
+                {% if errors.city %}<p class="aa-msg" id="city-error">{{ errors.city }}</p>{% endif %}
+              </div>
+
+              <div>
+                <label for="id_address" class="aa-label">Area / Street<span class="aa-req" aria-hidden="true">*</span></label>
+                <input type="text" id="id_address" name="address" class="aa-field{% if errors.address %} is-error{% endif %}"
+                       value="{{ old.address }}" placeholder="Enter the area or street" maxlength="255" required
+                       aria-describedby="address-help{% if errors.address %} address-error{% endif %}"
+                       {% if errors.address %}aria-invalid="true"{% endif %}>
+                {% if errors.address %}<p class="aa-msg" id="address-error">{{ errors.address }}</p>{% endif %}
+              </div>
+
+            </div>
+            <p class="aa-help" id="address-help">Only what you type here will appear as the location of your listing. You do not need to give your exact house number.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Photos -->
+        <div class="aa-section">
+          <h2>Accommodation Photos</h2>
+          <div class="aa-stack">
+
+            <div class="aa-upload">
+              <span class="aa-upload-icon" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6H8l1.3-2h5.4L16 6h1.5A2.5 2.5 0 0 1 20 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.6"/></svg>
+              </span>
+              <p class="aa-upload-title">Upload clear photos of your accommodation.</p>
+              <p class="aa-upload-text">Add clear photos of the room and shared spaces.</p>
+              <button type="button" id="choose-photos" class="aa-pill aa-pill-line">
+                <span class="aa-ico aa-ico-36" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/></svg>
+                </span>
+                Choose Photos
+              </button>
+              <p class="aa-upload-note" id="photos-note">JPG, PNG or WebP. Up to 5 MB each. Up to 8 photos.</p>
+              {% if errors %}<p class="aa-upload-note">If you chose photos before, please choose them again.</p>{% endif %}
+              <input type="file" id="photos" name="photos" class="aa-visually-hidden" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="photos-note">
+            </div>
+
+            <p class="aa-msg" id="photos-error" role="alert" {% if not errors.photos %}hidden{% endif %}>{{ errors.photos }}</p>
+
+            <!-- the photo previews are added here by add_accommodation.js -->
+            <div class="aa-thumbs" id="photo-previews"></div>
+
+          </div>
+        </div>
+
+        <!-- SECTION 5: Contact information (from the account, not typed again) -->
+        <div class="aa-section">
+          <h2>Contact Information</h2>
+          <div class="aa-stack">
+            <p class="aa-help aa-help-top">These details come from your account, so you do not need to enter them again.</p>
+
+            <div class="aa-grid">
+              <div class="aa-info">
+                <span class="aa-info-label">Name</span>
+                <span class="aa-info-value">{{ account.name }}</span>
+              </div>
+              <div class="aa-info">
+                <span class="aa-info-label">Email</span>
+                <span class="aa-info-value">{{ account.email }}</span>
+              </div>
+              {% if landlord %}
+                <div class="aa-info">
+                  <span class="aa-info-label">Phone</span>
+                  <span class="aa-info-value">{{ landlord.phone_num }}</span>
+                </div>
+              {% endif %}
+            </div>
+
+            {% if not landlord %}
+              <div>
+                <label for="id_phone" class="aa-label">Phone Number<span class="aa-req" aria-hidden="true">*</span></label>
+                <input type="tel" id="id_phone" name="phone" class="aa-field{% if errors.phone %} is-error{% endif %}"
+                       value="{{ old.phone }}" placeholder="Enter your phone number" inputmode="tel" maxlength="20" autocomplete="tel" required
+                       aria-describedby="phone-help{% if errors.phone %} phone-error{% endif %}"
+                       {% if errors.phone %}aria-invalid="true"{% endif %}>
+                {% if errors.phone %}<p class="aa-msg" id="phone-error">{{ errors.phone }}</p>{% endif %}
+                <p class="aa-help aa-help-small" id="phone-help">We save it once in your landlord profile, so you will not be asked again.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="aa-actions">
+          <div class="aa-actions-row">
+            <button type="submit" id="publish-button" class="aa-pill aa-pill-forest aa-publish">
+              <span id="publish-label">Publish Accommodation</span>
+              <span class="aa-ico aa-ico-42" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </span>
+            </button>
+            <a href="{% url 'accommodation' %}" class="aa-link aa-cancel">Cancel</a>
+          </div>
+          <p class="aa-actions-note">Please check your information before publishing.</p>
+        </div>
+
+      </form>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="aa-footer">
+    <div class="aa-footer-brand">
+      <h3>HomeFinder</h3>
+      <p>Helping students and working professionals find a place to call home.</p>
+    </div>
+    <div class="aa-footer-links">
+      <h4>Quick Links</h4>
+      <a href="{% url 'dashboard' %}">Home</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="#">Sign Out</a>
+    </div>
+    <p class="aa-copyright">© 2026 HomeFinder. All rights reserved.</p>
+  </footer>
+
+  <script src="{% static 'js/add_accommodation.js' %}"></script>
+
+</body>
+</html>
