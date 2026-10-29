@@ -1,12 +1,24 @@
 from django.shortcuts import render, redirect
 from .models import User
 from django.contrib import messages
-
+import bcrypt
 # Create your views here.
 def home(request):
   return render(request, 'home.html')
 
 def login(request):
+  if request.method == "POST":
+    try:
+      user =  User.objects.get(email = request.POST['user_email'])
+      if user:
+        if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
+          request.session['user_email'] = user.email
+          return redirect('/properties/dashboard/')
+    except:
+      messages.error(request, "The email or password is incorrect")
+      return redirect('/login/')
+    request.session['user_email'] = user.email
+    return redirect('/login/')
   return render(request, 'login.html')
 
 def register(request):
