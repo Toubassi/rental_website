@@ -20,18 +20,36 @@
   --hf-grey: #4f5651;
 }
 
+/* Sizes include padding + border (home.css does the same with * { box-sizing }).
+   Only for the header and footer, so other page CSS is not affected. */
+.site-header,
+.site-header *,
+.site-footer,
+.site-footer * {
+  box-sizing: border-box;
+}
+
 /* ============ HEADER ============ */
 
+/* Sticky: stays at the top while scrolling.
+   Distance from the page edge copied from home:
+   left/right = body 12px + page-frame 8px + hero 28px = 48px (more on screens wider than 1424px)
+   top        = body 12px + page-frame 8px + hero 22px = 42px (30px margin + 12px padding;
+                the margin scrolls away, so only a 12px cream band stays above the pill) */
 .site-header {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px 36px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100; /* above the dropdown (20) and page content */
+  margin-top: 30px;
+  padding: 12px max(48px, calc((100% - 1328px) / 2)) 12px;
+  background: var(--hf-cream);
 }
 
 .site-nav {
   position: relative;
   z-index: 5;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -245,9 +263,7 @@
 /* ============ TABLET ============ */
 
 @media (max-width: 1024px) {
-  .site-header {
-    padding: 20px 24px 0;
-  }
+  /* home keeps the same 48px side distance on tablet, so .site-header is not changed here */
 
   .site-nav {
     min-height: 60px;
@@ -277,8 +293,10 @@
 /* ============ MOBILE ============ */
 
 @media (max-width: 600px) {
+  /* home on mobile: body 5px + page-frame 5px + hero 12px = 22px */
   .site-header {
-    padding: 12px 12px 0;
+    margin-top: 10px;
+    padding: 12px 22px 10px;
   }
 
   .site-nav {

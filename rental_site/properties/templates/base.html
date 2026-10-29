@@ -36,7 +36,8 @@
             <details class="site-user-menu">
                 <summary class="site-user-summary">
                     <span class="site-user-avatar" aria-hidden="true">♙</span>
-                    <span>Username</span>
+                    {# 'username' is the session key set by login and register in login/views.py #}
+                    <span>{{ request.session.username|default:"Guest" }}</span>
                     <span aria-hidden="true">⌄</span>
                 </summary>
 
