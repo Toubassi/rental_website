@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,14 +14,14 @@
     />
 
     <!-- Shared admin layout -->
-    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
   </head>
 
   <body>
     <div class="admin-shell">
       <!-- ============ SIDEBAR ============ -->
       <aside class="admin-sidebar">
-        <a href="" class="admin-brand">
+        <a href="/dashboard/" class="admin-brand">
           <span class="brand-icon" aria-hidden="true">⌂</span>
           <span>HomeFinder</span>
         </a>
@@ -31,19 +32,19 @@
         </div>
 
         <nav class="admin-nav" aria-label="Admin navigation">
-          <a href="" class="admin-nav-link">
+          <a href="/admin-dashboard/" class="admin-nav-link">
             <span class="nav-icon" aria-hidden="true">▦</span>
             Dashboard
           </a>
 
-          <a href="" class="admin-nav-link active">
+          <a href="/admin-manage-users/" class="admin-nav-link active">
             <span class="nav-icon" aria-hidden="true">♙</span>
             Manage Users
           </a>
 
-          <a href="" class="admin-nav-link">
+          <a href="/admin-manage-properties/" class="admin-nav-link">
             <span class="nav-icon" aria-hidden="true">⌂</span>
-            Manage Accommodation
+            Manage Properties
           </a>
         </nav>
 
@@ -53,7 +54,7 @@
             View Public Website
           </a>
 
-          <a href="" class="sidebar-bottom-link">
+          <a href="/logout/" class="sidebar-bottom-link">
             <span aria-hidden="true">⇥</span>
             Sign Out
           </a>

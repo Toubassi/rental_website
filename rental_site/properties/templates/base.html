@@ -58,13 +58,19 @@
                         Add Accommodation
                     </a>
 
-                    <a href="#">
+                    <a href="/logout/">
                         <span aria-hidden="true">⇥</span>
                         Sign Out
                     </a>
                 </div>
             </details>
         </nav>
+        <details class="profile-menu">
+            <summary>{{ request.session.username }}</summary>
+            <a href="#">My Profile</a>
+            <a href="{% url 'accommodation' %}">Add Accommodation</a>
+            <a href="/logout/">Sign Out</a>
+        </details>
     </header>
 
     {% block content %}{% endblock %}

@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -15,7 +16,7 @@
     />
 
     <!-- our custom stryple -->
-    <link rel="stylesheet" href="/properties/static/css/admin.css" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
   </head>
 
   <body>
@@ -38,24 +39,24 @@
             Dashboard
           </a>
 
-          <a href="" class="admin-nav-link">
+          <a href="/admin-manage-users/" class="admin-nav-link">
             <span class="nav-icon" aria-hidden="true">♙</span>
             Manage Users
           </a>
 
-          <a href="" class="admin-nav-link">
+          <a href="/admin-manage-properties/" class="admin-nav-link">
             <span class="nav-icon" aria-hidden="true">⌂</span>
             Manage Properties
           </a>
         </nav>
 
         <div class="sidebar-bottom">
-          <a href="" class="sidebar-bottom-link">
+          <a href="/dashboard/" class="sidebar-bottom-link">
             <span aria-hidden="true">↗</span>
             View Public Website
           </a>
 
-          <a href="" class="sidebar-bottom-link">
+          <a href="/logout/" class="sidebar-bottom-link">
             <span aria-hidden="true">⇥</span>
             Sign Out
           </a>
@@ -79,7 +80,7 @@
               <!-- {# Later, display the name of the authenticated administrator.
               This helps the administrator identify which account is being used.
               #} -->
-              <strong> {{ admin_name | default('Admin Name') }} </strong>
+              <strong>{{ request.session.username }}</strong>
 
               <span>Administrator</span>
             </div>
@@ -96,9 +97,7 @@
 
             <!-- {# The view can pass the actual number of registered users. #} -->
             <div class="stat-bottom">
-              <strong class="stat-number">
-                {{ total_users | default('00') }}
-              </strong>
+              <strong class="stat-number"> total_users | default('00') </strong>
               <span class="stat-note">Registered</span>
             </div>
           </article>
@@ -111,7 +110,7 @@
 
             <div class="stat-bottom">
               <strong class="stat-number">
-                {{ total_properties | default('00') }}
+                total_properties | default('00')
               </strong>
               <span class="stat-note">All listings</span>
             </div>
@@ -125,7 +124,7 @@
 
             <div class="stat-bottom">
               <strong class="stat-number">
-                {{ available_listings | default('00') }}
+                available_listings | default('00')
               </strong>
               <span class="stat-note">For rent</span>
             </div>
@@ -139,7 +138,7 @@
 
             <div class="stat-bottom">
               <strong class="stat-number">
-                {{ rented_listings | default('00') }}
+                rented_listings | default('00')
               </strong>
               <span class="stat-note">Unavailable</span>
             </div>
@@ -176,7 +175,7 @@
                 <!-- {# These rows are examples for the layout. Later, a Jinja loop
                 can generate them from recent_properties supplied by the view.
                 #} -->
-
+                <!-- {#{%for property in properties %}#} -->
                 <tr>
                   <td>
                     <strong>Sunny Apartment</strong>
