@@ -52,7 +52,7 @@
                         My Accommodation
                     </a>
 
-                    {# TODO: link to the add-accommodation page when it exists #}
+                    
                     <a href="{% url 'add_accommodation' %}">
                         <span aria-hidden="true">⌂</span>
                         Add Accommodation
@@ -65,12 +65,6 @@
                 </div>
             </details>
         </nav>
-        <details class="profile-menu">
-            <summary>{{ request.session.username }}</summary>
-            <a href="#">My Profile</a>
-            <a href="{% url 'accommodation' %}">Add Accommodation</a>
-            <a href="/logout/">Sign Out</a>
-        </details>
     </header>
 
     {% block content %}{% endblock %}
@@ -99,7 +93,7 @@
             <div class="site-footer-links">
                 <a href="{% url 'profile' %}">My Profile</a>
                 <a href="{% url 'accommodation' %}">My Accommodation</a>
-                <a href="#">Sign Out</a>
+                <a href="/logout/">Sign Out</a>
             </div>
         </div>
 

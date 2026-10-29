@@ -14,5 +14,4 @@ urlpatterns = [
     path('admin-manage-properties/', views.admin_manage_properties, name='admin-manage-properties'),
     path('admin-approve/', views.admin_approve, name='admin-approve'),
     path('add-accommodation/', views.add_accommodation, name='add_accommodation'),
-    path('add-accommodation/success/', views.add_accommodation_success, name='add_accommodation_success'),
 ]
