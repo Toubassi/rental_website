@@ -18,7 +18,7 @@
                 <h2>Recommended for You</h2>
                 <p>Explore comfortable places that may suit your needs.</p>
             </div>
-            <a href="#">View All →</a>
+            <a href="{% url 'details' %}">View All →</a>
         </div>
         <div class="cards">
             <article class="card">
@@ -31,7 +31,7 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Student Room</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'explore' %}" class="btn">View Details</a>
             </article>
             <article class="card">
                 <div class="card-image">
@@ -43,7 +43,7 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Shared Accommodation</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'details' %}" class="btn">View Details</a>
             </article>
             <article class="card">
                 <div class="card-image">
@@ -55,7 +55,7 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Private Room</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'details' %}" class="btn">View Details</a>
             </article>
         </div>
     </section>
@@ -78,7 +78,7 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Student Room</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'details' %}" class="btn">View Details</a>
             </article>
             <article class="card">
                 <div class="card-image">
@@ -90,7 +90,7 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Worker Housing</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'details' %}" class="btn">View Details</a>
             </article>
             <article class="card">
                 <div class="card-image">
@@ -102,10 +102,10 @@
                 <p class="price">Price / month</p>
                 <p class="location">City or neighborhood</p>
                 <p class="type">Shared Accommodation</p>
-                <a href="#" class="btn">View Details</a>
+                <a href="{% url 'details' %}" class="btn">View Details</a>
             </article>
         </div>
-        <a href="#" class="btn explore-btn">Explore All Accommodation</a>
+        <a href="{% url 'explore' %}" class="btn explore-btn">Explore All Accommodation</a>
     </section>
 </main>
 {% endblock %}
