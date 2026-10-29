@@ -20,10 +20,38 @@ def contact(request):
         return redirect('/login/')
     return render(request, 'contact.html')
 
+
+
 def accommodation(request):
     if 'username' not in request.session:
         return redirect('/login/')
-    return render(request, 'my_accommodation.html')
+
+    user = User.objects.filter(username=request.session['username']).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    landlord = LandLord.objects.filter(user=user).first()
+
+    properties = Property.objects.none()
+
+    if landlord:
+        properties = Property.objects.filter(landlord=landlord).order_by('-created_at')
+
+    total_listings = properties.count()
+    available_listings = properties.filter(is_available=True).count()
+    unavailable_listings = properties.filter(is_available=False).count()
+
+    return render(request, 'my_accommodation.html', {
+        'properties': properties,
+        'account': user,
+        'total_listings': total_listings,
+        'available_listings': available_listings,
+        'unavailable_listings': unavailable_listings
+    })
+
+
 
 
 def explore(request):
