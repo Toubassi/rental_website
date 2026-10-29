@@ -163,8 +163,9 @@
               <thead>
                 <tr>
                   <th>Property</th>
+                  <th>City</th>
                   <th>Landlord</th>
-                  <th>Bedrooms</th>
+
                   <th>Date Listed</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -172,110 +173,39 @@
               </thead>
 
               <tbody>
-                <!-- {# These rows are examples for the layout. Later, a Jinja loop
-                can generate them from recent_properties supplied by the view.
-                #} -->
-                <!-- {#{%for property in properties %}#} -->
+                {%for property in properties %}
                 <tr>
                   <td>
-                    <strong>Sunny Apartment</strong>
-                    <span class="cell-subtitle">Ramallah</span>
+                    <strong>{{ property.title }}</strong>
+                    <span class="cell-subtitle">{{property.city}}</span>
                   </td>
-                  <td>Landlord Name 1</td>
-                  <td>2 bedrooms</td>
-                  <td>28/10/2026</td>
-                  <td>
+                  <td>{{ property.landlord }}</td>
+                  <td>{{property.created_at}}</td>
+                  <!-- <td>
                     <span class="status-pill status-available">
                       Available
                     </span>
-                  </td>
+                  </td> -->
+                  <!-- above needs a new colomn in our models for status -->
                   <td>
-                    <a href="" class="table-action">View</a>
+                    <a href="/details/" class="table-action">View</a>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>
-                    <strong>Modern Studio</strong>
-                    <span class="cell-subtitle">Al-Bireh</span>
-                  </td>
-                  <td>Landlord Name 2</td>
-                  <td>1 bedroom</td>
-                  <td>27/10/2026</td>
-                  <td>
-                    <span class="status-pill status-available">
-                      Available
-                    </span>
-                  </td>
-                  <td>
-                    <a href="" class="table-action">View</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>Family Apartment</strong>
-                    <span class="cell-subtitle">Birzeit</span>
-                  </td>
-                  <td>Landlord Name 3</td>
-                  <td>3 bedrooms</td>
-                  <td>26/10/2026</td>
-                  <td>
-                    <span class="status-pill status-rented"> Rented </span>
-                  </td>
-                  <td>
-                    <a href="" class="table-action">View</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>City View Apartment</strong>
-                    <span class="cell-subtitle">Ramallah</span>
-                  </td>
-                  <td>Landlord Name 4</td>
-                  <td>2 bedrooms</td>
-                  <td>25/10/2026</td>
-                  <td>
-                    <span class="status-pill status-available">
-                      Available
-                    </span>
-                  </td>
-                  <td>
-                    <a href="" class="table-action">View</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>Cozy Apartment</strong>
-                    <span class="cell-subtitle">Nablus</span>
-                  </td>
-                  <td>Landlord Name 5</td>
-                  <td>1 bedroom</td>
-                  <td>24/10/2026</td>
-                  <td>
-                    <span class="status-pill status-rented"> Rented </span>
-                  </td>
-                  <td>
-                    <a href="" class="table-action">View</a>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
         </section>
 
-        <!-- ============ RECENT USERS ============ -->
+        <!-- ============  USERS ============ -->
         <section class="admin-panel users-panel">
           <div class="panel-header">
             <div class="panel-title">
-              <h2>Recent Users</h2>
-              <span class="sample-label">Sample data</span>
+              <h2>Users</h2>
             </div>
 
-            <a href="" class="panel-link">
-              View All Users <span aria-hidden="true">↗</span>
+            <a href="/admin-manage-users/" class="panel-link">
+              View All Users
             </a>
           </div>
 
@@ -289,47 +219,17 @@
                   <th>Date Joined</th>
                 </tr>
               </thead>
-
               <tbody>
-                <!-- {# Example users. Later, replace these rows with data from the
-                User model. Since an account can be both a renter and a
-                landlord, the profile column should not be treated as mutually
-                exclusive account types. #} -->
-
+                {% for account in users %}
                 <tr>
-                  <td>Emil Example</td>
-                  <td>user1@example.com</td>
-                  <td>Landlord profile</td>
-                  <td>20/10/2026</td>
+                  <td>{{ account.name }}</td>
+                  <td>{{ account.email }}</td>
+                  <td>
+                    {% if account.user_level == 1 %} Admin {% else %} User {% endif %}
+                  </td>
+                  <td>{{ account.created_at }}</td>
                 </tr>
-
-                <tr>
-                  <td>Sam Example</td>
-                  <td>user2@example.com</td>
-                  <td>Renter</td>
-                  <td>21/10/2026</td>
-                </tr>
-
-                <tr>
-                  <td>Lina Example</td>
-                  <td>user3@example.com</td>
-                  <td>Landlord profile</td>
-                  <td>22/10/2026</td>
-                </tr>
-
-                <tr>
-                  <td>Adam Example</td>
-                  <td>user4@example.com</td>
-                  <td>Renter</td>
-                  <td>23/10/2026</td>
-                </tr>
-
-                <tr>
-                  <td>Maya Example</td>
-                  <td>user5@example.com</td>
-                  <td>Landlord profile</td>
-                  <td>24/10/2026</td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

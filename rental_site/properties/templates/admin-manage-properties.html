@@ -161,168 +161,28 @@
                   <th>Actions</th>
                 </tr>
               </thead>
-
               <tbody>
-                <!-- {# Sample rows for the design. Later, a Jinja loop can display
-                real properties from the database. #} -->
-
+                {%for property in properties %}
                 <tr>
                   <td>
-                    <div class="accommodation-thumbnail">▧</div>
+                    <strong>{{ property.title }}</strong>
+                    <span class="cell-subtitle">{{property.city}}</span>
                   </td>
-
-                  <td>Accommodation Title 1</td>
-                  <td>Provider Name 1</td>
-                  <td>Student Room</td>
-                  <td>900</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-pending"> ◷ Pending </span>
-                  </td>
-
-                  <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="approve-button">
-                        Approve
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="accommodation-thumbnail">▧</div>
-                  </td>
-
-                  <td>Accommodation Title 2</td>
-                  <td>Provider Name 2</td>
-                  <td>Shared Accommodation</td>
-                  <td>800</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-approved">
-                      ✓ Approved
+                  <td>{{ property.landlord }}</td>
+                  <td>{{property.created_at}}</td>
+                  <!-- <td>
+                    <span class="status-pill status-available">
+                      Available
                     </span>
-                  </td>
-
+                  </td> -->
+                  <!-- above needs a new colomn in our models for status -->
                   <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="remove-button">
-                        Remove
-                      </button>
-                    </div>
+                    <a href="/details/" class="table-action">View</a>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>
-                    <div class="accommodation-thumbnail">▧</div>
-                  </td>
-
-                  <td>Accommodation Title 3</td>
-                  <td>Provider Name 3</td>
-                  <td>Private Room</td>
-                  <td>1,200</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-pending"> ◷ Pending </span>
-                  </td>
-
-                  <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="approve-button">
-                        Approve
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="accommodation-thumbnail">▧</div>
-                  </td>
-
-                  <td>Accommodation Title 4</td>
-                  <td>Provider Name 4</td>
-                  <td>Worker Housing</td>
-                  <td>700</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-unavailable">
-                      ⊘ Unavailable
-                    </span>
-                  </td>
-
-                  <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="remove-button">
-                        Remove
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="accommodation-thumbnail">▧</div>
-                  </td>
-
-                  <td>Accommodation Title 5</td>
-                  <td>Provider Name 5</td>
-                  <td>Student Room</td>
-                  <td>650</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-approved">
-                      ✓ Approved
-                    </span>
-                  </td>
-
-                  <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="remove-button">
-                        Remove
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="accommodation-thumbnail">▧</div>
-                  </td>
-
-                  <td>Accommodation Title 6</td>
-                  <td>Provider Name 6</td>
-                  <td>Private Room</td>
-                  <td>1,000</td>
-                  <td>DD/MM/YYYY</td>
-
-                  <td>
-                    <span class="status-pill status-rejected">
-                      × Rejected
-                    </span>
-                  </td>
-
-                  <td>
-                    <div class="accommodation-actions">
-                      <a href="" class="table-action">View</a>
-                      <button type="button" class="remove-button">
-                        Remove
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                {% endfor %}
+              </tbody>
+              
               </tbody>
             </table>
           </div>
