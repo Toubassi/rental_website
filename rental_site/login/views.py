@@ -15,12 +15,12 @@ def login(request):
       user =  User.objects.get(email = request.POST['username'])
       if user:
         if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
-          request.session['username'] = user.email
+          request.session['username'] = user.username
           return redirect('/dashboard/')
     except:
       messages.error(request, "The email or password is incorrect")
       return redirect('/login/')
-    request.session['username'] = user.email
+    request.session['username'] = user.username
     return redirect('/login/')
   return render(request, 'login.html')
 
