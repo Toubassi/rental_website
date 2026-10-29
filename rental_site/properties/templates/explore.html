@@ -176,12 +176,10 @@
                 <legend>Monthly Rent</legend>
                 <div class="rent-inputs">
                   <div class="pill-field">
-                    <span class="affix" aria-hidden="true">{{ currency }}</span>
-                    <input type="number" inputmode="numeric" min="0" step="1" id="min_price" name="min_price" value="{{ filters.min_price }}" placeholder="Minimum price" aria-label="Minimum monthly rent" />
+                    <input type="number" inputmode="numeric" min="0" step="1" id="min_price" name="min_price" value="{{ filters.min_price }}" placeholder="Minimum price" aria-label="Minimum monthly rent in {{ currency }}" />
                   </div>
                   <div class="pill-field">
-                    <span class="affix" aria-hidden="true">{{ currency }}</span>
-                    <input type="number" inputmode="numeric" min="0" step="1" id="max_price" name="max_price" value="{{ filters.max_price }}" placeholder="Maximum price" aria-label="Maximum monthly rent" />
+                    <input type="number" inputmode="numeric" min="0" step="1" id="max_price" name="max_price" value="{{ filters.max_price }}" placeholder="Maximum price" aria-label="Maximum monthly rent in {{ currency }}" />
                   </div>
                 </div>
  

@@ -1,8 +1,4 @@
-/* ==========================================================
-   HomeFinder - Explore Accommodation page
-   Same tokens as login.css / the HomeFinder design system.
-   ========================================================== */
- 
+
 :root {
   --forest: #24483f;
   --forest-dark: #1a3730;
@@ -632,14 +628,15 @@ legend {
 .filter-card {
   padding: 28px 24px 26px;
   background: var(--white);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(227, 221, 207, 0.6);
   border-radius: 28px;
+  box-shadow: 0 14px 34px -18px rgba(41, 45, 42, 0.28);
 }
  
 .filter-card h2 {
   margin-bottom: 22px;
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 600;
   line-height: 1.2;
   color: var(--forest);
@@ -681,8 +678,8 @@ legend {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  border: 1px solid var(--field-border);
-  border-radius: 6px;
+  border: 1.5px solid #56615b;
+  border-radius: 4px;
   background: var(--white);
   color: transparent;
   transition: background 0.15s, border-color 0.15s;
@@ -705,6 +702,7 @@ legend {
  
 .rent-inputs .pill-field {
   height: 46px;
+  background: var(--cream);
 }
  
 /* Dual range slider */
@@ -717,12 +715,12 @@ legend {
 .range-track {
   position: absolute;
   top: 50%;
-  right: 0;
-  left: 0;
-  height: 4px;
+  right: 11px; /* half the thumb width, so the fill lines up with the thumbs */
+  left: 11px;
+  height: 6px;
   transform: translateY(-50%);
-  border-radius: 2px;
-  background: #d3dbd1;
+  border-radius: 3px;
+  background: var(--sage);
 }
  
 .range-fill {
@@ -731,7 +729,7 @@ legend {
   bottom: 0;
   left: 0;
   right: 0;
-  border-radius: 2px;
+  border-radius: 3px;
   background: var(--forest);
 }
  
@@ -757,10 +755,11 @@ legend {
 }
  
 .range input[type="range"]::-webkit-slider-thumb {
-  width: 20px;
-  height: 20px;
-  margin-top: 5px;
-  border: 2px solid var(--forest);
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  border: 2.5px solid var(--forest);
   border-radius: 50%;
   background: var(--white);
   pointer-events: auto;
@@ -769,9 +768,10 @@ legend {
 }
  
 .range input[type="range"]::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--forest);
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid var(--forest);
   border-radius: 50%;
   background: var(--white);
   pointer-events: auto;
@@ -1440,4 +1440,3 @@ a.page-btn:hover {
     transform: none;
   }
 }
- 
