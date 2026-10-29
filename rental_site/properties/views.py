@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
 from django.shortcuts import render, redirect
 from .models import User
 from django.contrib import messages
-=======
-from django.shortcuts import render, redirect, HttpResponse
-from .models import LandLord , Property , PropertyImage
-from django.db import transaction, DatabaseError
-from django.contrib import messages
-from login.models import User
->>>>>>> Stashed changes
+
 
 # Create your views here.
 def dashboard(request):
@@ -29,7 +22,6 @@ def explore(request):
 def details(request):
     return render(request, 'details.html')
 
-<<<<<<< Updated upstream
 def user_profile(request):
     return render(request, 'user-profile.html')
 
@@ -68,7 +60,6 @@ def admin_approve(request):
     if access:
         return access
     return render(request, 'admin-approve.html')
-=======
 def add_accommodation(request):
 
     if 'username' not in request.session:
@@ -124,4 +115,3 @@ def add_accommodation_success(request):
     if new_property is None:
         return redirect('add_accommodation')
     return render(request, 'add_accommodation_success.html', {'new_property': new_property, 'account': new_property.landlord.user})
->>>>>>> Stashed changes
