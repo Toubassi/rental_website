@@ -483,6 +483,11 @@ button:focus-visible {
   color: #24483f;
 }
 
+.status-unavailable {
+  background-color: #fce8e8;
+  color: #b42318;
+}
+
 .status-rented {
   background: #e7e9e6;
   color: #4f5651;
@@ -492,6 +497,35 @@ button:focus-visible {
   border-color: #e7cfc2;
   background: #fcf0e8;
   color: #8b573f;
+}
+
+.admin-table .user-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-table .user-actions form {
+  margin: 0;
+}
+
+.user-actions button.user-action.delete-action {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border: 1px solid #dc3545 !important;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.user-actions button.user-action.delete-action:hover {
+  background-color: #b02a37 !important;
+  border-color: #b02a37 !important;
+  color: white !important;
 }
 
 /* ============ RECENT USERS TABLE ============ */
@@ -769,6 +803,14 @@ button:focus-visible {
 
 .user-actions {
   gap: 5px;
+}
+
+.user-actions form {
+  display: inline-block;
+}
+
+.user-actions button {
+  cursor: pointer;
 }
 
 .reactivate-action {
@@ -1434,4 +1476,87 @@ button:focus-visible {
   .review-thumbnail {
     height: 55px;
   }
+}
+
+/* Unify all action button dimensions */
+.dashboard-properties-table .user-actions .table-action,
+.dashboard-properties-table .user-actions .user-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 110px;
+  height: 25px;
+
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+
+  border-radius: 25px;
+  text-decoration: none;
+}
+
+.dashboard-properties-table thead th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard-properties-table tbody td {
+  font-size: 14px;
+}
+
+/* Users dashboard table */
+.dashboard-users-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Equal column widths */
+.dashboard-users-table th,
+.dashboard-users-table td {
+  width: 16.6667%;
+}
+
+/* Table headers */
+.dashboard-users-table thead th {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Table data */
+.dashboard-users-table tbody td {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Action buttons */
+.dashboard-users-table .user-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dashboard-users-table .user-actions form {
+  display: flex;
+  margin: 0;
+}
+
+.dashboard-users-table .user-actions .user-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 125px;
+  height: 40px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 13px;
+  white-space: nowrap;
+  border-radius: 25px;
+  text-decoration: none;
 }

@@ -136,192 +136,33 @@
               </thead>
 
               <tbody>
-                <!-- {# Sample data for layout purposes. Later, use a Jinja loop over
-                users passed by the view. #} -->
-
+                {% for user in users %}
                 <tr>
-                  <td>User Name 1</td>
-                  <td>user1@example.com</td>
-                  <td>Student</td>
-                  <td>20/10/2026</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    {% if user.user_level == 1 %}
+                    <span class="user-status active-status">Admin</span>
+                    {% else %}
+                    Normal User
+                    {% endif %}
+                  </td>
+                  <td>{{ user.created_at|date:"d/m/Y" }}</td>
                   <td>
                     <span class="user-status active-status">✓ Active</span>
                   </td>
                   <td>
                     <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
+                      <a href="" class="user-action view-action">View Details</a>
                     </div>
                   </td>
                 </tr>
-
+                {% empty %}
                 <tr>
-                  <td>User Name 2</td>
-                  <td>user2@example.com</td>
-                  <td>Working Professional</td>
-                  <td>21/10/2026</td>
-                  <td>
-                    <span class="user-status active-status">✓ Active</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </td>
+                  <td colspan="6">No users found</td>
                 </tr>
-
-                <tr>
-                  <td>User Name 3</td>
-                  <td>user3@example.com</td>
-                  <td>Accommodation Provider</td>
-                  <td>22/10/2026</td>
-                  <td>
-                    <span class="user-status active-status">✓ Active</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>User Name 4</td>
-                  <td>user4@example.com</td>
-                  <td>Student</td>
-                  <td>23/10/2026</td>
-                  <td>
-                    <span class="user-status inactive-status">⊘ Inactive</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action reactivate-action"
-                      >
-                        Reactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>User Name 5</td>
-                  <td>user5@example.com</td>
-                  <td>Working Professional</td>
-                  <td>24/10/2026</td>
-                  <td>
-                    <span class="user-status active-status">✓ Active</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>User Name 6</td>
-                  <td>user6@example.com</td>
-                  <td>Accommodation Provider</td>
-                  <td>25/10/2026</td>
-                  <td>
-                    <span class="user-status active-status">✓ Active</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>User Name 7</td>
-                  <td>user7@example.com</td>
-                  <td>Student</td>
-                  <td>26/10/2026</td>
-                  <td>
-                    <span class="user-status inactive-status">⊘ Inactive</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action reactivate-action"
-                      >
-                        Reactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>User Name 8</td>
-                  <td>user8@example.com</td>
-                  <td>Working Professional</td>
-                  <td>27/10/2026</td>
-                  <td>
-                    <span class="user-status active-status">✓ Active</span>
-                  </td>
-                  <td>
-                    <div class="user-actions">
-                      <a href="" class="user-action view-action"
-                        >View Details</a
-                      >
-                      <button
-                        type="button"
-                        class="user-action deactivate-action"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                {% endfor %}
+                
               </tbody>
             </table>
           </div>

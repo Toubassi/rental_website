@@ -97,7 +97,7 @@
 
             <!-- {# The view can pass the actual number of registered users. #} -->
             <div class="stat-bottom">
-              <strong class="stat-number"> total_users | default('00') </strong>
+              <strong class="stat-number"> {{ total_users }} </strong>
               <span class="stat-note">Registered</span>
             </div>
           </article>
@@ -109,9 +109,7 @@
             </div>
 
             <div class="stat-bottom">
-              <strong class="stat-number">
-                total_properties | default('00')
-              </strong>
+              <strong class="stat-number"> {{ total_properties }} </strong>
               <span class="stat-note">All listings</span>
             </div>
           </article>
@@ -123,9 +121,7 @@
             </div>
 
             <div class="stat-bottom">
-              <strong class="stat-number">
-                available_listings | default('00')
-              </strong>
+              <strong class="stat-number"> {{ available_listings }} </strong>
               <span class="stat-note">For rent</span>
             </div>
           </article>
@@ -137,9 +133,7 @@
             </div>
 
             <div class="stat-bottom">
-              <strong class="stat-number">
-                rented_listings | default('00')
-              </strong>
+              <strong class="stat-number"> {{ rented_listings }} </strong>
               <span class="stat-note">Unavailable</span>
             </div>
           </article>
@@ -153,13 +147,13 @@
               <span class="sample-label">Sample data</span>
             </div>
 
-            <a href="" class="panel-link">
-              View All Listings <span aria-hidden="true">↗</span>
+            <a href="/admin-manage-properties/" class="panel-link">
+              View All Listings
             </a>
           </div>
 
           <div class="table-wrapper">
-            <table class="admin-table">
+            <table class="admin-table dashboard-properties-table">
               <thead>
                 <tr>
                   <th>Property</th>
@@ -173,23 +167,100 @@
               </thead>
 
               <tbody>
-                {%for property in properties %}
+                {% for property in properties %}
                 <tr>
+                  <!-- Property -->
                   <td>
                     <strong>{{ property.title }}</strong>
-                    <span class="cell-subtitle">{{property.city}}</span>
                   </td>
-                  <td>{{ property.landlord }}</td>
-                  <td>{{property.created_at}}</td>
-                  <!-- <td>
+
+                  <!-- City -->
+                  <td>{{ property.city }}</td>
+
+                  <!-- Landlord -->
+                  <td>{{ property.landlord.user.name }}</td>
+
+                  <!-- Date Listed -->
+                  <td>{{ property.created_at|date:"d/m/Y" }}</td>
+
+                  <!-- Availability -->
+                  <td>
+                    {% if property.is_available %}
                     <span class="status-pill status-available">
                       Available
                     </span>
-                  </td> -->
-                  <!-- above needs a new colomn in our models for status -->
-                  <td>
-                    <a href="/details/" class="table-action">View</a>
+                    {% else %}
+                    <span class="status-pill status-unavailable">
+                      Unavailable
+                    </span>
+                    {% endif %}
                   </td>
+
+                  <!-- Actions -->
+                  <td class="action-column">
+                    <div
+                      class="user-actions d-flex justify-content-start align-items-center gap-2"
+                    >
+                      <a
+                        href="/details/{{ property.id }}/"
+                        class="table-action"
+                      >
+                        View
+                      </a>
+
+                      <!-- Toggle availability -->
+                      <form
+                        method="POST"
+                        action="{% url 'admin-property-toggle' property.id %}"
+                        class="m-0"
+                      >
+                        {% csrf_token %}
+                        <input
+                          type="hidden"
+                          name="next"
+                          value="/admin-dashboard/"
+                        />
+                        {% if property.is_available %}
+                        <button
+                          type="submit"
+                          class="user-action deactivate-action"
+                        >
+                          Mark Unavailable
+                        </button>
+                        {% else %}
+                        <button
+                          type="submit"
+                          class="user-action reactivate-action"
+                        >
+                          Make Available
+                        </button>
+                        {% endif %}
+                      </form>
+
+                      <!-- Delete property -->
+                      <form
+                        method="POST"
+                        action="{% url 'admin-property-delete' property.id %}"
+                        class="m-0"
+                        onsubmit="
+                          return confirm(
+                            'Are you sure you want to permanently delete this property?',
+                          );
+                        "
+                      >
+                        {% csrf_token %}
+
+                        <button type="submit" class="user-action delete-action">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                  <td colspan="6">No properties found.</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -210,24 +281,99 @@
           </div>
 
           <div class="table-wrapper">
-            <table class="admin-table">
+            <table class="admin-table dashboard-users-table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Profile</th>
+                  <th>Account Type</th>
                   <th>Date Joined</th>
+                  <th>Account Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
-                {% for account in users %}
+                {% for user in users %}
                 <tr>
-                  <td>{{ account.name }}</td>
-                  <td>{{ account.email }}</td>
+                  <!-- Name -->
+                  <td>{{ user.name }}</td>
+
+                  <!-- Email -->
+                  <td>{{ user.email }}</td>
+
+                  <!-- Account Type -->
                   <td>
-                    {% if account.user_level == 1 %} Admin {% else %} User {% endif %}
+                    {% if user.user_level == 1 %}
+                    <span class="user-status active-status">Admin</span>
+                    {% else %}
+                    <span class="user-status">User</span>
+                    {% endif %}
                   </td>
-                  <td>{{ account.created_at }}</td>
+
+                  <!-- Date Joined -->
+                  <td>{{ user.created_at|date:"d/m/Y" }}</td>
+
+                  <!-- Account Status -->
+                  <td>
+                    <span class="user-status active-status">✓ Active</span>
+                  </td>
+
+                  <!-- Actions -->
+                  <td>
+                    <div class="user-actions">
+                      <!-- View Profile -->
+                      <a href="" class="user-action view-action">
+                        View Details
+                      </a>
+
+                      <!-- Change User Level -->
+                      <form
+                        method="POST"
+                        action="{% url 'admin-user-toggle' user.id %}"
+                        class="m-0"
+                      >
+                        {% csrf_token %} {% if user.user_level == 1 %}
+                        <button
+                          type="submit"
+                          class="user-action deactivate-action"
+                        >
+                          Remove Admin
+                        </button>
+                        {% else %}
+                        <button
+                          type="submit"
+                          class="user-action reactivate-action"
+                        >
+                          Promote Admin
+                        </button>
+                        {% endif %}
+                      </form>
+
+                      <!-- Delete User -->
+                      <form
+                        method="POST"
+                        action="{% url 'admin-user-delete' user.id %}"
+                        class="m-0"
+                        onsubmit="
+                          return confirm(
+                            'Are you sure you want to permanently delete this user?',
+                          );
+                        "
+                      >
+                        {% csrf_token %}
+
+                        <button type="submit" class="user-action delete-action">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                  <td colspan="6">No users found.</td>
                 </tr>
                 {% endfor %}
               </tbody>
