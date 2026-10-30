@@ -42,31 +42,27 @@
       </section>
       
       <!-- ============ PROFILE SUMMARY ============ -->
-      <section class="profile-summary-card">
-        <div class="profile-avatar-large" aria-hidden="true">♙</div>
+            <section class="profile-summary-card">
+        {% if profile and profile.avatar %}
+          <img src="{{ profile.avatar.url }}" alt="Profile picture"
+               class="profile-avatar-large" style="object-fit: cover;" />
+        {% else %}
+          <div class="profile-avatar-large" aria-hidden="true">♙</div>
+        {% endif %}
 
         <div class="profile-summary-info">
           <span class="profile-member-badge">HomeFinder Member</span>
 
-          <h2>
-            <!-- {% if user.is_authenticated %} {{
-            user.get_full_name|default:user.username }} {% else %}  -->
-            Full Name
-            <!-- {% endif %} -->
-          </h2>
-          
+          <h2>{{ profile_user.name }}</h2>
+
           <p>
             <span aria-hidden="true">♙</span>
-            <!-- {% if user.is_authenticated %} @{{ user.username }} {% else %} -->
-            @username
-            <!-- {% endif %} -->
+            @{{ profile_user.username }}
           </p>
 
           <p>
             <span aria-hidden="true">✉</span>
-            <!-- {% if user.is_authenticated %} {{ user.email }} {% else %} -->
-            Email Address
-            <!-- {% endif %} -->
+            {{ profile_user.email }}
           </p>
         </div>
 
@@ -83,7 +79,7 @@
           <p>Update the details associated with your account.</p>
         </div>
 
-        <form method="post" action="" class="profile-form">
+          <form method="post" action="" class="profile-form" enctype="multipart/form-data">
           {% csrf_token %}
 
           <!-- Helps the view distinguish this form from the password form. -->
@@ -99,7 +95,7 @@
                 name="full_name"
                 class="profile-input"
                 placeholder="Enter your full name"
-                value="{{ user.get_full_name }}"
+                value="{{ profile_user.name }}"
                 required
               />
             </div>
@@ -113,7 +109,7 @@
                 name="username"
                 class="profile-input"
                 placeholder="{{ profile_user.username }}"
-                value="{{ user.username }}"
+                value="{{ profile_user.username }}"
                 required
               />
             </div>
@@ -127,7 +123,7 @@
                 name="email"
                 class="profile-input"
                 placeholder="{{ profile_user.email }}"
-                value="{{ user.email }}"
+                value="{{ profile_user.email }}"
                 required
               />
             </div>
@@ -140,7 +136,18 @@
                 id="date-of-birth"
                 name="date_of_birth"
                 class="profile-input"
-                value="{{ profile_user.dob }}"
+                value="{{ profile_user.dob|date:'Y-m-d' }}"
+              />
+            </div>
+                        <div class="profile-field">
+              <label for="avatar">Profile Picture</label>
+
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                class="profile-input"
+                accept="image/*"
               />
             </div>
           </div>
