@@ -70,6 +70,7 @@ class User(models.Model):
   username = models.CharField(max_length=255, unique=True)
   email = models.EmailField(unique=True)
   dob = models.DateField()
+  avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
   password = models.CharField(max_length=255)
   user_level = models.IntegerField(default=1)
   objects = UserManager()
