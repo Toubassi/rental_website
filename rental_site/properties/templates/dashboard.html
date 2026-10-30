@@ -1,116 +1,78 @@
-{% extends 'base.html' %} # these are built-in features in django
-
-{% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <p class="success-message">{{ message }}</p>
-    {% endfor %}
-{% endif %}
+{% extends 'base.html' %} # these are built-in features in django {% block content %} {% if messages %} {% for message in messages %}
+<p class="success-message">{{ message }}</p>
+{% endfor %} {% endif %}
 <main>
-    <section class="hero">
-        <div class="hero-text">
-            <p class="eyebrow">Find your next home</p>
-            <h1>Find a Place to Call Home</h1>
-            <p>Discover comfortable, affordable accommodation for students and working professionals.</p>
-            <a href="{% url 'add_accommodation' %}" class="btn">+ Add Accommodation</a>
-        </div>
-        <div class="hero-image">Photo: student room or shared living</div>
-    </section>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Find your next home</p>
+      <h1>Find a Place to Call Home</h1>
+      <p>
+        Discover comfortable, affordable accommodation for students and working
+        professionals.
+      </p>
+      <a href="{% url 'add_accommodation' %}" class="btn"
+        >+ Add Accommodation</a
+      >
+    </div>
+    <div class="hero-image">Photo: student room or shared living</div>
+  </section>
 
-    <section class="listings">
-        <div class="section-header">
-            <div>
-                <h2>Recommended for You</h2>
-                <p>Explore comfortable places that may suit your needs.</p>
-            </div>
-            <a href="{% url 'details' %}">View All →</a>
+  <section class="listings">
+    <div class="section-header">
+      <div>
+        <h2>Recommended for You</h2>
+        <p>Explore comfortable places that may suit your needs.</p>
+      </div>
+      <a href="{% url 'all-properties' %}">View All →</a>
+    </div>
+    <div class="cards">
+        {% for property in properties %}
+      <article class="card">
+        <div class="card-image">
+          <span class="badge">Recommended</span>
+          <span class="heart">♡</span>
+          Photo: furnished student room
         </div>
-        <div class="cards">
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Recommended</span>
-                    <span class="heart">♡</span>
-                    Photo: furnished student room
-                </div>
-                <h3>Furnished Student Room</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Student Room</p>
-                <a href="{% url 'explore' %}" class="btn">View Details</a>
-            </article>
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Recommended</span>
-                    <span class="heart">♡</span>
-                    Photo: shared student apartment
-                </div>
-                <h3>Shared Student Apartment</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Shared Accommodation</p>
-                <a href="{% url 'details' %}" class="btn">View Details</a>
-            </article>
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Recommended</span>
-                    <span class="heart">♡</span>
-                    Photo: comfortable private room
-                </div>
-                <h3>Comfortable Private Room</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Private Room</p>
-                <a href="{% url 'details' %}" class="btn">View Details</a>
-            </article>
-        </div>
-    </section>
+        <h3>{{ property.title }}</h3>
+        <p class="price">{{ property.monthly_rent }} / month</p>
+        <p class="location">{{ property.city }}</p>
+        <a href="{% url 'details' property.id %}" class="btn">View Details</a>
+      </article>
+      {% empty %}
+      <p>No available appartments yet.</p>
+      {% endfor %}
+      
+    </div>
+  </section>
 
-    <section class="listings">
-        <div class="section-header">
-            <div>
-                <h2>Popular Accommodation</h2>
-                <p>Take a look at places people are interested in.</p>
-            </div>
+  <section class="listings">
+    <div class="section-header">
+      <div>
+        <h2>Popular Accommodation</h2>
+        <p>Take a look at places people are interested in.</p>
+      </div>
+    </div>
+    {% for property in popular_properties %}
+    <article class="card">
+        <div class="card-image">
+            <span class="badge">Popular</span>
+            <span class="heart">♡</span>
         </div>
-        <div class="cards">
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Popular</span>
-                    <span class="heart">♡</span>
-                    Photo: bright single room
-                </div>
-                <h3>Bright Single Room</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Student Room</p>
-                <a href="{% url 'details' %}" class="btn">View Details</a>
-            </article>
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Popular</span>
-                    <span class="heart">♡</span>
-                    Photo: practical worker housing
-                </div>
-                <h3>Practical Worker Housing</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Worker Housing</p>
-                <a href="{% url 'details' %}" class="btn">View Details</a>
-            </article>
-            <article class="card">
-                <div class="card-image">
-                    <span class="badge">Popular</span>
-                    <span class="heart">♡</span>
-                    Photo: cozy shared apartment
-                </div>
-                <h3>Cozy Shared Apartment</h3>
-                <p class="price">Price / month</p>
-                <p class="location">City or neighborhood</p>
-                <p class="type">Shared Accommodation</p>
-                <a href="{% url 'details' %}" class="btn">View Details</a>
-            </article>
-        </div>
-        <a href="{% url 'explore' %}" class="btn explore-btn">Explore All Accommodation</a>
-    </section>
+
+        <h3>{{ property.title }}</h3>
+        <p class="price">{{ property.monthly_rent }} / month</p>
+        <p class="location">{{ property.city }}</p>
+
+        <a href="{% url 'details' property.id %}" class="btn">
+            View Details
+        </a>
+    </article>
+{% empty %}
+    <p>No popular apartments yet.</p>
+{% endfor %}
+    <a href="{% url 'explore' %}" class="btn explore-btn"
+      >Explore All Accommodation</a
+    >
+  </section>
 </main>
 {% endblock %}
