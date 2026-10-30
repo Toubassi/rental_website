@@ -10,42 +10,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
   <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}">
+  <link rel="stylesheet" href="{% static 'css/site-nav.css' %}" />
 </head>
 <body class="aa-body">
 
-  <!-- TOP BAR -->
-  <header class="aa-header">
-    <a href="{% url 'dashboard' %}" class="aa-logo">HomeFinder</a>
-    <nav class="aa-nav" aria-label="Main menu">
-      <a href="{% url 'dashboard' %}">Home</a>
-      <a href="{% url 'explore' %}">Explore</a>
-      <a href="{% url 'about' %}">About Us</a>
-      <a href="{% url 'contact' %}">Contact</a>
-    </nav>
-    <details class="aa-menu">
-      <summary><span>{{ account.username }}</span></summary>
-      <div class="aa-menu-list">
-        <a href="#">My Profile</a>
-        <a href="{% url 'add_accommodation' %}">Add Accommodation</a>
-        <a href="/logout/">Sign Out</a>
-      </div>
-    </details>
-  </header>
+  <!-- Shared navigation (same as every page) -->
+  {% include "partials/site_nav.html" %}
 
   <!-- PAGE CONTENT -->
   <main class="aa-page">
 
     <!-- BREADCRUMB -->
-    <nav class="aa-crumb" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="{% url 'dashboard' %}">Home</a></li>
-        <li aria-current="page">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-          Add Accommodation
-        </li>
-      </ol>
-    </nav>
+    {% include "partials/breadcrumb.html" with parent_label="My Accommodation" parent_url="/accommodation/" current="Add Accommodation" extra_class="aa-crumb" %}
 
     <!-- INTRODUCTION -->
     <section class="aa-intro">
@@ -58,7 +36,6 @@
       <form class="aa-form" method="post" action="{% url 'add_accommodation' %}" enctype="multipart/form-data" id="add-form">
         {% csrf_token %}
 
-        <p class="aa-required-note"><span class="aa-req" aria-hidden="true">*</span> Required fields</p>
 
         {% if errors %}
           <div class="aa-alert" role="alert">
@@ -246,7 +223,6 @@
     <div class="aa-footer-links">
       <h4>Quick Links</h4>
       <a href="{% url 'dashboard' %}">Home</a>
-      <a href="{% url 'about' %}">About Us</a>
       <a href="{% url 'contact' %}">Contact</a>
       <a href="#">Sign Out</a>
     </div>

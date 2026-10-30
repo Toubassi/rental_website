@@ -30,11 +30,13 @@
   /* ---- Mobile menu ---- */
   const nav = $("#nav");
   const navToggle = $("#navToggle");
-  navToggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  });
+  if (nav && navToggle) {
+    navToggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
+  }
  
   /* ---- User dropdown ---- */
   const userChip = $("#userChip");

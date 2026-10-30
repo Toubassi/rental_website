@@ -1036,20 +1036,13 @@ button:focus-visible {
   padding-top: 20px;
 }
 
-.review-breadcrumbs {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+/* Look comes from breadcrumb.css; this only sets the spacing. */
+.admin-crumb {
   margin-bottom: 8px;
-  color: #4f5651;
-  font-size: 10px;
 }
 
-.review-breadcrumbs a {
-  color: #24483f;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.admin-crumb ol {
+  font-size: 13px;
 }
 
 .review-header {

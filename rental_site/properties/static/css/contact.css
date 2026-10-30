@@ -61,7 +61,7 @@
   grid-template-columns: minmax(0, 1fr) 400px;
   gap: 64px;
   align-items: center;
-  padding: 88px 96px 0;
+  padding: 48px 96px 0;
 }
 
 .contact-hero-text {
@@ -503,4 +503,45 @@
     padding: 0 8px 0 26px;
     font-size: 17px;
   }
+}
+/* ---------- Breadcrumb ---------- */
+/* Look comes from breadcrumb.css; this only sets the spacing. */
+.contact-crumb { padding: 28px 96px 0; }
+
+@media (max-width: 1024px) {
+  .contact-crumb { padding: 22px 40px 0; }
+}
+
+@media (max-width: 600px) {
+  .contact-crumb { padding: 16px 20px 0; }
+}
+
+/* ---------- Page width = navbar width ---------- */
+/* --contact-edge is the navbar's side space (site-nav.css .site-header),
+   so every section lines up with the navbar's left and right edges.
+   Placed last so it wins over the side spacing set above. */
+.contact-page { --contact-edge: max(48px, calc((100% - 1328px) / 2)); }
+
+.contact-crumb,
+.contact-hero,
+.contact-main {
+  padding-left: var(--contact-edge);
+  padding-right: var(--contact-edge);
+}
+
+.contact-cta {
+  margin-left: var(--contact-edge);
+  margin-right: var(--contact-edge);
+}
+
+/* text inside the sections starts right at that edge */
+.contact-hero-text,
+.contact-info {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* the navbar uses 22px side space on phones */
+@media (max-width: 600px) {
+  .contact-page { --contact-edge: 22px; }
 }

@@ -14,6 +14,7 @@
     />
 
     <!-- Shared admin layout -->
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
     <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
   </head>
 
@@ -64,6 +65,10 @@
       <!-- ============ MAIN CONTENT ============ -->
       <main class="admin-main">
         <!-- Page heading -->
+        <!-- Breadcrumbs -->
+        {% url 'admin-dashboard' as admin_home %}
+        {% include "partials/breadcrumb.html" with home_label="Admin Dashboard" home_url=admin_home current="Manage Users" extra_class="admin-crumb" %}
+
         <header class="admin-header">
           <div class="header-text">
             <h1>Manage Users</h1>

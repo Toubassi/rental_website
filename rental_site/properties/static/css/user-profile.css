@@ -17,20 +17,9 @@
   font-size: 17px;
 }
 
+/* Look comes from breadcrumb.css; this only sets the spacing. */
 .profile-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin-bottom: 24px;
-  color: #4f5651;
-  font-size: 15px;
-}
-
-.profile-breadcrumb a {
-  color: #24483f;
-  text-decoration: underline;
-  text-decoration-color: #c8795a;
-  text-underline-offset: 4px;
 }
 
 .profile-page-heading {

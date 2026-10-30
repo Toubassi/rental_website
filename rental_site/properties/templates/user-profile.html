@@ -23,11 +23,7 @@
 {% endif %}
     <main class="profile-content">
       <!-- ============ BREADCRUMB ============ -->
-      <nav class="profile-breadcrumb" aria-label="Breadcrumb">
-        <a href="{% url 'dashboard' %}">Home</a>
-        <span>›</span>
-        <span>My Profile</span>
-      </nav>
+      {% include "partials/breadcrumb.html" with current="My Profile" extra_class="profile-breadcrumb" %}
 
       <!-- ============ PAGE HEADING ============ -->
       <section class="profile-page-heading">

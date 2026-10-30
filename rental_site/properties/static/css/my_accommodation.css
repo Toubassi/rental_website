@@ -61,42 +61,10 @@
 .myacc-pill-forest .myacc-ico { background: #FAF7F0; color: #24483F; }
 
 /* ---------- Breadcrumb ---------- */
+/* Look comes from breadcrumb.css; this only sets the spacing. */
 .myacc-crumb {
   padding: 28px 96px 0;
 }
-
-.myacc-crumb ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 15px;
-  line-height: 1.3;
-}
-
-.myacc-crumb li {
-  display: flex;
-  align-items: center;
-  min-height: 36px;
-}
-
-.myacc-crumb a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  color: #24483F;
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: #C8795A;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 4px;
-}
-
-.myacc-crumb li[aria-current] { color: #4F5651; }
-.myacc-crumb li[aria-current] svg { margin-right: 8px; }
 
 /* ---------- Heading ---------- */
 .myacc-heading {
@@ -358,8 +326,7 @@
 }
 
 /* ---------- Focus (keyboard) ---------- */
-.myacc-pill:focus-visible,
-.myacc-crumb a:focus-visible {
+.myacc-pill:focus-visible {
   outline: 3px solid #24483F;
   outline-offset: 3px;
 }
@@ -407,9 +374,6 @@
   .myacc-page { padding-bottom: 56px; }
 
   .myacc-crumb { padding: 16px 20px 0; }
-  .myacc-crumb ol { font-size: 14px; }
-  .myacc-crumb li,
-  .myacc-crumb a { min-height: 44px; }
 
   .myacc-heading { gap: 12px; padding: 20px 20px 0; }
   .myacc-heading h1 { font-size: 38px; }

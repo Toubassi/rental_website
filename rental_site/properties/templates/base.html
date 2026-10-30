@@ -10,67 +10,24 @@
     {% block bootstrap %}{% endblock %}
 
     {# Shared header + footer (same style as the home page) #}
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}">
 
     {# Extra CSS for one page, e.g. user-profile.css #}
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- ============ HEADER ============ -->
-    <header class="site-header">
-        <nav class="site-nav" aria-label="Main navigation">
-            <a href="{% url 'dashboard' %}" class="site-brand">
-                <span class="site-brand-icon" aria-hidden="true">⌂</span>
-                HomeFinder
-            </a>
-
-            <div class="site-nav-links">
-                <a href="{% url 'dashboard' %}">Home</a>
-                <a href="{% url 'explore' %}">Explore</a>
-                <a href="{% url 'about' %}">About Us</a>
-                <a href="{% url 'contact' %}">Contact</a>
-            </div>
-
-            <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
-            <details class="site-user-menu">
-                <summary class="site-user-summary">
-                    <span class="site-user-avatar" aria-hidden="true">♙</span>
-                    {# 'username' is the session key set by login and register in login/views.py #}
-                    <span>{{ request.session.username|default:"Guest" }}</span>
-                    <span aria-hidden="true">⌄</span>
-                </summary>
-
-                <div class="site-user-dropdown">
-                    <a href="{% url 'profile' %}">
-                        <span aria-hidden="true">♙</span>
-                        My Profile
-                    </a>
-
-                    <a href="{% url 'accommodation' %}">
-                        <span aria-hidden="true">▦</span>
-                        My Accommodation
-                    </a>
-
-                    
-                    <a href="{% url 'add_accommodation' %}">
-                        <span aria-hidden="true">⌂</span>
-                        Add Accommodation
-                    </a>
-
-                    <a href="/logout/">
-                        <span aria-hidden="true">⇥</span>
-                        Sign Out
-                    </a>
-                </div>
-            </details>
-        </nav>
-    </header>
+    {% include "partials/site_nav.html" %}
 
     {% block content %}{% endblock %}
 
     <!-- ============ FOOTER ============ -->
     <footer class="site-footer">
+        {% if request.session.username %}
+        <!-- Logged in: no About Us link -->
         <div class="site-footer-brand">
             <a href="{% url 'dashboard' %}" class="site-brand">
                 <span class="site-brand-icon" aria-hidden="true">⌂</span>
@@ -83,7 +40,7 @@
             <h3 class="site-footer-title">Quick Links</h3>
             <div class="site-footer-links">
                 <a href="{% url 'dashboard' %}">Home</a>
-                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'explore' %}">Explore</a>
                 <a href="{% url 'contact' %}">Contact</a>
             </div>
         </div>
@@ -96,6 +53,33 @@
                 <a href="/logout/">Sign Out</a>
             </div>
         </div>
+        {% else %}
+        <!-- Visitors (About Us and Contact pages) -->
+        <div class="site-footer-brand">
+            <a href="{% url 'index' %}" class="site-brand">
+                <span class="site-brand-icon" aria-hidden="true">⌂</span>
+                HomeFinder
+            </a>
+            <p class="site-footer-text">Helping students and working professionals find a place to call home.</p>
+        </div>
+
+        <div>
+            <h3 class="site-footer-title">Quick Links</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'index' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="site-footer-title">Your Account</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Sign Up</a>
+            </div>
+        </div>
+        {% endif %}
 
         <p class="site-footer-bottom">© {% now "Y" %} HomeFinder. All rights reserved.</p>
     </footer>

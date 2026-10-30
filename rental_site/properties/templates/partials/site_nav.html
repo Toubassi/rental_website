@@ -1,0 +1,72 @@
+{% comment %}
+  Shared top navigation. Needs css/site-nav.css.
+  Logged in: Home, Explore, Contact + the account menu.
+  Visitors (About Us and Contact pages): Home, About Us, Contact + Sign Up / Log In.
+  The link for the current page is underlined.
+{% endcomment %}
+{% with page=request.resolver_match.url_name %}
+<header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+        {% if request.session.username %}
+        <a href="{% url 'dashboard' %}" class="site-brand">
+        {% else %}
+        <a href="{% url 'index' %}" class="site-brand">
+        {% endif %}
+            <span class="site-brand-icon" aria-hidden="true">⌂</span>
+            HomeFinder
+        </a>
+
+        {% if request.session.username %}
+        <div class="site-nav-links">
+            <a href="{% url 'dashboard' %}"{% if page == 'dashboard' %} aria-current="page"{% endif %}>Home</a>
+            <a href="{% url 'explore' %}"{% if page == 'explore' or page == 'details' %} aria-current="page"{% endif %}>Explore</a>
+            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+        </div>
+
+        <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
+        <details class="site-user-menu">
+            <summary class="site-user-summary">
+                <span class="site-user-avatar" aria-hidden="true">♙</span>
+                {# 'username' is the session key set by login and register in login/views.py #}
+                <span>{{ request.session.username }}</span>
+                <span aria-hidden="true">⌄</span>
+            </summary>
+
+            <div class="site-user-dropdown">
+                <a href="{% url 'profile' %}">
+                    <span aria-hidden="true">♙</span>
+                    My Profile
+                </a>
+
+                <a href="{% url 'accommodation' %}">
+                    <span aria-hidden="true">▦</span>
+                    My Accommodation
+                </a>
+
+                <a href="{% url 'add_accommodation' %}">
+                    <span aria-hidden="true">⌂</span>
+                    Add Accommodation
+                </a>
+
+                <a href="/logout/">
+                    <span aria-hidden="true">⇥</span>
+                    Sign Out
+                </a>
+            </div>
+        </details>
+        {% else %}
+        <div class="site-nav-links">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}"{% if page == 'about' %} aria-current="page"{% endif %}>About Us</a>
+            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+        </div>
+
+        <!-- Visitors: same Sign Up / Log In buttons as the landing page -->
+        <div class="site-auth">
+            <a href="{% url 'register' %}" class="site-auth-button site-auth-button-dark">Sign Up</a>
+            <a href="{% url 'login' %}" class="site-auth-button">Log In</a>
+        </div>
+        {% endif %}
+    </nav>
+</header>
+{% endwith %}
