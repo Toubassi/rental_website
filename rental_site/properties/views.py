@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import LandLord , Property , PropertyImage, UserProfile
+from .models import LandLord , Property , PropertyImage
 from django.db import transaction, DatabaseError
 from django.contrib import messages
 from login.models import User, EMAIL_REGEX
@@ -152,11 +152,9 @@ def user_profile(request):
                 user.username = username
                 user.email = email
                 user.dob = dob
-                user.save()
                 if avatar:
-                    profile, created = UserProfile.objects.get_or_create(user=user)
-                    profile.avatar = avatar
-                    profile.save()
+                    user.avatar = avatar
+                user.save()
                 request.session['username'] = username
                 messages.success(request, "Your profile was updated.")
             return redirect('profile')
@@ -178,8 +176,7 @@ def user_profile(request):
                 messages.success(request, "Your password was changed.")
             return redirect('profile')
 
-    profile = UserProfile.objects.filter(user=user).first()
-    return render(request, 'user-profile.html', {'profile_user': user, 'profile': profile})
+    return render(request, 'user-profile.html', {'profile_user': user})
 
 
 def admin_access(request):

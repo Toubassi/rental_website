@@ -43,8 +43,8 @@
       
       <!-- ============ PROFILE SUMMARY ============ -->
             <section class="profile-summary-card">
-        {% if profile and profile.avatar %}
-          <img src="{{ profile.avatar.url }}" alt="Profile picture"
+               {% if profile_user.avatar %}
+          <img src="{{ profile_user.avatar.url }}" alt="Profile picture"
                class="profile-avatar-large" style="object-fit: cover;" />
         {% else %}
           <div class="profile-avatar-large" aria-hidden="true">♙</div>

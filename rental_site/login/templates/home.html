@@ -41,7 +41,12 @@
             show Sign Up and Log In. This helps users recognize their account
             status and access account options.   -->
                 {% if request.session.username %}
-              <a href="{% url 'dashboard' %}" class="auth-button auth-button-light">{{ request.session.username }}</a>
+                            <a href="{% url 'dashboard' %}" class="auth-button auth-button-light">
+                {% if header_avatar_url %}
+                  <img src="{{ header_avatar_url }}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;">
+                {% endif %}
+                {{ request.session.username }}
+              </a>
               <a href="/logout/" class="auth-button">Sign Out</a>
             {% else %}
               <a href="/register/" class="auth-button auth-button-light">Sign Up</a>
