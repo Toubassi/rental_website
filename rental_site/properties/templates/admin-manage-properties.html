@@ -33,7 +33,7 @@
         </div>
 
         <nav class="admin-nav" aria-label="Admin navigation">
-          <a href="" class="admin-nav-link">
+          <a href="/admin-dashboard/" class="admin-nav-link">
             <span class="nav-icon">▦</span>
             Dashboard
           </a>
@@ -167,28 +167,84 @@
                 </tr>
               </thead>
               <tbody>
-                {%for property in properties %}
-                <tr>
-                  <td>
-                    <strong>{{ property.title }}</strong>
-                    <span class="cell-subtitle">{{property.city}}</span>
-                  </td>
-                  <td>{{ property.landlord }}</td>
-                  <td>{{property.created_at}}</td>
-                  <!-- <td>
-                    <span class="status-pill status-available">
-                      Available
-                    </span>
-                  </td> -->
-                  <!-- above needs a new colomn in our models for status -->
-                  <td>
-                    <a href="/details/" class="table-action">View</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-              
-              </tbody>
+    {% for property in properties %}
+    <tr>
+
+        <!-- Photo -->
+        <td>
+            {% with photo=property.propertyimage_set.first %}
+                {% if photo %}
+                    <img src="{{ photo.image_url.url }}"
+                         alt="{{ property.title }}"
+                         width="65">
+                {% else %}
+                    No photo
+                {% endif %}
+            {% endwith %}
+        </td>
+
+        <!-- Title -->
+        <td>
+            <strong>{{ property.title }}</strong>
+            <span class="cell-subtitle">{{ property.city }}</span>
+        </td>
+
+        <!-- Provider -->
+        <td>{{ property.landlord.user.name }}</td>
+
+        <!-- Type (not currently in your model) -->
+        <td>Not specified</td>
+
+        <!-- Rent -->
+        <td>₪{{ property.monthly_rent }}</td>
+
+        <!-- Date -->
+        <td>{{ property.created_at|date:"d/m/Y" }}</td>
+
+        <!-- Availability -->
+        <td>
+            {% if property.is_available %}
+                <span class="status-pill status-available">
+                    Available
+                </span>
+            {% else %}
+                <span class="status-pill status-unavailable">
+                    Unavailable
+                </span>
+            {% endif %}
+        </td>
+
+        <!-- Actions -->
+        <td>
+            <div class="user-actions">
+                <a href="/details/{{ property.id }}/"
+                   class="table-action">
+                    View
+                </a>
+                <form method="POST"
+                      action="{% url 'admin-property-toggle' property.id %}">
+                    {% csrf_token %}
+                    {% if property.is_available %}
+                        <button type="submit" class="user-action deactivate-action">
+                            Mark Unavailable
+                        </button>
+                    {% else %}
+                        <button type="submit" class="user-action reactivate-action">
+                            Make Available
+                        </button>
+                    {% endif %}
+                        
+                </form>
+
+            </div>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8">No properties found.</td>
+    </tr>
+    {% endfor %}
+</tbody>
             </table>
           </div>
 

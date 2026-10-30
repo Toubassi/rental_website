@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from .models import LandLord , Property , PropertyImage
 from django.db import transaction, DatabaseError
 from django.contrib import messages
@@ -181,25 +181,43 @@ def user_profile(request):
 
 def admin_access(request):
     if 'username' not in request.session:
-        return redirect('/')
-    username = request.session['username']
-    for user in User.objects.all():
-        if user.username == username:
-            if user.user_level == 1:
-                return None
-            return redirect('/dashboard/')
+        return redirect('/login/')
 
+    user = User.objects.filter(username = request.session['username']).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    if user.user_level != 1:
+        return redirect('/dashboard/')
+
+    return None
+    
 def adminDashboard(request):
     access = admin_access(request)
     if access:
         return access
 
+    total_users = User.objects.count()
+
+    total_properties = Property.objects.count()
+
+    available_listings = Property.objects.filter(is_available=True).count()
+
+    rented_listings = Property.objects.filter(is_available = False).count()
+
+
     users = User.objects.all()
-    properties = Property.objects.all().order_by('created_at')
+    properties = Property.objects.all().order_by('-created_at')
 
     context = {
         'users': users,
         'properties': properties,
+        'total_users': total_users,
+        'total_properties': total_properties,
+        'available_listings': available_listings,
+        'rented_listings': rented_listings,
     }
     return render(request, 'admin-dashboard.html', context)
 
@@ -220,11 +238,34 @@ def admin_manage_properties(request):
     if access:
         return access
 
-    properties = Property.objects.all().order_by('created_at')
+    properties = Property.objects.all().order_by('-created_at')
     context = {
         'properties': properties,
     }
     return render(request, 'admin-manage-properties.html', context)
+
+def toggle_property_availability(request, id):
+    access = admin_access(request)
+
+    if access:
+        return access
+
+    if request.method == 'POST':
+        property = Property.objects.filter(id=id).first()
+
+        if property is None:
+            messages.error(request, 'Property not found.')
+            return redirect('/admin-manage-properties/')
+
+        property.is_available = not property.is_available
+        property.save()
+
+        if property.is_available:
+            messages.success(request, 'Property is now available.')
+        else:
+            messages.success(request, 'Property is now unavailable.')
+
+    return redirect('/admin-dashboard/')
 
 def admin_approve(request):
     access = admin_access(request)
@@ -283,4 +324,89 @@ def add_accommodation(request):
         'landlord': LandLord.objects.filter(user=user).first()
     })
 
+def delete_property(request, id):
+    access = admin_access(request)
 
+    if access:
+        return access
+
+    if request.method == 'POST':
+        property = Property.objects.get(id=id)
+
+        if property is None:
+            messages.error(request, 'Property not found.')
+            return redirect('/admin-dashboard/')
+
+        property.delete()
+
+        messages.success(request, 'Property deleted successfully!')
+
+    return redirect('/admin-dashboard/')
+
+def toggle_user_level(request, id):
+    access = admin_access(request)
+
+    if access:
+        return access
+
+    if request.method == 'POST':
+        user = User.objects.filter(id=id).first()
+
+        if user is None:
+            messages.error(request, 'User not found.')
+            return redirect('/admin-dashboard/')
+
+        # Prevent changing your own admin privileges
+        current_user = User.objects.filter(
+            username=request.session['username']
+        ).first()
+
+        if user.id == current_user.id:
+            messages.error(request, 'You cannot change your own role.')
+            return redirect('/admin-dashboard/')
+
+        # Prevent removing the last administrator
+        if user.user_level == 1:
+            admin_count = User.objects.filter(user_level=1).count()
+
+            if admin_count == 1:
+                messages.error(request, 'You cannot remove the last administrator.')
+                return redirect('/admin-dashboard/')
+
+        user.user_level = 0 if user.user_level == 1 else 1
+        user.save()
+
+        if user.user_level == 1:
+            messages.success(request, 'User promoted to administrator.')
+        else:
+            messages.success(request, 'User demoted to normal user.')
+
+    return redirect('/admin-dashboard/')
+
+def delete_user(request, id):
+    access = admin_access(request)
+
+    if access:
+        return access
+
+    if request.method == 'POST':
+        user = User.objects.get(id=id)
+
+    current_user = User.objects.filter(username=request.session['username']).first()
+
+    if user.id == current_user.id:
+        messages.error(request, 'You cannot delete your own account.')
+        return redirect('/admin-dashboard/')
+
+    if user.user_level == 1:
+        admin_count = User.objects.filter(user_level=1).count()
+
+        if admin_count == 1:
+            messages.error(request, 'You cannot delete the last administrator.')
+            return redirect('/admin-dashboard/')
+
+    user.delete()
+
+    messages.success(request, 'User deleted successfully.')
+
+    return redirect('/admin-dashboard/')

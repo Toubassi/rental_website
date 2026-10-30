@@ -13,6 +13,10 @@ urlpatterns = [
     path('admin-dashboard/', views.adminDashboard, name='admin-dashboard'),
     path('admin-manage-users/', views.admin_manage_users, name='admin-manage-users'),
     path('admin-manage-properties/', views.admin_manage_properties, name='admin-manage-properties'),
+    path('admin-property-toggle/<int:id>/', views.toggle_property_availability, name='admin-property-toggle'),
+    path('admin-property-delete/<int:id>/', views.delete_property, name='admin-property-delete'),
     path('admin-approve/', views.admin_approve, name='admin-approve'),
     path('add-accommodation/', views.add_accommodation, name='add_accommodation'),
+    path('admin-user-toggle/<int:id>/', views.toggle_user_level, name='admin-user-toggle'),
+    path('admin-user-delete/<int:id>/', views.delete_user, name='admin-user-delete'),
 ]
