@@ -17,9 +17,13 @@ class Property(models.Model):
     monthly_rent = models.PositiveBigIntegerField()  #<-- blocks negative rent.
     city = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+    view_count = models.PositiveIntegerField(default=0)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    def increase_views(self):
+        self.view_count += 1
+        self.save()
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)

@@ -28,7 +28,7 @@
       <div class="aa-menu-list">
         <a href="#">My Profile</a>
         <a href="{% url 'add_accommodation' %}">Add Accommodation</a>
-        <a href="#">Sign Out</a>
+        <a href="/logout/">Sign Out</a>
       </div>
     </details>
   </header>
@@ -207,6 +207,13 @@
                 {% if errors.phone %}<p class="aa-msg" id="phone-error">{{ errors.phone }}</p>{% endif %}
                 <p class="aa-help aa-help-small" id="phone-help">We save it once in your landlord profile, so you will not be asked again.</p>
               </div>
+              <div>
+    <label for="id_bio" class="aa-label">About You</label>
+    <textarea id="id_bio" name="bio"
+              class="aa-field"
+              placeholder="Tell us a little about yourself"
+              required></textarea>
+</div>
             {% endif %}
           </div>
         </div>
