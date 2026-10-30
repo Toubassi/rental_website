@@ -9,7 +9,18 @@ import bcrypt
 def dashboard(request):
     if 'username' not in request.session:
         return redirect('/login/')
-    return render(request, 'dashboard.html')
+    properties = Property.objects.filter(is_available=True)
+
+    popular_properties = Property.objects.filter(
+        is_available=True
+    ).order_by('-view_count')[:3]
+
+    context = {
+        'properties': properties,
+        'popular_properties': popular_properties
+    }
+
+    return render(request, 'dashboard.html', context)
 
 def about(request):
     if 'username' not in request.session:
@@ -79,10 +90,18 @@ def explore(request):
     })
 
 
-def details(request):
+def details(request, id):
     if 'username' not in request.session:
         return redirect('/login/')
-    return render(request, 'details.html')
+    property = Property.objects.get(id=id)
+    property.increase_views()
+    context = {
+        'property': property,
+    }
+    return render(request, 'details.html', context)
+
+def all_properties(request):
+    pass
 
 
 def user_profile(request):
@@ -229,7 +248,7 @@ def add_accommodation(request):
             landlord = LandLord.objects.create(
                 user=user,
                 phone_num=int(request.POST['phone']),
-                bio=''
+                bio=request.POST['bio']
                 )
 
         property = Property.objects.create(

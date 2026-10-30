@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db import IntegrityError
 import bcrypt
 from datetime import datetime
-from django.contrib.auth.hashers import check_password
+
 
 # Create your views here.
 def home(request):
@@ -12,25 +12,27 @@ def home(request):
 
 def login(request):
   if request.method == "POST":
+      
       email = request.POST['username']
       password = request.POST['password']
 
-      user = None
+      try:
+        user = User.objects.get(email=email)
+      except User.DoesNotExist:
+        messages.error(request, 'wrong email or password.')
+        return redirect('login')
+      
+      try:
+        correct_pass = bcrypt.checkpw(password.encode(), user.password.encode())
+      except ValueError:
+        correct_pass = False
 
-      for account in User.objects.all():
-          if account.email == email:
-              user = account
-              break
-
-      if user is None:
-          return redirect('login')
-
-      if not bcrypt.checkpw(password.encode(), user.password.encode()):
-          return redirect('login')
+      if not correct_pass:
+        messages.error(request, 'wrong email or passowrd.')
+        return redirect('login')
 
       request.session['username'] = user.username
       return redirect('dashboard')
-
   return render(request, 'login.html')
 
 def register(request):
@@ -60,6 +62,7 @@ def register(request):
         dob=dob,
         email=email,
         password=hashed_pw,
+        user_level=level,
       )
     except IntegrityError:
       # two identical submits at the same moment: the database refuses the second one
