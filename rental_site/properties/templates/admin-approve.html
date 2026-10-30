@@ -14,6 +14,7 @@
     />
 
     <!-- Shared admin styles -->
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
     <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
     />
   </head>
@@ -65,15 +66,9 @@
       <!-- ============ MAIN CONTENT ============ -->
       <main class="admin-main">
         <!-- Breadcrumbs -->
-        <nav class="review-breadcrumbs" aria-label="Breadcrumb">
-          <a href="">Admin Dashboard</a>
-          <span>›</span>
-
-          <a href="">Manage Accommodation</a>
-          <span>›</span>
-
-          <span>Review</span>
-        </nav>
+        {% url 'admin-dashboard' as admin_home %}
+        {% url 'admin-manage-properties' as manage_url %}
+        {% include "partials/breadcrumb.html" with home_label="Admin Dashboard" home_url=admin_home parent_label="Manage Accommodation" parent_url=manage_url current="Review" extra_class="admin-crumb" %}
 
         <!-- Page heading -->
         <header class="admin-header review-header">

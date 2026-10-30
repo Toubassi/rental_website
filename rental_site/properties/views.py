@@ -23,13 +23,13 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 def about(request):
-    if 'username' not in request.session:
-        return redirect('/login/')
+    # About Us is for visitors only: logged-in users go to their dashboard
+    if 'username' in request.session:
+        return redirect('/dashboard/')
     return render(request, 'about.html')
 
 def contact(request):
-    if 'username' not in request.session:
-        return redirect('/login/')
+    # Contact is open to everyone: visitors and logged-in users
     return render(request, 'contact.html')
 
 

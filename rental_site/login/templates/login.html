@@ -15,6 +15,7 @@
     />
  
     <!-- our custom style -->
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
   </head>
  
@@ -64,6 +65,9 @@
     </header>
  
     <main class="login-layout">
+      <!-- BREADCRUMB -->
+      {% include "partials/breadcrumb.html" with home_url="/" current="Log In" extra_class="login-crumb" %}
+
       <!-- Left: welcome -->
       <section class="welcome" aria-labelledby="welcome-title">
         <div class="welcome-copy">

@@ -10,74 +10,24 @@
     {% block bootstrap %}{% endblock %}
 
     {# Shared header + footer (same style as the home page) #}
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}">
 
     {# Extra CSS for one page, e.g. user-profile.css #}
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- ============ HEADER ============ -->
-    <header class="site-header">
-        <nav class="site-nav" aria-label="Main navigation">
-            <a href="{% url 'dashboard' %}" class="site-brand">
-                <span class="site-brand-icon" aria-hidden="true">⌂</span>
-                HomeFinder
-            </a>
-
-            <div class="site-nav-links">
-                <a href="{% url 'dashboard' %}">Home</a>
-                <a href="{% url 'explore' %}">Explore</a>
-                <a href="{% url 'about' %}">About Us</a>
-                <a href="{% url 'contact' %}">Contact</a>
-            </div>
-
-                        <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
-            <details class="site-user-menu">
-                <summary class="site-user-summary">
-                  <span class="site-user-avatar" aria-hidden="true">
-    {% if header_avatar_url %}
-        <img src="{{ header_avatar_url }}" alt="" class="site-user-avatar-img">
-    {% else %}
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-    {% endif %}
-                </span>
-                    {# 'username' is the session key set by login and register in login/views.py #}
-                    <span>{{ request.session.username|default:"Guest" }}</span>
-                    <svg class="site-user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                </summary>
-
-                <div class="site-user-dropdown">
-                    <a href="{% url 'profile' %}"{% if request.path == '/profile/' %} class="site-user-current" aria-current="page"{% endif %}>
-                        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-                        My Profile
-                    </a>
-
-                    <a href="{% url 'accommodation' %}">
-                        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>
-                        My Accommodation
-                    </a>
-
-                    <a href="{% url 'add_accommodation' %}">
-                        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-                        Add Accommodation
-                    </a>
-
-                    <div class="site-user-divider" aria-hidden="true"></div>
-
-                    <a href="/logout/">
-                        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
-                        Sign Out
-                    </a>
-                </div>
-            </details>
-        </nav>
-    </header>
+    {% include "partials/site_nav.html" %}
 
     {% block content %}{% endblock %}
 
     <!-- ============ FOOTER ============ -->
     <footer class="site-footer">
+        {% if request.session.username %}
+        <!-- Logged in: no About Us link -->
         <div class="site-footer-brand">
             <a href="{% url 'dashboard' %}" class="site-brand">
                 <span class="site-brand-icon" aria-hidden="true">⌂</span>
@@ -90,7 +40,7 @@
             <h3 class="site-footer-title">Quick Links</h3>
             <div class="site-footer-links">
                 <a href="{% url 'dashboard' %}">Home</a>
-                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'explore' %}">Explore</a>
                 <a href="{% url 'contact' %}">Contact</a>
             </div>
         </div>
@@ -103,6 +53,33 @@
                 <a href="/logout/">Sign Out</a>
             </div>
         </div>
+        {% else %}
+        <!-- Visitors (About Us and Contact pages) -->
+        <div class="site-footer-brand">
+            <a href="{% url 'index' %}" class="site-brand">
+                <span class="site-brand-icon" aria-hidden="true">⌂</span>
+                HomeFinder
+            </a>
+            <p class="site-footer-text">Helping students and working professionals find a place to call home.</p>
+        </div>
+
+        <div>
+            <h3 class="site-footer-title">Quick Links</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'index' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="site-footer-title">Your Account</h3>
+            <div class="site-footer-links">
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Sign Up</a>
+            </div>
+        </div>
+        {% endif %}
 
         <p class="site-footer-bottom">© {% now "Y" %} HomeFinder. All rights reserved.</p>
     </footer>

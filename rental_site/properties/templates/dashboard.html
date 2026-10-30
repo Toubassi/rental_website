@@ -1,78 +1,87 @@
-{% extends 'base.html' %} # these are built-in features in django {% block content %} {% if messages %} {% for message in messages %}
-<p class="success-message">{{ message }}</p>
-{% endfor %} {% endif %}
-<main>
-  <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Find your next home</p>
-      <h1>Find a Place to Call Home</h1>
-      <p>
-        Discover comfortable, affordable accommodation for students and working
-        professionals.
-      </p>
-      <a href="{% url 'add_accommodation' %}" class="btn"
-        >+ Add Accommodation</a
-      >
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="dash-page">
+
+  {% if messages %}
+    <div class="dash-messages">
+      {% for message in messages %}
+        <p class="dash-message" role="status">{{ message }}</p>
+      {% endfor %}
     </div>
-    <div class="hero-image">Photo: student room or shared living</div>
+  {% endif %}
+
+  <!-- HERO -->
+  <section class="dash-hero">
+    <div class="dash-hero-text">
+      <p class="dash-eyebrow">Find your next home</p>
+      <h1>Find a Place to Call Home</h1>
+      <p class="dash-lead">Discover comfortable, affordable accommodation for students and working professionals.</p>
+      <div class="dash-hero-actions">
+        <a href="{% url 'explore' %}" class="dash-pill dash-pill-forest">
+          Explore Accommodation
+          <span class="dash-ico" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </a>
+        <a href="{% url 'add_accommodation' %}" class="dash-link">+ Add Accommodation</a>
+      </div>
+    </div>
+
+    <figure class="dash-hero-image">
+      <img src="{% static 'images/living-room.jpg' %}" alt="A bright shared living room">
+      <figcaption>A place that feels like yours</figcaption>
+    </figure>
   </section>
 
-  <section class="listings">
-    <div class="section-header">
+  <!-- RECOMMENDED -->
+  <section class="dash-section" aria-labelledby="rec-title">
+    <div class="dash-section-head">
       <div>
-        <h2>Recommended for You</h2>
+        <p class="dash-eyebrow">Picked for you</p>
+        <h2 id="rec-title">Recommended for You</h2>
         <p>Explore comfortable places that may suit your needs.</p>
       </div>
-      <a href="{% url 'all-properties' %}">View All →</a>
+      <a href="{% url 'explore' %}" class="dash-link">View All</a>
     </div>
-    <div class="cards">
-        {% for property in properties %}
-      <article class="card">
-        <div class="card-image">
-          <span class="badge">Recommended</span>
-          <span class="heart">♡</span>
-          Photo: furnished student room
-        </div>
-        <h3>{{ property.title }}</h3>
-        <p class="price">{{ property.monthly_rent }} / month</p>
-        <p class="location">{{ property.city }}</p>
-        <a href="{% url 'details' property.id %}" class="btn">View Details</a>
-      </article>
+
+    <div class="dash-grid">
+      {% for property in properties|slice:":6" %}
+        {% include "partials/dash_card.html" with badge="Recommended" badge_style="forest" %}
       {% empty %}
-      <p>No available appartments yet.</p>
+        <p class="dash-empty">No available accommodation yet. Check back soon.</p>
       {% endfor %}
-      
     </div>
   </section>
 
-  <section class="listings">
-    <div class="section-header">
+  <!-- POPULAR -->
+  <section class="dash-section" aria-labelledby="pop-title">
+    <div class="dash-section-head">
       <div>
-        <h2>Popular Accommodation</h2>
+        <p class="dash-eyebrow">Most viewed</p>
+        <h2 id="pop-title">Popular Accommodation</h2>
         <p>Take a look at places people are interested in.</p>
       </div>
     </div>
-    {% for property in popular_properties %}
-    <article class="card">
-        <div class="card-image">
-            <span class="badge">Popular</span>
-            <span class="heart">♡</span>
-        </div>
 
-        <h3>{{ property.title }}</h3>
-        <p class="price">{{ property.monthly_rent }} / month</p>
-        <p class="location">{{ property.city }}</p>
+    <div class="dash-grid">
+      {% for property in popular_properties %}
+        {% include "partials/dash_card.html" with badge="Popular" badge_style="line" %}
+      {% empty %}
+        <p class="dash-empty">No popular accommodation yet.</p>
+      {% endfor %}
+    </div>
 
-        <a href="{% url 'details' property.id %}" class="btn">
-            View Details
-        </a>
-    </article>
-{% empty %}
-    <p>No popular apartments yet.</p>
-{% endfor %}
-    <a href="{% url 'explore' %}" class="btn explore-btn"
-      >Explore All Accommodation</a
-    >
+    <div class="dash-more">
+      <a href="{% url 'explore' %}" class="dash-pill dash-pill-forest">
+        Explore All Accommodation
+        <span class="dash-ico" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+        </span>
+      </a>
+    </div>
   </section>
+
 </main>
 {% endblock %}

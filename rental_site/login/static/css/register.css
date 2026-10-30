@@ -434,3 +434,6 @@
   .reg-signin { margin-top: auto; padding-top: .5rem; }              /* sticks to the bottom of the screen */
   .reg-signin a { display: inline-block; padding: .5625rem 0; }      /* bigger tap area: 9px */
 }
+/* ---------- Breadcrumb ---------- */
+/* Look comes from breadcrumb.css; this only sets the spacing. */
+.reg-crumb { margin-bottom: .75rem; }

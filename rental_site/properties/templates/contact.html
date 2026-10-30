@@ -6,6 +6,14 @@
 
 <main class="contact-page">
 
+  <!-- BREADCRUMB -->
+  {% if request.session.username %}
+    {% include "partials/breadcrumb.html" with current="Contact" extra_class="contact-crumb" %}
+  {% else %}
+    {# visitors: "Home" goes to the landing page #}
+    {% include "partials/breadcrumb.html" with home_url="/" current="Contact" extra_class="contact-crumb" %}
+  {% endif %}
+
   <!-- HERO -->
   <section class="contact-hero">
     <div class="contact-hero-text">

@@ -1,6 +1,12 @@
-/*  BASE  */
-/* * { box-sizing: border-box; } */
+/* =====================================================
+   DASHBOARD (logged-in Home)  -  properties/static/css/dashboard.css
+   base.html loads this file on every page, so:
+   - the BASE part below is shared by all pages that extend base.html
+   - everything for the dashboard itself starts with "dash-"
+   Desktop first, then tablet (<=1024px), then mobile (<=600px)
+   ===================================================== */
 
+/* ============ BASE (shared) ============ */
 body {
     margin: 0;
     background: #FAF7F0;
@@ -25,63 +31,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     outline-offset: 3px;
 }
 
-
-/*  BUTTONS  */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 58px;
-    padding: 0 28px;
-    background: #24483F;
-    border: 1.5px solid #24483F;
-    border-radius: 999px;
-    color: #fff;
-    font-size: 17px;
-    font-weight: 500;
-    /* white-space: nowrap; */
-    cursor: pointer;
-}
-
-.btn:hover { background: #1B332D; }
-
-/* the "View Details" button inside a card is the outline version */
-.card .btn {
-    height: 48px;
-    padding: 0 24px;
-    background: transparent;
-    color: #24483F;
-    font-size: 16px;
-}
-
-.card .btn:hover { background: #DCE6DA; }
-
-/*  HERO (welcome area)  */
-.hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 64px;
-    align-items: end;
-    padding: 98px 96px 0;
-}
-
-.hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-}
-
-.hero-text h1 { font-size: 60px; line-height: 1.06; }
-
-.hero-text p {
-    margin: 0;
-    max-width: 560px;
-    font-size: 19px;
-    line-height: 1.65;
-}
-
-.eyebrow {
+/* small uppercase label with a dot (also used by the profile page) */
+.eyebrow,
+.dash-eyebrow {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -93,7 +45,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     text-transform: uppercase;
 }
 
-.eyebrow::before {
+.eyebrow::before,
+.dash-eyebrow::before {
     content: "";
     width: 7px;
     height: 7px;
@@ -101,44 +54,66 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     background: #24483F;
 }
 
-/* photo placeholder, replaced by an <img> later */
-.hero-image {
-    display: flex;
+
+/* ============ DASHBOARD ============ */
+/* --dash-edge = the navbar's side space (from site-nav.css .site-header),
+   so the page content lines up exactly with the navbar's left and right edges */
+.dash-page {
+    --dash-edge: max(48px, calc((100% - 1328px) / 2));
+    padding-bottom: 24px;
+}
+
+/* ---------- Pills and links (same as About / My Accommodation) ---------- */
+.dash-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dash-pill-forest {
+    height: 58px;
+    padding: 0 8px 0 30px;
+    background: #24483F;
+    color: #fff;
+    font-size: 17px;
+}
+
+.dash-pill-forest:hover { background: #1B332D; }
+
+.dash-pill-line {
+    height: 50px;
+    padding: 0 6px 0 22px;
+    border: 1.5px solid #24483F;
+    background: transparent;
+    color: #24483F;
+    font-size: 16px;
+}
+
+.dash-pill-line:hover { background: #DCE6DA; }
+
+.dash-ico {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 130px;
-    padding: 14px;
-    background: #DCE6DA;
-    border-radius: 28px;
-    color: #4F5651;
-    font-size: 13px;
-    text-align: center;
-    overflow: hidden;
+    flex: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
 }
 
-/* ============ LISTINGS (Recommended + Popular) ============ */
-.listings { padding: 80px 96px 0; }
+.dash-pill-forest .dash-ico { background: #FAF7F0; color: #24483F; }
+.dash-pill-line .dash-ico { width: 36px; height: 36px; background: #24483F; color: #FAF7F0; }
 
-.section-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 32px;
-}
-
-.section-header h2 { font-size: 44px; line-height: 1.12; }
-
-.section-header p {
-    margin: 12px 0 0;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-.section-header > a {
+.dash-link {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     color: #24483F;
+    font-size: 17px;
     font-weight: 500;
     text-decoration: underline;
     text-decoration-color: #C8795A;
@@ -147,52 +122,181 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     white-space: nowrap;
 }
 
-.cards {
+.dash-link:hover { color: #C8795A; }
+
+/* text only for screen readers */
+.dash-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Success messages ---------- */
+.dash-messages { padding: 24px var(--dash-edge) 0; }
+
+.dash-message {
+    margin: 0 0 8px;
+    padding: 14px 22px;
+    border-radius: 18px;
+    background: #DCE6DA;
+    color: #24483F;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ---------- Hero ---------- */
+.dash-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    padding: 56px var(--dash-edge) 0;
+}
+
+.dash-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.dash-hero-text h1 { font-size: 60px; line-height: 1.06; }
+
+.dash-lead {
+    margin: 0;
+    max-width: 520px;
+    font-size: 19px;
+    line-height: 1.65;
+}
+
+.dash-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    padding-top: 6px;
+}
+
+.dash-hero-image {
+    position: relative;
+    height: 440px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 32px;
+    background: #DCE6DA;
+}
+
+.dash-hero-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dash-hero-image figcaption {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: #fff;
+    color: #292D2A;
+    font-size: 13px;
+}
+
+/* ---------- Sections (Recommended + Popular) ---------- */
+.dash-section { padding: 88px var(--dash-edge) 0; }
+
+.dash-section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.dash-section-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dash-section-head h2 { font-size: 44px; line-height: 1.12; }
+
+.dash-section-head p:not(.dash-eyebrow) {
+    margin: 0;
+    color: #4F5651;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.dash-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
     margin-top: 36px;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    padding: 16px 16px 24px;
-    background: #fff;
-    border: 1.5px solid rgba(36, 72, 63, 0.12);
-    border-radius: 30px;
+.dash-empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 36px;
+    border: 1.5px dashed rgba(36, 72, 63, 0.25);
+    border-radius: 28px;
+    color: #4F5651;
+    text-align: center;
 }
 
-.card-image {
+.dash-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 52px;
+}
+
+/* ---------- Card ---------- */
+.dash-card {
     position: relative;
     display: flex;
-    align-items: flex-end;
-    height: 240px;
-    margin-bottom: 13px;
-    padding: 14px;
-    background: #DCE6DA;
-    border-radius: 22px;
-    color: #4F5651;
-    font-size: 12px;
-    overflow: hidden;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 14px 14px 20px;
+    border: 1.5px solid rgba(36, 72, 63, 0.12);
+    border-radius: 28px;
+    background: #fff;
+    transition: box-shadow 0.2s, transform 0.2s;
 }
 
-/* when you add real photos: <img> inside .card-image */
-.card-image img {
+.dash-card:hover {
+    box-shadow: 0 12px 32px rgba(36, 72, 63, 0.1);
+    transform: translateY(-2px);
+}
+
+.dash-photo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 230px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #DCE6DA;
+    color: #6E8A80;
+}
+
+.dash-photo img {
     position: absolute;
-    left: 0;
-    top: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.badge {
+.dash-badge {
     position: absolute;
     left: 14px;
     top: 14px;
-    z-index: 1;
     display: inline-flex;
     align-items: center;
     height: 30px;
@@ -202,116 +306,99 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     font-weight: 500;
 }
 
-.badge-rec { background: #24483F; color: #fff; }
+.dash-badge-forest { background: #24483F; color: #fff; }
+.dash-badge-line { border: 1.5px solid #24483F; background: #fff; color: #24483F; }
 
-.badge-pop {
-    background: #fff;
-    color: #24483F;
-    border: 1.5px solid #24483F;
-}
-
-.heart {
-    position: absolute;
-    right: 14px;
-    top: 14px;
-    z-index: 1;
+.dash-card-body {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    background: #fff;
-    border-radius: 50%;
-    color: #24483F;
-    font-size: 22px;
+    flex: 1;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    padding: 18px 8px 0;
 }
 
-.card h3 {
-    padding: 0 8px;
-    font-size: 27px;
-    line-height: 1.15;
-}
+.dash-card-body h3 { font-size: 26px; line-height: 1.15; }
 
-.card p {
+.dash-price {
     margin: 0;
-    padding: 0 8px;
-    font-size: 16px;
-    color: #4F5651;
-}
-
-.card .price {
+    color: #24483F;
     font-size: 18px;
     font-weight: 700;
-    color: #24483F;
 }
 
-.card .btn {
-    align-self: flex-start;
-    margin: auto 0 0 8px;   /* pushes the button to the bottom of the card */
-}
+.dash-price span { color: #4F5651; font-weight: 500; }
 
-.explore-btn {
+.dash-place {
     display: flex;
-    width: fit-content;
-    height: 60px;
-    margin: 52px auto 0;
-    padding: 0 32px;
-    font-size: 18px;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: #4F5651;
+    font-size: 15px;
+}
+
+/* the button sits at the bottom; its ::after makes the whole card clickable */
+.dash-card-link {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.dash-card-body .dash-place { margin-bottom: 12px; }
+
+.dash-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
 }
 
 
-/*  TABLET (768px design)  */
+/* ============ TABLET (768px design) ============ */
 @media (max-width: 1024px) {
+    .dash-messages { padding-top: 20px; }
 
-    .hero { grid-template-columns: minmax(0, 1fr) 250px; gap: 28px; padding: 76px 40px 0; }
-    .hero-text { gap: 16px; }
-    .hero-text h1 { font-size: 44px; }
-    .hero-text p { font-size: 17px; }
-    .hero-text .btn { height: 54px; padding: 0 26px; font-size: 16px; }
-    .hero-image { border-radius: 22px; }
+    .dash-hero { gap: 32px; padding-top: 40px; }
+    .dash-hero-text { gap: 18px; }
+    .dash-hero-text h1 { font-size: 44px; }
+    .dash-lead { font-size: 17px; }
+    .dash-pill-forest { height: 54px; padding-left: 26px; font-size: 16px; }
+    .dash-hero-image { height: 340px; border-radius: 26px; }
 
-    .listings { padding: 64px 32px 0; }
-    .listings + .listings { padding-top: 72px; }
-    .section-header h2 { font-size: 36px; }
-    .section-header p { font-size: 17px; }
-    .section-header > a { font-size: 16px; }
+    .dash-section { padding-top: 64px; }
+    .dash-section-head h2 { font-size: 36px; }
+    .dash-section-head p:not(.dash-eyebrow) { font-size: 17px; }
 
-    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
-    .card { padding: 14px 14px 22px; border-radius: 26px; }
-    .card-image { height: 200px; margin-bottom: 11px; border-radius: 20px; }
-    .card h3 { font-size: 24px; }
-    .card p { font-size: 15px; }
-    .card .price { font-size: 17px; }
-    .card .btn { height: 46px; padding: 0 22px; font-size: 15px; }
-
-    .explore-btn { height: 58px; padding: 0 30px; font-size: 17px; }
-
+    .dash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+    .dash-photo { height: 200px; }
+    .dash-card-body h3 { font-size: 24px; }
 }
 
-/* MOBILE (390px design) */
+
+/* ============ MOBILE (390px design) ============ */
 @media (max-width: 600px) {
+    /* the navbar uses 22px side space on phones */
+    .dash-page { --dash-edge: 22px; }
 
-    .hero { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 36px 20px 0; }
-    .hero-text h1 { font-size: 40px; }
-    .hero-text p { font-size: 16px; }
-    .hero-text .btn { width: 100%; height: 56px; font-size: 17px; }
-    .hero-image { height: 170px; border-radius: 24px; }
+    .dash-messages { padding-top: 16px; }
 
-    .listings { padding: 52px 20px 0; }
-    .listings + .listings { padding-top: 60px; }
-    .section-header { flex-direction: column; gap: 4px; }
-    .section-header h2 { font-size: 32px; }
-    .section-header p { font-size: 16px; }
-    .section-header > a { font-size: 17px; }
+    .dash-hero { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 28px; }
+    .dash-hero-text h1 { font-size: 40px; }
+    .dash-lead { font-size: 16px; }
+    .dash-hero-actions { width: 100%; }
+    .dash-hero-actions .dash-pill { width: 100%; justify-content: space-between; }
+    .dash-hero-image { height: 220px; border-radius: 24px; }
+    .dash-hero-image figcaption { left: 14px; bottom: 14px; }
 
-    .cards { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 24px; }
-    .card { padding: 12px 12px 20px; }
-    .card-image { height: 190px; margin-bottom: 9px; }
-    .card h3 { font-size: 26px; }
-    .card p { font-size: 16px; }
-    .card .price { font-size: 18px; }
-    .card .btn { align-self: stretch; margin: auto 0 0; height: 52px; font-size: 16px; }
+    .dash-section { padding-top: 52px; }
+    .dash-section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .dash-section-head h2 { font-size: 32px; }
+    .dash-section-head p:not(.dash-eyebrow) { font-size: 16px; }
 
-    .explore-btn { width: 100%; height: 58px; margin-top: 32px; padding: 0 28px; font-size: 17px; }
+    .dash-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 24px; }
+    .dash-photo { height: 200px; }
+    .dash-card-link { align-self: stretch; justify-content: space-between; }
 
+    .dash-more { margin-top: 32px; }
+    .dash-more .dash-pill { width: 100%; justify-content: space-between; }
 }

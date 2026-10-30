@@ -2,10 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap");
 
 /* =====================================================
-   BASE.CSS - shared header + footer for every page that
-   extends base.html. Styles copied from the home page
-   (login/static/css/home.css). All classes start with
-   "site-" so they never clash with page CSS.
+   BASE.CSS - shared footer for every page that extends base.html.
+   The top navigation lives in site-nav.css.
+   All classes start with "site-" so they never clash with page CSS.
    ===================================================== */
 
 :root {
@@ -20,202 +19,10 @@
   --hf-grey: #4f5651;
 }
 
-/* Sizes include padding + border (home.css does the same with * { box-sizing }).
-   Only for the header and footer, so other page CSS is not affected. */
-.site-header,
-.site-header *,
+/* Sizes include padding + border, only inside the footer. */
 .site-footer,
 .site-footer * {
   box-sizing: border-box;
-}
-
-/* ============ HEADER ============ */
-
-/* Sticky: stays at the top while scrolling.
-   Distance from the page edge copied from home:
-   left/right = body 12px + page-frame 8px + hero 28px = 48px (more on screens wider than 1424px)
-   top        = body 12px + page-frame 8px + hero 22px = 42px (30px margin + 12px padding;
-                the margin scrolls away, so only a 12px cream band stays above the pill) */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100; /* above the dropdown (20) and page content */
-  margin-top: 30px;
-  padding: 12px max(48px, calc((100% - 1328px) / 2)) 12px;
-  background: var(--hf-cream);
-}
-
-.site-nav {
-  position: relative;
-  z-index: 5;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 68px;
-  padding: 8px 8px 8px 24px;
-  border: 1px solid rgba(36, 72, 63, 0.1);
-  border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(36, 72, 63, 0.08);
-  color: var(--hf-forest);
-}
-
-.site-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  color: var(--hf-forest);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 22px;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.site-brand-icon {
-  display: inline-flex;
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--hf-sage);
-  color: var(--hf-forest);
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 19px;
-}
-
-.site-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.site-nav-links a {
-  padding: 10px 16px;
-  border-radius: 999px;
-  color: var(--hf-forest);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.site-nav-links a:hover {
-  background: var(--hf-sage);
-  color: var(--hf-forest);
-}
-
-/* ============ USER MENU (approved profile design, scaled to home proportions) ============ */
-
-.site-user-menu {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.site-user-summary {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px 5px 5px;
-  border: 1.5px solid var(--hf-forest);
-  border-radius: 999px;
-  background: var(--hf-sage);
-  color: var(--hf-forest);
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  list-style: none;
-}
-
-/* hide the little triangle browsers add to <summary> */
-.site-user-summary::-webkit-details-marker {
-  display: none;
-}
-
-.site-user-avatar {
-  display: inline-flex;
-  width: 32px;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--hf-forest);
-  color: #faf7f0;
-  overflow: hidden;
-}
-
-.site-user-avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.site-user-chevron {
-  flex: none;
-  transition: transform 0.15s ease;
-}
-
-.site-user-menu[open] .site-user-chevron {
-  transform: rotate(180deg);
-}
-
-.site-user-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  z-index: 30;
-  display: flex;
-  width: 232px;
-  box-sizing: border-box;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(36, 72, 63, 0.12);
-  border-radius: 22px;
-  background: #ffffff;
-  box-shadow: 0 14px 36px rgba(36, 72, 63, 0.16);
-}
-
-.site-user-dropdown a {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 12px;
-  padding: 0 14px;
-  border-radius: 14px;
-  color: var(--hf-forest);
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.site-user-dropdown a svg {
-  flex: none;
-}
-
-.site-user-dropdown a:hover {
-  background: var(--hf-sage);
-}
-
-.site-user-dropdown a.site-user-current {
-  background: var(--hf-forest);
-  color: #ffffff;
-}
-
-.site-user-divider {
-  height: 1px;
-  margin: 4px 14px;
-  background: rgba(36, 72, 63, 0.12);
 }
 
 /* ============ FOOTER ============ */
@@ -296,26 +103,6 @@
 /* ============ TABLET ============ */
 
 @media (max-width: 1024px) {
-  /* home keeps the same 48px side distance on tablet, so .site-header is not changed here */
-
-  .site-nav {
-    min-height: 60px;
-    padding-left: 18px;
-  }
-
-  .site-brand {
-    font-size: 20px;
-  }
-
-  .site-nav-links {
-    gap: 0;
-    font-size: 13px;
-  }
-
-  .site-nav-links a {
-    padding: 8px 10px;
-  }
-
   .site-footer {
     gap: 24px;
     margin: 40px 24px 24px;
@@ -326,42 +113,6 @@
 /* ============ MOBILE ============ */
 
 @media (max-width: 600px) {
-  /* home on mobile: body 5px + page-frame 5px + hero 12px = 22px */
-  .site-header {
-    margin-top: 10px;
-    padding: 12px 22px 10px;
-  }
-
-  .site-nav {
-    flex-wrap: wrap;
-    min-height: 0;
-    gap: 8px;
-    padding: 10px 12px;
-    border-radius: 24px;
-  }
-
-  .site-brand {
-    font-size: 19px;
-  }
-
-  .site-brand-icon {
-    width: 27px;
-    height: 27px;
-  }
-
-  /* the links move to their own row under the logo and the user menu */
-  .site-nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    padding-top: 4px;
-    font-size: 13px;
-  }
-
-  .site-nav-links a {
-    padding: 7px 8px;
-  }
-
   .site-footer {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 24px 14px;

@@ -544,3 +544,14 @@
   .about-cta::before,
   .about-cta::after { display: none; }
 }
+/* ---------- Breadcrumb ---------- */
+/* Look comes from breadcrumb.css; this only sets the spacing. */
+.about-crumb { padding: 28px 36px 0; }
+
+@media (max-width: 1024px) {
+  .about-crumb { padding: 22px 24px 0; }
+}
+
+@media (max-width: 600px) {
+  .about-crumb { padding: 16px 20px 0; }
+}

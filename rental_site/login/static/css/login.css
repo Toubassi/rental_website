@@ -738,3 +738,10 @@ svg {
   }
 }
  
+/* ---------- Breadcrumb ---------- */
+/* Look comes from breadcrumb.css; this only sets the spacing. */
+/* Spans both columns of the login grid */
+.login-crumb {
+  grid-column: 1 / -1;
+  margin-bottom: -32px;
+}
