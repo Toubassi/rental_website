@@ -40,16 +40,13 @@
             <!-- When the user is logged in, display their username. Otherwise,
             show Sign Up and Log In. This helps users recognize their account
             status and access account options.   -->
-            <!-- {% if current_user %} -->
-            <!-- <a href="" class="auth-button auth-button-light"> -->
-            <!-- {{ current_user.username }} -->
-            <!-- </a> -->
-            <!-- {% else %} -->
-            <a href="/register/" class="auth-button auth-button-light"
-              >Sign Up</a
-            >
-            <a href="/login/" class="auth-button">Log In</a>
-            <!-- {% endif %} -->
+                {% if request.session.username %}
+              <a href="{% url 'dashboard' %}" class="auth-button auth-button-light">{{ request.session.username }}</a>
+              <a href="/logout/" class="auth-button">Sign Out</a>
+            {% else %}
+              <a href="/register/" class="auth-button auth-button-light">Sign Up</a>
+              <a href="/login/" class="auth-button">Log In</a>
+            {% endif %}
           </div>
         </nav>
 
