@@ -66,6 +66,8 @@ def accommodation(request):
 
 
 def explore(request):
+    if 'username' not in request.session:
+        return redirect('login')
     properties = Property.objects.filter(is_available=True).order_by('-created_at')
 
     cards = []

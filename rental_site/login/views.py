@@ -4,11 +4,15 @@ from django.contrib import messages
 from django.db import IntegrityError
 import bcrypt
 from datetime import datetime
-
+from properties.models import Property
 
 # Create your views here.
 def home(request):
-  return render(request, 'home.html')
+    properties = Property.objects.filter(is_available=True).order_by('-created_at')
+
+    return render(request, 'home.html', {
+        'properties': properties
+    })
 
 def login(request):
   if request.method == "POST":
