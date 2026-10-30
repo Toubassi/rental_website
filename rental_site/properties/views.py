@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import LandLord , Property , PropertyImage
+from .models import LandLord , Property , PropertyImage, UserProfile
 from django.db import transaction, DatabaseError
 from django.contrib import messages
 from login.models import User, EMAIL_REGEX
@@ -123,6 +123,7 @@ def user_profile(request):
             username = request.POST.get('username', '').strip()
             email = request.POST.get('email', '').strip().lower()
             dob = request.POST.get('date_of_birth', '')
+            avatar = request.FILES.get('avatar')
 
             errors = []
             if not name:
@@ -137,6 +138,11 @@ def user_profile(request):
                 errors.append("This email is already used.")
             if not dob:
                 errors.append("Please enter your date of birth.")
+            if avatar:
+                if not avatar.content_type.startswith('image/'):
+                    errors.append("The profile picture must be an image.")
+                elif avatar.size > 2 * 1024 * 1024:
+                    errors.append("The picture must be smaller than 2 MB.")
 
             if errors:
                 for error in errors:
@@ -147,6 +153,10 @@ def user_profile(request):
                 user.email = email
                 user.dob = dob
                 user.save()
+                if avatar:
+                    profile, created = UserProfile.objects.get_or_create(user=user)
+                    profile.avatar = avatar
+                    profile.save()
                 request.session['username'] = username
                 messages.success(request, "Your profile was updated.")
             return redirect('profile')
@@ -168,7 +178,8 @@ def user_profile(request):
                 messages.success(request, "Your password was changed.")
             return redirect('profile')
 
-    return render(request, 'user-profile.html', {'profile_user': user})
+    profile = UserProfile.objects.filter(user=user).first()
+    return render(request, 'user-profile.html', {'profile_user': user, 'profile': profile})
 
 
 def admin_access(request):
