@@ -25,7 +25,7 @@ def login(request):
       if user is None:
           return redirect('login')
 
-      if not check_password(password, user.password):
+      if not bcrypt.checkpw(password.encode(), user.password.encode()):
           return redirect('login')
 
       request.session['username'] = user.username
