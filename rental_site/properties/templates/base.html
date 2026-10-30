@@ -35,9 +35,13 @@
                         <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
             <details class="site-user-menu">
                 <summary class="site-user-summary">
-                    <span class="site-user-avatar" aria-hidden="true">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-                    </span>
+                  <span class="site-user-avatar" aria-hidden="true">
+    {% if header_avatar_url %}
+        <img src="{{ header_avatar_url }}" alt="" class="site-user-avatar-img">
+    {% else %}
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    {% endif %}
+                </span>
                     {# 'username' is the session key set by login and register in login/views.py #}
                     <span>{{ request.session.username|default:"Guest" }}</span>
                     <svg class="site-user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
