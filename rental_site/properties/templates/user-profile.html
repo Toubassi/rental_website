@@ -14,6 +14,13 @@
 {% endblock %}
 
 {% block content %}
+  {% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
     <main class="profile-content">
       <!-- ============ BREADCRUMB ============ -->
       <nav class="profile-breadcrumb" aria-label="Breadcrumb">
@@ -33,7 +40,7 @@
           to date.
         </p>
       </section>
-
+      
       <!-- ============ PROFILE SUMMARY ============ -->
       <section class="profile-summary-card">
         <div class="profile-avatar-large" aria-hidden="true">♙</div>
@@ -47,7 +54,7 @@
             Full Name
             <!-- {% endif %} -->
           </h2>
-
+          
           <p>
             <span aria-hidden="true">♙</span>
             <!-- {% if user.is_authenticated %} @{{ user.username }} {% else %} -->
@@ -96,7 +103,7 @@
                 required
               />
             </div>
-
+            
             <div class="profile-field">
               <label for="username">Username</label>
 
@@ -105,7 +112,7 @@
                 id="username"
                 name="username"
                 class="profile-input"
-                placeholder="Choose a username"
+                placeholder="{{ profile_user.username }}"
                 value="{{ user.username }}"
                 required
               />
@@ -119,7 +126,7 @@
                 id="email"
                 name="email"
                 class="profile-input"
-                placeholder="Enter your email address"
+                placeholder="{{ profile_user.email }}"
                 value="{{ user.email }}"
                 required
               />
@@ -133,6 +140,7 @@
                 id="date-of-birth"
                 name="date_of_birth"
                 class="profile-input"
+                value="{{ profile_user.dob }}"
               />
             </div>
           </div>

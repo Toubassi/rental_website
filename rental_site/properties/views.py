@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from .models import LandLord , Property , PropertyImage
 from django.db import transaction, DatabaseError
 from django.contrib import messages
-from login.models import User
+from login.models import User, EMAIL_REGEX
+import bcrypt
 
 # Create your views here.
 def dashboard(request):
@@ -83,10 +84,70 @@ def details(request):
         return redirect('/login/')
     return render(request, 'details.html')
 
+
 def user_profile(request):
     if 'username' not in request.session:
         return redirect('/login/')
-    return render(request, 'user-profile.html')
+
+    user = User.objects.filter(username=request.session['username']).first()
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+
+        if form_type == 'profile':
+            name = request.POST.get('full_name', '').strip()
+            username = request.POST.get('username', '').strip()
+            email = request.POST.get('email', '').strip().lower()
+            dob = request.POST.get('date_of_birth', '')
+
+            errors = []
+            if not name:
+                errors.append("Please enter your full name.")
+            if not username:
+                errors.append("Please enter a username.")
+            elif User.objects.filter(username=username).exclude(id=user.id).exists():
+                errors.append("This username is already taken.")
+            if not EMAIL_REGEX.match(email):
+                errors.append("Please enter a valid email.")
+            elif User.objects.filter(email=email).exclude(id=user.id).exists():
+                errors.append("This email is already used.")
+            if not dob:
+                errors.append("Please enter your date of birth.")
+
+            if errors:
+                for error in errors:
+                    messages.error(request, error)
+            else:
+                user.name = name
+                user.username = username
+                user.email = email
+                user.dob = dob
+                user.save()
+                request.session['username'] = username
+                messages.success(request, "Your profile was updated.")
+            return redirect('profile')
+
+        elif form_type == 'password':
+            current = request.POST.get('current_password', '')
+            new = request.POST.get('new_password', '')
+            confirm = request.POST.get('confirm_password', '')
+
+            if not bcrypt.checkpw(current.encode(), user.password.encode()):
+                messages.error(request, "Your current password is incorrect.")
+            elif len(new) < 8:
+                messages.error(request, "The new password must be at least 8 characters.")
+            elif new != confirm:
+                messages.error(request, "The new passwords do not match.")
+            else:
+                user.password = bcrypt.hashpw(new.encode(), bcrypt.gensalt()).decode()
+                user.save()
+                messages.success(request, "Your password was changed.")
+            return redirect('profile')
+
+    return render(request, 'user-profile.html', {'profile_user': user})
 
 
 def admin_access(request):
