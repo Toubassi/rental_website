@@ -32,7 +32,6 @@
 
           <div class="navigation-links">
             <a href="/">Home</a>
-            <a href="/explore/">Explore</a>
             <a href="/about/">About</a>
             <a href="/contact/">Contact</a>
           </div>
@@ -78,180 +77,71 @@
 
       <main>
         <!-- Explore section -->
-        <section class="home-section">
-          <div
-            class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4"
-          >
-            <div>
-              <p class="eyebrow">Find your fit</p>
-              <h2 class="section-heading">Explore Your Next Home</h2>
-            </div>
+<section class="home-section">
+  <div
+    class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4"
+  >
+    <div>
+      <p class="eyebrow">Find your fit</p>
+      <h2 class="section-heading">Explore Your Next Home</h2>
+    </div>
 
-            <p class="section-description">
-              Discover places that fit your lifestyle and budget.
-            </p>
+    <p class="section-description">
+      Discover places that fit your lifestyle and budget.
+    </p>
+  </div>
+
+  <div class="category-grid-container">
+    <div class="category-grid">
+
+      {% for property in properties %}
+        <article class="category-card">
+          <div class="image-placeholder">
+            {% with image=property.propertyimage_set.first %}
+              {% if image %}
+                <img src="{{ image.image_url.url }}" alt="{{ property.title }}">
+              {% endif %}
+            {% endwith %}
           </div>
 
-          <!-- {# Later, a Jinja loop can replace these example cards with properties
-          retrieved from the database. Each card can show a real apartment image
-          and details, so new listings appear automatically without editing the
-          HTML. #} -->
-          <div class="category-grid-container">
-            <div class="category-grid">
-              <article class="category-card">
-                <div
-                  class="image-placeholder"
-                  role="img"
-                  aria-label="Apartment image placeholder"
-                >
-                  <img
-                    src="{% static 'images/appartment-pic.png' %}"
-                    alt="appartment"
-                  />
-                </div>
-                <p class="category-name">Contact {{ landlord }}</p>
-              </article>
+          <p class="category-name">{{ property.title }}</p>
+        </article>
+      {% endfor %}
 
-              <article class="category-card">
-                <div
-                  class="image-placeholder"
-                  role="img"
-                  aria-label="Studio image placeholder"
-                >
-                  <img
-                    src="{% static 'images/studio-app.png' %}"
-                    alt="studio-apart"
-                  />
-                </div>
-                <p class="category-name">Contact {{ landlord }}</p>
-              </article>
+    </div>
+  </div>
+</section>
 
-              <article class="category-card">
-                <div
-                  class="image-placeholder"
-                  role="img"
-                  aria-label="Family home image placeholder"
-                >
-                  <img
-                    src="{% static 'images/living-room.jpg' %}"
-                    alt="appartment1"
-                  />
-                </div>
-                <p class="category-name">Contact {{ landlord }}</p>
-              </article>
+<!-- About HomeFinder section -->
+<section class="home-section about-section">
+  <div class="about-grid">
+    <div class="about-side">
+      <p class="eyebrow">About us</p>
 
-              <article class="category-card">
-                <div
-                  class="image-placeholder"
-                  role="img"
-                  aria-label="Furnished apartment image placeholder"
-                >
-                  <img
-                    src="{% static 'images/appartment2.jpeg' %}"
-                    alt="appartment2"
-                  />
-                </div>
-                <p class="category-name">Contact {{ landlord }}</p>
-              </article>
+      <ul class="about-tags">
+        <li>Students</li>
+        <li>Working Professionals</li>
+        <li>Accommodation Providers</li>
+      </ul>
+    </div>
 
-              <article class="category-card">
-                <div
-                  class="image-placeholder"
-                  role="img"
-                  aria-label="More property images placeholder"
-                >
-                  <img src="{% static 'images/appartment3.jpg' %}" alt="" />
-                </div>
-                <p class="category-name">Contact {{ landlord }}</p>
-              </article>
-            </div>
-          </div>
+    <div class="about-text">
+      <h2 class="about-heading">A Better Way to Find Your Next Home</h2>
 
-          <div class="category-action">
-            <a href="" class="home-btn home-btn-dark">
-              Browse All Apartments ↗
-            </a>
-          </div>
-        </section>
+      <p>
+        HomeFinder helps students and working professionals discover suitable
+        accommodation and connect with accommodation providers. We keep the
+        search simple and welcoming, so finding a place that feels like home
+        takes less stress.
+      </p>
+    </div>
+  </div>
 
-        <!-- Search section -->
-        <section class="home-section pt-2">
-          <div class="story-grid">
-            <div class="search-panel">
-              <p class="eyebrow">Your search, simplified</p>
-              <h3 class="h5 mb-4">Find a home that fits</h3>
-
-              <!-- {# These fields will later become part of the apartment search
-              form. They will help users filter listings by their preferred
-              location, budget, and number of bedrooms. #} -->
-
-              <form action="" method="get">
-                <label for="location">Location</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="location"
-                  name="location"
-                  placeholder="Enter a city or area"
-                />
-
-                <label for="max-rent">Maximum monthly rent</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="max-rent"
-                  name="max_rent"
-                  placeholder="Enter your budget"
-                />
-
-                <label for="bedrooms">Bedrooms</label>
-                <select class="form-select" id="bedrooms" name="bedrooms">
-                  <option value="">Any number</option>
-                  <option value="1">1 bedroom</option>
-                  <option value="2">2 bedrooms</option>
-                  <option value="3">3 bedrooms</option>
-                  <option value="4">4+ bedrooms</option>
-                </select>
-
-                <button type="submit" class="home-btn home-btn-dark w-100">
-                  Search Apartments ↗
-                </button>
-              </form>
-            </div>
-
-            <div class="story-text">
-              <p class="eyebrow">A simpler way to search</p>
-
-              <h2 class="section-heading">
-                A Better Way to Find Your Next Home
-              </h2>
-
-              <p>
-                Finding a place to live should feel exciting, not overwhelming.
-                Browse apartment listings, compare details, and contact
-                landlords when you find a place that feels right.
-              </p>
-
-              <a href="" class="home-btn home-btn-dark"> Discover More ↗ </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- Large image section -->
-        <!-- <section class="home-section pt-0"> -->
-        <!-- {# Replace this placeholder with an actual apartment photo later.
-          Property photos give users a better understanding of the space before
-          contacting a landlord. #} -->
-
-        <!-- <div -->
-        <!-- class="image-placeholder wide-placeholder" -->
-        <!-- role="img" -->
-        <!-- aria-label="Featured apartment image placeholder" -->
-        <!-- > -->
-        <!-- <img src="{% static 'images/shared-space.jpeg' %}" alt="shared-space"> -->
-        <!-- </div> -->
-        <!-- </section> -->
-
+  <figure class="about-image">
+    <img src="{% static 'images/shared-space.jpeg' %}" alt="Shared living space" />
+    <figcaption>Photo: shared living space</figcaption>
+  </figure>
+</section>
         <!-- Why choose us section -->
 
         <section class="home-section pt-0">
