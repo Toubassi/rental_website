@@ -48,9 +48,9 @@ def register(request):
       return redirect('/register/')
 
     if User.objects.count() == 0:
-      level = 0
-    else:
       level = 1
+    else:
+      level = 0
 
     name = request.POST['name'].strip()
     username = request.POST['username'].strip()
