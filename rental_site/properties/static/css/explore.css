@@ -682,7 +682,7 @@ legend {
   padding: 10px;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: 36px;
   transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
 }
  

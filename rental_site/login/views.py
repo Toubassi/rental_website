@@ -32,7 +32,7 @@ def login(request):
         correct_pass = False
 
       if not correct_pass:
-        messages.error(request, 'wrong email or passowrd.')
+        messages.error(request, 'wrong email or password.')
         return redirect('login')
 
       request.session['username'] = user.username

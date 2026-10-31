@@ -34,7 +34,7 @@
   max-width: 1328px; /* 1400px minus 36px on each side, lines up with the header */
   margin: 48px max(36px, calc((100% - 1328px) / 2)) 36px;
   padding: 48px 40px 28px;
-  border-radius: 28px;
+  border-radius: 36px;
   background: var(--hf-footer);
   color: var(--hf-cream);
   font-family: "DM Sans", system-ui, sans-serif;
@@ -138,4 +138,25 @@
     padding-top: 18px;
     font-size: 11px;
   }
+}
+
+.site-message {
+  max-width: 1328px;
+  margin: 16px auto;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.site-message-success {
+  background: #dce6da;
+  border: 1.5px solid #24483f;
+  color: #24483f;
+}
+.site-message-error {
+  background: #faf7f0;
+  border: 1.5px solid #c8795a;
+  color: #292d2a;
 }
