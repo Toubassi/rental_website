@@ -1086,3 +1086,39 @@ select:focus-visible {
     font-size: 10px;
   }
 }
+
+/* ============ MATCH THE NAVBAR WIDTH ============ */
+/* --home-edge is the navbar's side space (site-nav.css .site-header),
+   so the hero, sections, call to action and footer line up with
+   the navbar's left and right edges. Placed last so it wins. */
+.page-frame { --home-edge: max(48px, calc((100% - 1328px) / 2)); }
+
+.hero,
+.cta-section,
+.site-footer {
+  margin-left: var(--home-edge);
+  margin-right: var(--home-edge);
+}
+
+.home-section {
+  padding-left: var(--home-edge);
+  padding-right: var(--home-edge);
+}
+
+/* the navbar uses 22px side space on phones */
+@media (max-width: 600px) {
+  .page-frame { --home-edge: 22px; }
+}
+
+/* ============ SPACE ABOVE THE NAVBAR ============ */
+/* Here the navbar sits inside the page frame. The top space of the
+   body and frame is removed, so only the navbar's 12px top padding
+   stays above it, the same as on every other page. */
+body { padding-top: 0; }
+.page-frame { padding-top: 0; }
+
+/* phones: same, the body and frame top space is removed */
+@media (max-width: 600px) {
+  body { padding-top: 0; }
+  .page-frame { padding-top: 0; }
+}

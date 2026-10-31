@@ -1317,3 +1317,16 @@ dd {
     scroll-behavior: auto;
   }
 }
+
+/* ---------- Page width = navbar width ---------- */
+/* The navbar's side space (site-nav.css .site-header): 48px, or more on
+   very wide screens, and 22px on phones. Placed last so it wins over
+   the side spacing set above. */
+.page {
+  max-width: none;
+  padding-left: max(48px, calc((100% - 1328px) / 2));
+  padding-right: max(48px, calc((100% - 1328px) / 2));
+}
+@media (max-width: 600px) {
+  .page { padding-left: 22px; padding-right: 22px; }
+}

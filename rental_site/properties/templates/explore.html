@@ -15,9 +15,8 @@
     />
  
     <!-- our custom style -->
-    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/explore.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/explore.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
   </head>
  
   <body>
@@ -27,8 +26,6 @@
     {% include "partials/site_nav.html" %}
  
     <main class="page">
-      <!-- BREADCRUMB -->
-      {% include "partials/breadcrumb.html" with current="Explore Accommodation" extra_class="explore-crumb" %}
 
       <!-- Introduction -->
       <section class="intro" aria-labelledby="page-title">

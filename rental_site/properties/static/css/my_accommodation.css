@@ -416,3 +416,18 @@
     height: 52px;
   }
 }
+
+/* ---------- Page width = navbar width ---------- */
+/* The navbar's side space (site-nav.css .site-header): 48px, or more on
+   very wide screens, and 22px on phones. Placed last so it wins over
+   the side spacing set above. */
+.myacc-page { --myacc-edge: max(48px, calc((100% - 1328px) / 2)); }
+.myacc-heading,
+.myacc-summary,
+.myacc-listings {
+  padding-left: var(--myacc-edge);
+  padding-right: var(--myacc-edge);
+}
+@media (max-width: 600px) {
+  .myacc-page { --myacc-edge: 22px; }
+}

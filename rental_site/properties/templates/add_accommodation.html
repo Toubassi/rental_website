@@ -10,9 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}">
-  <link rel="stylesheet" href="{% static 'css/site-nav.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}?v=3">
+  <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
 </head>
 <body class="aa-body">
 
@@ -21,9 +20,6 @@
 
   <!-- PAGE CONTENT -->
   <main class="aa-page">
-
-    <!-- BREADCRUMB -->
-    {% include "partials/breadcrumb.html" with parent_label="My Accommodation" parent_url="/accommodation/" current="Add Accommodation" extra_class="aa-crumb" %}
 
     <!-- INTRODUCTION -->
     <section class="aa-intro">
@@ -35,7 +31,6 @@
     <section class="aa-form-wrap" aria-label="Add accommodation form">
       <form class="aa-form" method="post" action="{% url 'add_accommodation' %}" enctype="multipart/form-data" id="add-form">
         {% csrf_token %}
-
 
         {% if errors %}
           <div class="aa-alert" role="alert">

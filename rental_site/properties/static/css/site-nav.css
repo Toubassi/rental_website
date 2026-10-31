@@ -30,13 +30,13 @@
 /* Sticky: stays at the top while scrolling.
    Distance from the page edge copied from home:
    left/right = body 12px + page-frame 8px + hero 28px = 48px (more on screens wider than 1424px)
-   top        = body 12px + page-frame 8px + hero 22px = 42px (30px margin + 12px padding;
-                the margin scrolls away, so only a 12px cream band stays above the pill) */
+   top        = 12px padding only (no margin), the same small gap as the home page;
+                it is also the cream band above the pill while scrolling */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100; /* above the dropdown (20) and page content */
-  margin-top: 30px;
+  margin-top: 0;
   padding: 12px max(48px, calc((100% - 1328px) / 2)) 12px;
   background: var(--hf-cream);
 }
@@ -293,7 +293,7 @@
 @media (max-width: 600px) {
   /* home on mobile: body 5px + page-frame 5px + hero 12px = 22px */
   .site-header {
-    margin-top: 10px;
+    margin-top: 0;
     padding: 12px 22px 10px;
   }
 

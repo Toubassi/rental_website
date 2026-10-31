@@ -565,3 +565,32 @@ def update_booking_status(request, booking_id):
     messages.success(request, "Booking status updated successfully!")
 
     return redirect('/my-booking-requests/')
+  
+def admin_user_detail(request, id):
+    username = request.session.get('username')
+    if not username:
+        return redirect('login')
+    current = User.objects.filter(username=username).first()
+    if not current or current.user_level != 1:
+        return redirect('/dashboard/')
+    target = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        new_username = request.POST.get('username', '').strip()
+        new_email = request.POST.get('email', '').strip()
+        if not new_username or not new_email:
+            messages.error(request, 'Username and email are required.')
+        elif User.objects.filter(username=new_username).exclude(id=target.id).exists():
+            messages.error(request, 'That username is already taken.')
+        elif User.objects.filter(email=new_email).exclude(id=target.id).exists():
+            messages.error(request, 'That email is already used.')
+        else:
+            target.username = new_username
+            target.email = new_email
+            target.save()
+            if target.id == current.id:
+                request.session['username'] = new_username
+            messages.success(request, 'User updated.')
+        return redirect('admin-user-detail', id=target.id)
+
+    return render(request, 'admin-user-detail.html', {'target': target})

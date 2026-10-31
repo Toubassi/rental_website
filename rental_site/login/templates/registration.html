@@ -13,7 +13,6 @@
  
   <!-- Bootstrap 5 from our own static folder -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
   <link rel="stylesheet" href="{% static 'css/register.css' %}">
 </head>
 <body class="reg-body">
@@ -46,7 +45,6 @@
           </header>
  
           <div class="reg-content">
-            {% include "partials/breadcrumb.html" with home_url="/" current="Create Account" extra_class="reg-crumb" %}
             <h1 class="reg-title">Create Your Account</h1>
             <p class="reg-subtitle">Find a place to call home.</p>
  

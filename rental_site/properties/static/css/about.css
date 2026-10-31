@@ -555,3 +555,105 @@
 @media (max-width: 600px) {
   .about-crumb { padding: 16px 20px 0; }
 }
+
+/* ---------- Page width and size = the rest of the website ---------- */
+/* --about-edge is the navbar's side space (site-nav.css .site-header),
+   so every section lines up with the navbar's left and right edges.
+   Placed last so it wins over the spacing set above. */
+.about-page { --about-edge: max(48px, calc((100% - 1328px) / 2)); }
+
+.about-hero,
+.about-mission,
+.about-who {
+  padding-left: var(--about-edge);
+  padding-right: var(--about-edge);
+}
+
+.about-different,
+.about-cta {
+  margin-left: var(--about-edge);
+  margin-right: var(--about-edge);
+}
+
+/* hero: same height as the home page hero (420px) instead of 840px,
+   and the text starts right at the navbar's edge */
+.about-hero {
+  min-height: 420px;
+  margin-top: 48px;
+}
+.about-hero-text {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* less empty space between sections (96px, like the Contact page) */
+.about-mission,
+.about-who { padding-top: 96px; }
+.about-different { margin-top: 96px; }
+
+/* tablets: the hero is stacked, so it needs no minimum height */
+@media (max-width: 1024px) {
+  .about-hero { min-height: 0; margin-top: 0; }
+  .about-hero-image { height: 360px; }
+}
+
+/* the navbar uses 22px side space on phones */
+@media (max-width: 600px) {
+  .about-page { --about-edge: 22px; }
+  .about-hero-image { height: 260px; }
+  .about-mission,
+  .about-who { padding-top: 56px; }
+  .about-different { margin-top: 56px; }
+}
+
+/* ---------- Smaller text and pictures, same sizes as the home page ---------- */
+/* headings: same sizes as the home page hero and section headings */
+.about-hero h1 { font-size: clamp(36px, 4.4vw, 54px); }
+.about-page h2 { font-size: clamp(28px, 3.2vw, 40px); }
+
+/* body text: 16-17px like the home page */
+.about-lead,
+.about-mission-text p { font-size: 17px; }
+.about-cta p { font-size: 16px; }
+
+/* buttons */
+.about-pill-forest,
+.about-pill-cream { height: 50px; padding: 0 7px 0 24px; font-size: 16px; }
+.about-ico { width: 36px; height: 36px; }
+.about-link { font-size: 16px; }
+
+/* hero picture and mission picture */
+.about-hero { min-height: 340px; }
+.about-mission { grid-template-columns: minmax(0, 1fr) minmax(0, 360px); }
+.about-mission-art { height: 260px; }
+.about-mission-art svg { width: 130px; height: 130px; }
+
+/* cards */
+.about-cards { margin-top: 32px; gap: 20px; }
+.about-card { gap: 14px; padding: 26px; border-radius: 28px; }
+.about-card-icon { width: 48px; height: 48px; }
+.about-card-icon svg { width: 24px; height: 24px; }
+.about-cards-sage .about-card { min-height: 0; }
+.about-cards-sage .about-card h3,
+.about-cards-cream .about-card h3 { font-size: 22px; margin-bottom: 6px; }
+.about-card p { font-size: 15px; }
+
+/* the white box and the green box: less inner space */
+.about-different { padding: 56px 44px; }
+.about-cta { gap: 16px; padding: 72px 48px; }
+.about-cta::before { height: 200px; width: 150px; }
+.about-cta::after  { height: 240px; width: 150px; }
+
+@media (max-width: 1024px) {
+  .about-hero-image { height: 300px; }
+  .about-mission { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .about-hero h1 { font-size: 34px; }
+  .about-page h2 { font-size: 28px; }
+  .about-hero-image { height: 220px; }
+  .about-mission-art { height: 200px; }
+  .about-different { padding: 36px 20px; }
+  .about-cta { padding: 48px 22px; }
+}
