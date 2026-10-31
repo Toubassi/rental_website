@@ -25,6 +25,9 @@ class Property(models.Model):
         self.view_count += 1
         self.save()
 
+    def get_images(self):
+        return self.propertyimage_set.all().order_by('created_at')
+
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     image_url = models.ImageField(upload_to='properties/')

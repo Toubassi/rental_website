@@ -102,6 +102,9 @@ def details(request, id):
     property.increase_views()
     context = {
         'property': property,
+        'images': property.get_images(),
+        'landlord': property.landlord,
+        'currency': '₪',
     }
     return render(request, 'details.html', context)
 
