@@ -31,8 +31,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 32px;
-  max-width: 1328px; /* 1400px minus 36px on each side, lines up with the header */
-  margin: 48px max(36px, calc((100% - 1328px) / 2)) 36px;
+  max-width: 1328px;
+  margin: 48px max(48px, calc((100% - 1328px) / 2)) 36px; /* same side space as the navbar, so both line up */
   padding: 48px 40px 28px;
   border-radius: 36px;
   background: var(--hf-footer);
@@ -105,7 +105,7 @@
 @media (max-width: 1024px) {
   .site-footer {
     gap: 24px;
-    margin: 40px 24px 24px;
+    margin: 40px 48px 24px; /* navbar keeps 48px on tablets */
     padding: 40px 30px 24px;
   }
 }
@@ -116,7 +116,7 @@
   .site-footer {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 24px 14px;
-    margin: 32px 12px 12px;
+    margin: 32px 22px 12px; /* navbar uses 22px on phones */
     padding: 30px 20px 20px;
     border-radius: 22px;
   }

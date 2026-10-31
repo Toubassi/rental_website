@@ -1111,17 +1111,14 @@ select:focus-visible {
 }
 
 /* ============ SPACE ABOVE THE NAVBAR ============ */
-/* Here the navbar sits inside the page frame. The navbar's own
-   30px top margin and the top space of the body and frame are
-   removed, so only the navbar's 12px top padding stays above it
-   (that 12px is also the cream band above it when scrolling). */
-.page-frame .site-header { margin-top: 0; }
+/* Here the navbar sits inside the page frame. The top space of the
+   body and frame is removed, so only the navbar's 12px top padding
+   stays above it, the same as on every other page. */
 body { padding-top: 0; }
 .page-frame { padding-top: 0; }
 
 /* phones: same, the body and frame top space is removed */
 @media (max-width: 600px) {
-  .page-frame .site-header { margin-top: 0; }
   body { padding-top: 0; }
   .page-frame { padding-top: 0; }
 }
