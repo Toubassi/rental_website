@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>My Booking Requests | HomeFinder</title>
+        <link rel="stylesheet" href="{% static 'css/booking-requests.css' %}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,8 +33,8 @@
       </header>
 
       <!-- Messages -->
-      {% if messages %} {% for message in messages %}
-      <p>{{ message }}</p>
+            {% if messages %} {% for message in messages %}
+      <p class="booking-message {{ message.tags }}">{{ message }}</p>
       {% endfor %} {% endif %}
 
       <!-- Booking Requests -->
@@ -72,28 +73,24 @@
 
                 <td>₪{{ booking.agreed_price }}</td>
 
-                <td>{{ booking.status|title }}</td>
+                                <td>
+                  <span class="booking-status booking-status-{{ booking.status }}">{{ booking.status|title }}</span>
+                </td>
                 <td>
                   {% if booking.status == 'pending' %}
+                  <div class="booking-actions">
+                    <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="status" value="approved" />
+                      <button type="submit" class="booking-btn booking-btn-approve">Approve</button>
+                    </form>
 
-                  <form
-                    method="POST"
-                    action="{% url 'update_booking_status' booking.id %}"
-                  >
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value="approved" />
-                    <button type="submit">Approve</button>
-                  </form>
-
-                  <form
-                    method="POST"
-                    action="{% url 'update_booking_status' booking.id %}"
-                  >
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value="rejected" />
-                    <button type="submit">Reject</button>
-                  </form>
-
+                    <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="status" value="rejected" />
+                      <button type="submit" class="booking-btn booking-btn-reject">Reject</button>
+                    </form>
+                  </div>
                   {% endif %}
                 </td>
               </tr>
