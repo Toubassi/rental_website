@@ -17,6 +17,7 @@
     />
 
     <!-- our custom style -->
+    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
     <link rel="stylesheet" href="{% static 'css/details.css' %}?v=3" />
     <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
   </head>
@@ -415,8 +416,7 @@
                   src="{{ landlord.user.avatar.url }}"
                   alt=""
                 />
-                {% else %} {# no photo: show the first letter of the name
-                instead #}
+                {% else %}
                 <span class="provider-avatar" aria-hidden="true"
                   >{{ landlord.user.name|first|upper }}</span
                 >
