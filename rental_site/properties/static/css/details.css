@@ -5,7 +5,7 @@
  
 :root {
   --forest: #24483f;
-  --forest-dark: #1a3730;
+  --forest-dark: #1B332D;
   --cream: #faf7f0;
   --terracotta: #c8795a;
   --terracotta-ink: #a65d3e;
@@ -13,9 +13,9 @@
   --charcoal: #292d2a;
   --white: #ffffff;
  
-  --muted: #5b645f;
+  --muted: #4F5651;
   --border: #e3ddcf;
-  --field-border: #848f89;
+  --field-border: #839A90;
   --field-tint: #f1f4ee;
   --error: #a63f26;
  

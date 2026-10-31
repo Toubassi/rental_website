@@ -169,7 +169,7 @@
   align-items: flex-start;
   gap: 20px;
   padding: 28px;
-  border-radius: 26px;
+  border-radius: 36px;
   background: #DCE6DA;
   border: 1.5px solid rgba(36, 72, 63, 0.14);
 }
@@ -416,7 +416,7 @@
 
   .contact-form-card {
     padding: 28px;
-    border-radius: 32px;
+    border-radius: 36px;
     box-shadow: 0 10px 30px rgba(36, 72, 63, 0.08);
   }
   .contact-form-card h2 { margin-bottom: 16px; font-size: 30px; }
