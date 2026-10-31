@@ -1,29 +1,5 @@
-{% comment %}
-  Shared breadcrumb trail. Every page includes this and passes its own steps:
-
-    {% include "partials/breadcrumb.html" with current="My Profile" %}
-
-  Options:
-    current       name of this page (required)
-    parent_label  optional middle step, e.g. "Explore Accommodation"
-    parent_url    link for the middle step
-    home_label    first step's text (default "Home")
-    home_url      first step's link (default: the dashboard)
-    extra_class   page class that sets the spacing around the trail
-{% endcomment %}
-{% url 'dashboard' as dashboard_url %}
-<nav class="hf-crumb{% if extra_class %} {{ extra_class }}{% endif %}" aria-label="Breadcrumb">
-  <ol>
-    <li><a href="{{ home_url|default:dashboard_url }}">{{ home_label|default:"Home" }}</a></li>
-    {% if parent_label %}
-      <li>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        <a href="{{ parent_url }}">{{ parent_label }}</a>
-      </li>
-    {% endif %}
-    <li aria-current="page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-      {{ current }}
-    </li>
-  </ol>
+<nav class="breadcrumbs {{ extra_class }}" aria-label="Breadcrumb">
+  <a href="{{ parent_url }}">{{ parent_label }}</a>
+  <span aria-hidden="true"> / </span>
+  <span aria-current="page">{{ current }}</span>
 </nav>
