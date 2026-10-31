@@ -23,40 +23,40 @@
       <!-- ============ SIDEBAR ============ -->
       <aside class="admin-sidebar">
         <a href="{% url 'admin-dashboard' %}" class="admin-brand">
-          <span class="brand-icon">⌂</span>
+          <span class="brand-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span>
           <span>HomeFinder</span>
         </a>
 
         <div class="admin-label">
-          <span>◉</span>
-          ADMIN PANEL
+          <span class="admin-label-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/></svg></span>
+          Admin Panel
         </div>
 
         <nav class="admin-nav" aria-label="Admin navigation">
           <a href="/admin-dashboard/" class="admin-nav-link">
-            <span class="nav-icon">▦</span>
+            <span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
             Dashboard
           </a>
 
           <a href="/admin-manage-users/" class="admin-nav-link">
-            <span class="nav-icon">♙</span>
+            <span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span>
             Manage Users
           </a>
 
           <a href="/admin-manage-properties/" class="admin-nav-link active">
-            <span class="nav-icon">⌂</span>
+            <span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span>
             Manage Accommodation
           </a>
         </nav>
 
         <div class="sidebar-bottom">
           <a href="/dashboard/" class="sidebar-bottom-link">
-            <span>↗</span>
+            <span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></span>
             View Public Website
           </a>
 
           <a href="/logout/" class="sidebar-bottom-link">
-            <span>⇥</span>
+            <span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></span>
             Sign Out
           </a>
         </div>
@@ -77,10 +77,10 @@
           </div>
 
           <div class="admin-profile">
-            <div class="profile-avatar">♙</div>
+            <div class="profile-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></div>
 
             <div class="profile-info">
-              <!-- <strong>{{ admin_name|default:"Admin Name" }}</strong> -->
+              <strong>{{ request.session.username }}</strong>
               <span>Administrator</span>
             </div>
           </div>
