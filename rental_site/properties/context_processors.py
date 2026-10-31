@@ -6,6 +6,9 @@ def header_avatar(request):
     if not username:
         return {}
     user = User.objects.filter(username=username).first()
-    if user and user.avatar:
-        return {'header_avatar_url': user.avatar.url}
-    return {}
+    if not user:
+        return {}
+    data = {'header_is_admin': user.user_level == 1}
+    if user.avatar:
+        data['header_avatar_url'] = user.avatar.url
+    return data
