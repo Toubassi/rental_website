@@ -1330,3 +1330,42 @@ dd {
 @media (max-width: 600px) {
   .page { padding-left: 22px; padding-right: 22px; }
 }
+
+/* ===== Message the Provider box (uses the page's existing colors) ===== */
+.msg-label {
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.msg-field {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--field-border);
+  border-radius: 20px;
+  background: var(--field-tint);
+  font: inherit;
+  color: var(--charcoal);
+  resize: vertical;
+}
+
+#message-form .privacy {
+  margin-top: 0;
+}
+
+#message-form button.btn {
+  font: inherit;
+  font-weight: 600;
+}
+
+.msg-alert {
+  margin-bottom: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: var(--sage);
+  color: var(--forest);
+}
+
+.msg-alert-error {
+  background: #f6e3dc;
+  color: var(--error);
+}

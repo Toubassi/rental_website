@@ -15,7 +15,7 @@
     />
  
     <!-- our custom style -->
-    <link rel="stylesheet" href="{% static 'css/details.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'css/details.css' %}?v=4" />
     <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
   </head>
  
@@ -147,7 +147,7 @@
               </dl>
  
               <div class="panel-actions">
-                <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta" data-contact>
+                <a href="#message-form" class="btn btn-cta" data-contact>
                   <span class="btn-label">Contact Provider</span>
                   <span class="btn-arrow" aria-hidden="true">
                     <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
@@ -218,7 +218,7 @@
                       <dd><a href="mailto:{{ landlord.user.email }}">{{ landlord.user.email }}</a></dd>
                     </div>
                   </dl>
-                  <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta btn-inline" data-contact>
+                  <a href="#message-form" class="btn btn-cta btn-inline" data-contact>
                     <span class="btn-label">Contact Provider</span>
                     <span class="btn-arrow" aria-hidden="true">
                       <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
@@ -228,6 +228,26 @@
                 </div>
               </section>
             {% endif %}
+
+            <!-- Message box: saves the message and emails HomeFinder (the sender's email comes from their account) -->
+            <section class="block" id="message-form" aria-labelledby="message-title">
+              <h2 id="message-title">Message the Provider</h2>
+              {% for message in messages %}
+                <p class="msg-alert {% if message.tags == 'error' %}msg-alert-error{% endif %}" role="status">{{ message }}</p>
+              {% endfor %}
+              <form action="{% url 'send_message' property.id %}" method="post" class="provider-card">
+                {% csrf_token %}
+                <label class="msg-label" for="msg-text">Your message</label>
+                <textarea class="msg-field" id="msg-text" name="message" rows="5" required placeholder="Hi, is this accommodation still available?"></textarea>
+                <p class="privacy">We'll reply to the email on your HomeFinder account.</p>
+                <button type="submit" class="btn btn-cta btn-inline">
+                  <span class="btn-label">Send Message</span>
+                  <span class="btn-arrow" aria-hidden="true">
+                    <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
+                  </span>
+                </button>
+              </form>
+            </section>
           </div>
         </div>
       {% endif %}
@@ -240,7 +260,7 @@
           <span class="mb-label">Monthly rent</span>
           {% if property.monthly_rent %}<strong>{{ currency }}{{ property.monthly_rent }} <small>/ month</small></strong>{% else %}<strong>Price not listed</strong>{% endif %}
         </div>
-        <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta btn-compact" data-contact>
+        <a href="#message-form" class="btn btn-cta btn-compact" data-contact>
           <span class="btn-label">Contact Provider</span>
           <span class="btn-arrow" aria-hidden="true">
             <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
@@ -292,6 +312,6 @@
       </div>
     </footer>
  
-    <script src="{% static 'js/details.js' %}" defer></script>
+    <script src="{% static 'js/details.js' %}?v=2" defer></script>
   </body>
 </html>

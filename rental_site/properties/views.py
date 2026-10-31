@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import LandLord , Property , PropertyImage
+from django.urls import reverse
+from .models import LandLord , Property , PropertyImage, Message
 from django.db import transaction, DatabaseError
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import EmailMessage
 from login.models import User, EMAIL_REGEX
 import bcrypt
 
@@ -31,7 +34,25 @@ def about(request):
 def contact(request):
     # Contact is open to everyone: visitors and logged-in users
     if request.method == 'POST':
-        messages.success(request, "Thanks, we received your message.")
+        errors = Message.objects.contact_validator(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request, error)
+            return redirect('contact')
+
+        name = request.POST['full_name'].strip()
+        email = request.POST['email'].strip()
+        letter = EmailMessage(
+            subject="HomeFinder Contact: " + request.POST['subject'].strip(),
+            body=f"From: {name} <{email}>\n\n{request.POST['message'].strip()}",
+            to=[settings.HOMEFINDER_NOTIFY_EMAIL],   # the site's own inbox
+            reply_to=[email],                   # "Reply" answers the visitor
+        )
+        try:
+            letter.send()
+            messages.success(request, "Thanks, your message was sent. We'll reply by email soon.")
+        except (OSError, ValueError):
+            messages.error(request, "Sorry, the message could not be sent. Please try again later.")
         return redirect('contact')
     return render(request, 'contact.html')
 
@@ -107,6 +128,37 @@ def details(request, id):
         'currency': '₪',
     }
     return render(request, 'details.html', context)
+
+def send_message(request, id):
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(username=request.session['username']).first()
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    property = get_object_or_404(Property, id=id)
+    if request.method != 'POST':
+        return redirect('details', id=id)
+
+    errors = Message.objects.message_validator(request.POST, user)
+    back = reverse('details', args=[id]) + '#message-form'   # back to the message box, so the result is in view
+    if errors:
+        for error in errors.values():
+            messages.error(request, error)
+        return redirect(back)
+
+    message = Message.objects.create(
+        message=request.POST['message'].strip(),
+        profile_user=user,
+        property=property,
+    )
+    if message.send_notification():
+        messages.success(request, "Your message was sent. The provider will reply to your email.")
+    else:
+        messages.warning(request, "Your message was saved, but the email notification could not be sent.")
+    return redirect(back)
 
 def all_properties(request):
     return redirect('explore')

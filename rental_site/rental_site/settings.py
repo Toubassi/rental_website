@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -127,8 +128,23 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+# Your HomeFinder Gmail: sends the notifications and receives them
+HOMEFINDER_EMAIL = os.environ.get('HOMEFINDER_EMAIL', 'sajedah.almahsere@gmail.com')
+
+# Django 6.1 keeps the email settings inside MAILERS (the old EMAIL_* names are not allowed with it)
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS': {
+            'host': 'smtp.gmail.com',
+            'port': 587,
+            'use_tls': True,
+            'username': HOMEFINDER_EMAIL,
+            # The Gmail App Password is read from the computer, never written in the code
+            'password': os.environ.get('HOMEFINDER_EMAIL_PASSWORD', ''),
+        },
     },
 }
+
+DEFAULT_FROM_EMAIL = f"HomeFinder Support <{HOMEFINDER_EMAIL}>"   # "From" on every email: a name + your Gmail
+HOMEFINDER_NOTIFY_EMAIL = HOMEFINDER_EMAIL     # where landlord-message notifications go
