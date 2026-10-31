@@ -17,6 +17,8 @@ class Property(models.Model):
     monthly_rent = models.PositiveBigIntegerField()  #<-- blocks negative rent.
     city = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -19,6 +19,13 @@
     <!-- our custom style -->
     <link rel="stylesheet" href="{% static 'css/details.css' %}?v=3" />
     <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
+    <!-- leaflet API --->
+     <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
   </head>
 
   <body {% if not not_found %}class="has-mobile-bar" {% endif %}>
@@ -125,7 +132,11 @@
 
     <main class="page" id="main">
       <!-- Breadcrumb: the middle step returns to the search results (back_url) or to Explore -->
-      {% url 'explore' as explore_url %} {% if not_found %} {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Not available" extra_class="crumbs" %} {% else %} {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Accommodation Details" extra_class="crumbs" %} {% endif %} {% if not_found %}
+      {% url 'explore' as explore_url %} {% if not_found %} {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Not available" extra_class="crumbs" %}
+      {% else %} 
+      {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Accommodation Details" extra_class="crumbs" %} 
+      {% endif %} 
+      {% if not_found %}
       <!-- ===== State: accommodation not found / no longer available ===== -->
       <section class="empty empty-lg" aria-labelledby="nf-title">
         <span class="empty-icon" aria-hidden="true">
@@ -352,6 +363,7 @@
           {% endif %} {% if property.city or property.address %}
           <section class="block" aria-labelledby="location-title">
             <h2 id="location-title">Location</h2>
+            <div id="property-map" data-latitude="{{ property.latitude|default:'' }}" data-longitude="{{ property.longitude|default:'' }}"></div>
             <div class="location-card">
               <span class="am-icon" aria-hidden="true">
                 <svg
@@ -604,7 +616,11 @@
         </p>
       </div>
     </footer>
-
+    <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+</script>
     <script src="{% static 'js/details.js' %}" defer></script>
   </body>
 </html>
