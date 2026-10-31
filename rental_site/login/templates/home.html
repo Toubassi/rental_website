@@ -16,44 +16,14 @@
     />
     <!-- our custom style -->
     <link href="{% static 'css/home.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/site-nav.css' %}" rel="stylesheet" />
   </head>
   <body>
     <div class="page-frame">
+            {% include "partials/site_nav.html" %}
       <!-- Header and hero -->
       <header class="hero">
-        <nav
-          class="d-flex align-items-center justify-content-between flex-wrap gap-3"
-          aria-label="Main navigation"
-        >
-          <a href="{% url 'index' %}" class="brand">
-            <span class="brand-icon" aria-hidden="true">⌂</span>
-            HomeFinder
-          </a>
-
-          <div class="navigation-links">
-            <a href="/">Home</a>
-            <a href="/about/">About</a>
-            <a href="/contact/">Contact</a>
-          </div>
-
-          <div class="d-flex align-items-center gap-2">
-            <!-- When the user is logged in, display their username. Otherwise,
-            show Sign Up and Log In. This helps users recognize their account
-            status and access account options.   -->
-                {% if request.session.username %}
-                            <a href="{% url 'dashboard' %}" class="auth-button auth-button-light">
-                {% if header_avatar_url %}
-                  <img src="{{ header_avatar_url }}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;">
-                {% endif %}
-                {{ request.session.username }}
-              </a>
-              <a href="/logout/" class="auth-button">Sign Out</a>
-            {% else %}
-              <a href="/register/" class="auth-button auth-button-light">Sign Up</a>
-              <a href="/login/" class="auth-button">Log In</a>
-            {% endif %}
-          </div>
-        </nav>
+        
 
         <div class="hero-content">
           <p class="eyebrow">A better way to find home</p>
