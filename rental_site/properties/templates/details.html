@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% if not_found %}Accommodation not found{% else %}{{ item.title }}{% endif %} | HomeFinder</title>
+    <title>{% if not_found %}Accommodation not found{% else %}{{ property.title }}{% endif %} | HomeFinder</title>
  
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,7 +70,7 @@
           <h1 id="nf-title">This accommodation isn’t available</h1>
           <p>It may have been removed by the provider, or the link may be incorrect. You can browse other places that fit your needs and budget.</p>
           <div class="empty-actions">
-            <a href="{{ back_url }}" class="btn btn-cta">
+            <a href="{% url 'explore' %}" class="btn btn-cta">
               <span>Back to Explore</span>
               <span class="btn-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg></span>
             </a>
@@ -79,15 +79,16 @@
         </section>
       {% else %}
         <!-- ===== Photo gallery ===== -->
-        {% if item.photos %}
-          <section class="gallery gallery--n{{ item.gallery_n }}" id="gallery" aria-label="Photos of {{ item.title }}" data-total="{{ item.photos|length }}">
+        {% if images %}
+          {# gallery--n1 to n4 picks the photo layout; 4 or more photos use the 4-photo layout #}
+          <section class="gallery gallery--n{% if images|length >= 4 %}4{% else %}{{ images|length }}{% endif %}" id="gallery" aria-label="Photos of {{ property.title }}" data-total="{{ images|length }}">
             <ul class="gallery-track" id="galleryTrack">
-              {% for photo in item.photos %}
+              {% for photo in images %}
                 <li class="g-item g-{{ forloop.counter }}">
-                  <a href="{{ photo.url }}" data-photo data-index="{{ forloop.counter0 }}" aria-label="Open photo {{ forloop.counter }} of {{ item.photos|length }}">
+                  <a href="{{ photo.image_url.url }}" data-photo data-index="{{ forloop.counter0 }}" aria-label="Open photo {{ forloop.counter }} of {{ images|length }}">
                     <img
-                      src="{{ photo.url }}"
-                      alt="{{ item.title }}, photo {{ forloop.counter }} of {{ item.photos|length }}"
+                      src="{{ photo.image_url.url }}"
+                      alt="{{ property.title }}, photo {{ forloop.counter }} of {{ images|length }}"
                       {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
                       onerror="this.remove()"
                     />
@@ -96,9 +97,9 @@
               {% endfor %}
             </ul>
  
-            {% if item.photos|length > 1 %}
+            {% if images|length > 1 %}
               <div class="gallery-tools">
-                <p class="photo-count" id="photoCount" aria-hidden="true">1 / {{ item.photos|length }}</p>
+                <p class="photo-count" id="photoCount" aria-hidden="true">1 / {{ images|length }}</p>
                 <button type="button" class="view-all" id="viewAll" hidden>
                   <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-grid" /></svg>
                   <span>View all photos</span>
@@ -118,20 +119,15 @@
           <!-- ===== Main information ===== -->
           <header class="head">
             <div class="chips">
-              <span class="type-badge">{{ item.type_label }}</span>
-              {% if item.availability %}
-                <span class="status"><i aria-hidden="true"></i>{{ item.availability }}</span>
-              {% endif %}
+              {# The type badge comes back once Property has a property_type field (Explore filters work) #}
+              <span class="status"><i aria-hidden="true"></i>{% if property.is_available %}Available{% else %}Not available{% endif %}</span>
             </div>
-            <h1>{{ item.title }}</h1>
-            {% if item.location %}
+            <h1>{{ property.title }}</h1>
+            {% if property.city %}
               <p class="where">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pin" /></svg>
-                <span>{{ item.location }}</span>
+                <span>{{ property.city }}</span>
               </p>
-            {% endif %}
-            {% if item.summary %}
-              <p class="summary">{{ item.summary }}</p>
             {% endif %}
           </header>
  
@@ -140,35 +136,33 @@
             <div class="panel-card">
               <div class="panel-price">
                 <p class="panel-label">Monthly rent</p>
-                {% if item.price %}
-                  <p class="price-big"><span class="amount">{{ currency }}{{ item.price }}</span> <span class="per">/ month</span></p>
+                {% if property.monthly_rent %}
+                  <p class="price-big"><span class="amount">{{ currency }}{{ property.monthly_rent }}</span> <span class="per">/ month</span></p>
                 {% else %}
                   <p class="price-big price-missing">Price not listed</p>
                 {% endif %}
               </div>
- 
+
               <dl class="panel-facts">
                 <div>
                   <dt>Rental period</dt>
                   <dd>Monthly</dd>
                 </div>
-                {% if item.availability %}
-                  <div class="panel-availability">
-                    <dt>Availability</dt>
-                    <dd>{{ item.availability }}</dd>
-                  </div>
-                {% endif %}
+                <div class="panel-availability">
+                  <dt>Availability</dt>
+                  <dd>{% if property.is_available %}Available{% else %}Not available{% endif %}</dd>
+                </div>
               </dl>
  
               <div class="panel-actions">
-                <a href="{{ contact_url }}" class="btn btn-cta" data-contact>
+                <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta" data-contact>
                   <span class="btn-label">Contact Provider</span>
                   <span class="btn-arrow" aria-hidden="true">
                     <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
                     <span class="spinner"></span>
                   </span>
                 </a>
-                <a href="{{ back_url }}" class="btn btn-outline">
+                <a href="{% url 'explore' %}" class="btn btn-outline">
                   <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow-left" /></svg>
                   <span>Back to Explore</span>
                 </a>
@@ -177,42 +171,15 @@
           </aside>
  
           <div class="main-col">
-            {% if item.paragraphs or item.facts %}
+            {% if property.desc %}
               <section class="block" aria-labelledby="about-title">
                 <h2 id="about-title">About This Accommodation</h2>
-                {% for para in item.paragraphs %}
-                  <p class="prose">{{ para }}</p>
-                {% endfor %}
-                {% if item.facts %}
-                  <dl class="facts">
-                    {% for fact in item.facts %}
-                      <div>
-                        <dt>{{ fact.label }}</dt>
-                        <dd>{{ fact.value }}</dd>
-                      </div>
-                    {% endfor %}
-                  </dl>
-                {% endif %}
+                {# linebreaksbr keeps the line breaks the landlord typed #}
+                <p class="prose">{{ property.desc|linebreaksbr }}</p>
               </section>
             {% endif %}
- 
-            {% if item.amenities %}
-              <section class="block" aria-labelledby="amenities-title">
-                <h2 id="amenities-title">Features &amp; Amenities</h2>
-                <ul class="amenities">
-                  {% for a in item.amenities %}
-                    <li>
-                      <span class="am-icon" aria-hidden="true">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><use href="#i-{{ a.icon }}" /></svg>
-                      </span>
-                      <span>{{ a.label }}</span>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endif %}
- 
-            {% if item.location or item.location_note %}
+
+            {% if property.city or property.address %}
               <section class="block" aria-labelledby="location-title">
                 <h2 id="location-title">Location</h2>
                 <div class="location-card">
@@ -220,33 +187,46 @@
                     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pin" /></svg>
                   </span>
                   <div>
-                    {% if item.location %}<p class="loc-name">{{ item.location }}</p>{% endif %}
-                    {% if item.location_note %}<p class="prose">{{ item.location_note }}</p>{% endif %}
+                    {% if property.city %}<p class="loc-name">{{ property.city }}</p>{% endif %}
+                    {% if property.address %}<p class="prose">{{ property.address }}</p>{% endif %}
                     <p class="privacy">For privacy, only the general area is shown. Ask the provider for the exact address.</p>
                   </div>
                 </div>
               </section>
             {% endif %}
  
-            {% if item.provider.name %}
+            {% if landlord %}
               <section class="block" aria-labelledby="provider-title">
                 <h2 id="provider-title">Accommodation Provider</h2>
                 <div class="provider-card">
                   <div class="provider-id">
-                    {% if item.provider.photo_url %}
-                      <img class="provider-avatar" src="{{ item.provider.photo_url }}" alt="" />
+                    {% if landlord.user.avatar %}
+                      <img class="provider-avatar" src="{{ landlord.user.avatar.url }}" alt="" />
                     {% else %}
-                      <span class="provider-avatar" aria-hidden="true">{{ item.provider.initials }}</span>
+                      {# no photo: show the first letter of the name instead #}
+                      <span class="provider-avatar" aria-hidden="true">{{ landlord.user.name|first|upper }}</span>
                     {% endif %}
                     <div>
-                      <h3>{{ item.provider.name }}</h3>
+                      <h3>{{ landlord.user.name }}</h3>
                       <p class="provider-role">Accommodation provider</p>
                     </div>
                   </div>
-                  {% if item.provider.bio %}
-                    <p class="prose">{{ item.provider.bio }}</p>
+                  {% if landlord.bio %}
+                    <p class="prose">{{ landlord.bio }}</p>
                   {% endif %}
-                  <a href="{{ contact_url }}" class="btn btn-cta btn-inline" data-contact>
+                  <dl class="facts">
+                    {% if landlord.phone_num %}
+                      <div>
+                        <dt>Phone</dt>
+                        <dd><a href="tel:{{ landlord.phone_num }}">{{ landlord.phone_num }}</a></dd>
+                      </div>
+                    {% endif %}
+                    <div>
+                      <dt>Email</dt>
+                      <dd><a href="mailto:{{ landlord.user.email }}">{{ landlord.user.email }}</a></dd>
+                    </div>
+                  </dl>
+                  <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta btn-inline" data-contact>
                     <span class="btn-label">Contact Provider</span>
                     <span class="btn-arrow" aria-hidden="true">
                       <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
@@ -266,9 +246,9 @@
       <div class="mobile-bar" id="mobileBar" hidden>
         <div class="mb-price">
           <span class="mb-label">Monthly rent</span>
-          {% if item.price %}<strong>{{ currency }}{{ item.price }} <small>/ month</small></strong>{% else %}<strong>Price not listed</strong>{% endif %}
+          {% if property.monthly_rent %}<strong>{{ currency }}{{ property.monthly_rent }} <small>/ month</small></strong>{% else %}<strong>Price not listed</strong>{% endif %}
         </div>
-        <a href="{{ contact_url }}" class="btn btn-cta btn-compact" data-contact>
+        <a href="mailto:{{ landlord.user.email }}" class="btn btn-cta btn-compact" data-contact>
           <span class="btn-label">Contact Provider</span>
           <span class="btn-arrow" aria-hidden="true">
             <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
@@ -277,7 +257,7 @@
         </a>
       </div>
  
-      {% if item.photos %}
+      {% if images %}
         <!-- Full-screen photo viewer, opened by "View all photos" or by tapping a photo -->
         <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
           <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="Close photo viewer">
