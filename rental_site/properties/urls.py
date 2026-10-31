@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('about/', views.about, name='about'),
@@ -9,6 +10,10 @@ urlpatterns = [
     path('details/<int:id>/', views.details, name='details'),
     path('properties/', views.all_properties, name='all-properties'),
     path('profile/', views.user_profile, name='profile'),
+
+    path('booking/<int:property_id>/', views.create_booking, name='create_booking'),
+    path('my-booking-requests/', views.my_booking_requests, name='my_booking_requests'),
+    path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
 
     path('admin-dashboard/', views.adminDashboard, name='admin-dashboard'),
     path('admin-manage-users/', views.admin_manage_users, name='admin-manage-users'),
