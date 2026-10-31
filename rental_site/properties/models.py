@@ -34,12 +34,26 @@ class PropertyImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class Booking(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    rental_type = models.CharField(max_length=20, default='monthly')
+
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    status = models.CharField(max_length=20, default='pending')
+
+    agreed_price = models.PositiveBigIntegerField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Message(models.Model):
     message = models.TextField()
     objects = MessageManager()
     profile_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages_written")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-    
