@@ -5,7 +5,7 @@ from django.contrib import messages
 from login.models import User, EMAIL_REGEX
 from datetime import date
 import bcrypt
-from django.db.models import Max
+from django.db.models import Max, Q
 
 # Create your views here.
 def dashboard(request):
@@ -81,6 +81,9 @@ def explore(request):
     min_price = request.GET.get('min_price', '').strip()
     max_price = (request.GET.get('max_price', '').strip()
                  or request.GET.get('max_top', '').strip())
+    q = request.GET.get('q', '').strip()
+    if q:
+       properties = properties.filter(Q(city__icontains=q) | Q(title__icontains=q))
     sort = request.GET.get('sort', 'newest')
 
     if min_price.isdigit():
@@ -119,11 +122,12 @@ def explore(request):
             'detail_url': '/details/',
         })
 
-    return render(request, 'explore.html', {
+        return render(request, 'explore.html', {
         'cards': cards,
         'currency': '₪',
-        'filters': {'min_price': min_price, 'max_price': max_price, 'sort': sort},
+        'filters': {'q': q, 'min_price': min_price, 'max_price': max_price, 'sort': sort},
         'sort_choices': sort_choices,
+        'count': len(cards),
         'price_limit': price_limit,
     })
 
