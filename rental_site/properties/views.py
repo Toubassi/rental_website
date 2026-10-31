@@ -6,7 +6,9 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
 from login.models import User, EMAIL_REGEX
+from datetime import date
 import bcrypt
+from django.db.models import Max, Q
 
 # Create your views here.
 def dashboard(request):
@@ -93,12 +95,43 @@ def accommodation(request):
 def explore(request):
     if 'username' not in request.session:
         return redirect('login')
-    properties = Property.objects.filter(is_available=True).order_by('-created_at')
+
+    available = Property.objects.filter(is_available=True)
+    properties = available
+
+    min_price = request.GET.get('min_price', '').strip()
+    max_price = (request.GET.get('max_price', '').strip()
+                 or request.GET.get('max_top', '').strip())
+    q = request.GET.get('q', '').strip()
+    if q:
+       properties = properties.filter(Q(city__icontains=q) | Q(title__icontains=q))
+    sort = request.GET.get('sort', 'newest')
+
+    if min_price.isdigit():
+        properties = properties.filter(monthly_rent__gte=int(min_price))
+    if max_price.isdigit():
+        properties = properties.filter(monthly_rent__lte=int(max_price))
+
+    sort_choices = [
+        ('newest', 'Newest first'),
+        ('popular', 'Most popular'),
+        ('price_asc', 'Price: low to high'),
+        ('price_desc', 'Price: high to low'),
+    ]
+    order = {
+        'newest': ('-created_at',),
+        'popular': ('-view_count', '-created_at'),
+        'price_asc': ('monthly_rent', '-created_at'),
+        'price_desc': ('-monthly_rent', '-created_at'),
+    }
+    properties = properties.order_by(*order.get(sort, order['newest']))
+
+    top = available.aggregate(Max('monthly_rent'))['monthly_rent__max'] or 1000
+    price_limit = ((int(top) // 100) + 1) * 100
 
     cards = []
     for property in properties:
         image = property.propertyimage_set.first()
-
         cards.append({
             'id': property.id,
             'title': property.title,
@@ -110,9 +143,13 @@ def explore(request):
             'detail_url': '/details/',
         })
 
-    return render(request, 'explore.html', {
+        return render(request, 'explore.html', {
         'cards': cards,
         'currency': '₪',
+        'filters': {'q': q, 'min_price': min_price, 'max_price': max_price, 'sort': sort},
+        'sort_choices': sort_choices,
+        'count': len(cards),
+        'price_limit': price_limit,
     })
 
 
@@ -236,6 +273,7 @@ def user_profile(request):
 
     return render(request, 'user-profile.html', {'profile_user': user})
 
+############# Admins #############3
 
 def admin_access(request):
     if 'username' not in request.session:
@@ -468,3 +506,179 @@ def delete_user(request, id):
     messages.success(request, 'User deleted successfully.')
 
     return redirect('/admin-dashboard/')
+
+
+##### making a booking ##############
+
+def create_booking(request, property_id):
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(username=request.session['username']).first()
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    property = get_object_or_404(Property, id=property_id)
+
+    if not property.is_available:
+        messages.error(request, "This property is unavailable.")
+        return redirect(f'/details/{property_id}/')
+
+    if user.id == property.landlord.user.id:
+        messages.error(request, "You cannot book your own property.")
+        return redirect(f'/details/{property_id}/')
+    
+    if request.method != 'POST':
+        return redirect(f'/details/{property_id}/')
+    ######## we dont want a booking to be created when the link is visited through url
+
+    rental_type = request.POST.get('rental_type')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    if not rental_type or not start_date or not end_date:
+        messages.error(request, "Please fill in all booking fields.")
+        return redirect(f'/details/{property_id}/')
+
+    if rental_type != 'monthly' and rental_type != 'flexible':
+        messages.error(request, "Invalid rental type.")
+        return redirect(f'/details/{property_id}/')
+
+
+    ################ not allowing past dates/invalid
+    try:
+        start_date = date.fromisoformat(start_date)
+        end_date = date.fromisoformat(end_date)
+    except ValueError:
+        messages.error(request, "Please enter valid dates.")
+        return redirect(f'/details/{property_id}/')
+
+
+    if end_date <= start_date:
+        messages.error(request, "The end date must be after the start date.")
+        return redirect(f'/details/{property_id}/')
+
+    if start_date < date.today():
+        messages.error(request, "You cannot book dates in the past.")
+        return redirect(f'/details/{property_id}/')
+
+    if rental_type == 'monthly':
+        agreed_price = property.monthly_rent
+    else:
+        daily_price = property.monthly_rent / 30
+        number_of_days = (end_date - start_date).days
+        agreed_price = round(daily_price * number_of_days)
+    
+    Booking.objects.create(
+        property=property, 
+        user=user,
+        rental_type=rental_type,
+        start_date=start_date,
+        end_date=end_date,
+        agreed_price=agreed_price
+        )
+
+    messages.success(request, "Your booking request was submitted successfully")
+    return redirect(f'/details/{property_id}/')
+
+def my_booking_requests(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(
+        username=request.session['username']
+    ).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    landlord = LandLord.objects.filter(user=user).first()
+
+    if landlord is None:
+        messages.error(request, "You are not registered as a landlord.")
+        return redirect('/dashboard/')
+
+    bookings = Booking.objects.filter(
+        property__landlord=landlord
+        ).order_by('-created_at')
+
+    context = {
+        'bookings': bookings
+        }
+
+    return render(request, 'my-booking-requests.html', context)
+
+def update_booking_status(request, booking_id):
+
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(
+        username=request.session['username']
+    ).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    landlord = LandLord.objects.filter(user=user).first()
+
+    if landlord is None:
+        return redirect('/dashboard/')
+
+    if request.method != 'POST':
+        return redirect('/my-booking-requests/')
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        property__landlord=landlord
+    )
+
+    new_status = request.POST.get('status')
+
+    if new_status != 'approved' and new_status != 'rejected':
+        messages.error(request, "Invalid booking action.")
+        return redirect('/my-booking-requests/')
+
+    if booking.status != 'pending':
+        messages.error(request, "This booking has already been processed.")
+        return redirect('/my-booking-requests/')
+
+    booking.status = new_status
+    booking.save()
+
+    messages.success(request, "Booking status updated successfully!")
+
+    return redirect('/my-booking-requests/')
+  
+def admin_user_detail(request, id):
+    username = request.session.get('username')
+    if not username:
+        return redirect('login')
+    current = User.objects.filter(username=username).first()
+    if not current or current.user_level != 1:
+        return redirect('/dashboard/')
+    target = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        new_username = request.POST.get('username', '').strip()
+        new_email = request.POST.get('email', '').strip()
+        if not new_username or not new_email:
+            messages.error(request, 'Username and email are required.')
+        elif User.objects.filter(username=new_username).exclude(id=target.id).exists():
+            messages.error(request, 'That username is already taken.')
+        elif User.objects.filter(email=new_email).exclude(id=target.id).exists():
+            messages.error(request, 'That email is already used.')
+        else:
+            target.username = new_username
+            target.email = new_email
+            target.save()
+            if target.id == current.id:
+                request.session['username'] = new_username
+            messages.success(request, 'User updated.')
+        return redirect('admin-user-detail', id=target.id)
+
+    return render(request, 'admin-user-detail.html', {'target': target})

@@ -161,3 +161,28 @@
     }).observe(panel);
     }
 })();
+
+
+// this line is for the leaflet API
+const mapElement = document.getElementById('property-map');
+
+if (mapElement && mapElement.dataset.latitude && mapElement.dataset.longitude) {
+
+    const latitude = Number(mapElement.dataset.latitude);
+    const longitude = Number(mapElement.dataset.longitude);
+
+    const map = L.map('property-map').setView([latitude, longitude], 15);
+
+    L.tileLayer(
+        'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_4z80_1_fc0cee5c32cd14966c85a76a',
+        {
+            attribution: 
+                '&copy; OpenStreetMap contributors &copy; CARTO',
+            maxZoom: 20
+        }
+    ).addTo(map);
+
+    L.marker([latitude, longitude]).addTo(map)
+        .bindPopup('Property location')
+        .openPopup();
+}
