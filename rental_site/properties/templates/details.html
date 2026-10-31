@@ -15,9 +15,8 @@
     />
  
     <!-- our custom style -->
-    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/details.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/details.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
   </head>
  
   <body {% if not not_found %}class="has-mobile-bar"{% endif %}>
@@ -53,13 +52,6 @@
     {% include "partials/site_nav.html" %}
  
     <main class="page" id="main">
-      <!-- Breadcrumb: the middle step returns to the search results (back_url) or to Explore -->
-      {% url 'explore' as explore_url %}
-      {% if not_found %}
-        {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Not available" extra_class="crumbs" %}
-      {% else %}
-        {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Accommodation Details" extra_class="crumbs" %}
-      {% endif %}
  
       {% if not_found %}
         <!-- ===== State: accommodation not found / no longer available ===== -->

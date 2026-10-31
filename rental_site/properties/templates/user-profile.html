@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/user-profile.css' %}?v=3" />
 {% endblock %}
 
 {% block content %}
@@ -22,8 +22,6 @@
   {% endfor %}
 {% endif %}
     <main class="profile-content">
-      <!-- ============ BREADCRUMB ============ -->
-      {% include "partials/breadcrumb.html" with current="My Profile" extra_class="profile-breadcrumb" %}
 
       <!-- ============ PAGE HEADING ============ -->
       <section class="profile-page-heading">
@@ -61,7 +59,6 @@
             {{ profile_user.email }}
           </p>
 
-        
         </div>
 
         <a href="#personal-information" class="profile-edit-button">

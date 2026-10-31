@@ -10,10 +10,9 @@
     {% block bootstrap %}{% endblock %}
 
     {# Shared header + footer (same style as the home page) #}
-    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}">
 
     {# Extra CSS for one page, e.g. user-profile.css #}
     {% block extra_css %}{% endblock %}

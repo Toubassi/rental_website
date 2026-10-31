@@ -15,58 +15,17 @@
     />
  
     <!-- our custom style -->
-    <link rel="stylesheet" href="{% static 'css/breadcrumb.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}?v=4" />
+    <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
   </head>
  
   <body>
     <a class="skip-link" href="#signin-form">Skip to sign in</a>
  
-    <!-- Floating pill navigation -->
-    <header class="site-header">
-      <nav class="nav-pill" id="nav" aria-label="Main navigation">
-        <a href="/" class="brand">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2.5 3.5 9v12.5h6.2v-6.3h4.6v6.3h6.2V9L12 2.5z" />
-          </svg>
-          <span>HomeFinder</span>
-        </a>
- 
-        <button
-          type="button"
-          class="nav-toggle"
-          id="navToggle"
-          aria-expanded="false"
-          aria-controls="navMenu"
-          aria-label="Open menu"
-        >
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
- 
-        <div class="nav-menu" id="navMenu">
-          <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About Us</a></li>
-            <li><a href="/contact/">Contact</a></li>
-            <li><a href="/login/" class="is-active" aria-current="page">Sign In</a></li>
-          </ul>
-          <a href="/register/" class="btn btn-nav">
-            <span>Get Started</span>
-            <span class="btn-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7M8 7h9v9" />
-              </svg>
-            </span>
-          </a>
-        </div>
-      </nav>
-    </header>
+    <!-- Shared navbar, the same one as the rest of the website -->
+    {% include "partials/site_nav.html" %}
  
     <main class="login-layout">
-      <!-- BREADCRUMB -->
-      {% include "partials/breadcrumb.html" with home_url="/" current="Log In" extra_class="login-crumb" %}
 
       <!-- Left: welcome -->
       <section class="welcome" aria-labelledby="welcome-title">
@@ -210,7 +169,7 @@
       </section>
     </main>
  
-    <script src="{% static 'js/login.js' %}" defer></script>
+    <script src="{% static 'js/login.js' %}?v=2" defer></script>
   </body>
 </html>
  

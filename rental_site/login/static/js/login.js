@@ -14,11 +14,13 @@
   const navToggle = document.getElementById("navToggle");
  
   /* ---- Mobile menu ---- */
-  navToggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  });
+  if (nav && navToggle) {
+    navToggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
+  }
  
   /* ---- Show / hide password ---- */
   pwToggle.addEventListener("click", () => {

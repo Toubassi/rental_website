@@ -180,15 +180,6 @@ svg {
  
 /* ---------- Floating pill navigation ---------- */
  
-.site-header {
-  position: fixed;
-  top: 16px;
-  right: 0;
-  left: 0;
-  z-index: 50;
-  padding: 0 16px;
-  pointer-events: none;
-}
  
 .nav-pill {
   position: relative;
@@ -290,7 +281,7 @@ svg {
   max-width: 1280px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 112px 40px 40px;
+  padding: 32px 40px 40px; /* the navbar is now part of the page, not floating over it */
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   gap: 56px;
@@ -618,7 +609,7 @@ svg {
 @media (max-width: 960px) {
   .login-layout {
     min-height: 0;
-    padding: 104px 24px 40px;
+    padding: 24px 24px 40px;
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -693,7 +684,7 @@ svg {
  
 @media (max-width: 520px) {
   .login-layout {
-    padding: 96px 16px 32px;
+    padding: 24px 16px 32px;
     gap: 32px;
   }
  
@@ -744,4 +735,22 @@ svg {
 .login-crumb {
   grid-column: 1 / -1;
   margin-bottom: -32px;
+}
+
+
+/* ---------- Page width = navbar width ---------- */
+/* The navbar's side space (site-nav.css .site-header): 48px, or more on
+   very wide screens, and 22px on phones. Placed last so it wins over
+   the side spacing set above. */
+.login-layout {
+  max-width: none;
+  padding-left: max(48px, calc((100% - 1328px) / 2));
+  padding-right: max(48px, calc((100% - 1328px) / 2));
+}
+@media (max-width: 600px) {
+  .login-layout { padding-left: 22px; padding-right: 22px; }
+}
+/* desktop: the sign-in card ends at the navbar's right edge */
+@media (min-width: 961px) {
+  .form-card { margin-right: 0; }
 }
