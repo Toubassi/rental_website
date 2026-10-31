@@ -19,4 +19,5 @@ urlpatterns = [
     path('add-accommodation/', views.add_accommodation, name='add_accommodation'),
     path('admin-user-toggle/<int:id>/', views.toggle_user_level, name='admin-user-toggle'),
     path('admin-user-delete/<int:id>/', views.delete_user, name='admin-user-delete'),
+    path('admin-user/<int:id>/', views.admin_user_detail, name='admin-user-detail'),
 ]

@@ -416,3 +416,13 @@ def delete_user(request, id):
     messages.success(request, 'User deleted successfully.')
 
     return redirect('/admin-dashboard/')
+
+def admin_user_detail(request, id):
+    username = request.session.get('username')
+    if not username:
+        return redirect('login')
+    current = User.objects.filter(username=username).first()
+    if not current or current.user_level != 1:
+        return redirect('/dashboard/')
+    target = get_object_or_404(User, id=id)
+    return render(request, 'admin-user-detail.html', {'target': target})
