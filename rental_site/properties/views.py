@@ -5,6 +5,7 @@ from django.contrib import messages
 from login.models import User, EMAIL_REGEX
 from datetime import date
 import bcrypt
+from django.db.models import Max
 
 # Create your views here.
 def dashboard(request):
@@ -73,12 +74,40 @@ def accommodation(request):
 def explore(request):
     if 'username' not in request.session:
         return redirect('login')
-    properties = Property.objects.filter(is_available=True).order_by('-created_at')
+
+    available = Property.objects.filter(is_available=True)
+    properties = available
+
+    min_price = request.GET.get('min_price', '').strip()
+    max_price = (request.GET.get('max_price', '').strip()
+                 or request.GET.get('max_top', '').strip())
+    sort = request.GET.get('sort', 'newest')
+
+    if min_price.isdigit():
+        properties = properties.filter(monthly_rent__gte=int(min_price))
+    if max_price.isdigit():
+        properties = properties.filter(monthly_rent__lte=int(max_price))
+
+    sort_choices = [
+        ('newest', 'Newest first'),
+        ('popular', 'Most popular'),
+        ('price_asc', 'Price: low to high'),
+        ('price_desc', 'Price: high to low'),
+    ]
+    order = {
+        'newest': ('-created_at',),
+        'popular': ('-view_count', '-created_at'),
+        'price_asc': ('monthly_rent', '-created_at'),
+        'price_desc': ('-monthly_rent', '-created_at'),
+    }
+    properties = properties.order_by(*order.get(sort, order['newest']))
+
+    top = available.aggregate(Max('monthly_rent'))['monthly_rent__max'] or 1000
+    price_limit = ((int(top) // 100) + 1) * 100
 
     cards = []
     for property in properties:
         image = property.propertyimage_set.first()
-
         cards.append({
             'id': property.id,
             'title': property.title,
@@ -93,6 +122,9 @@ def explore(request):
     return render(request, 'explore.html', {
         'cards': cards,
         'currency': '₪',
+        'filters': {'min_price': min_price, 'max_price': max_price, 'sort': sort},
+        'sort_choices': sort_choices,
+        'price_limit': price_limit,
     })
 
 
