@@ -16,7 +16,7 @@
     
     --muted: #5b645f;
     --border: #e3ddcf;
-    --field-border: #848f89;
+    --field-border: #839A90;
     --error: #a63f26;
     --error-tint: #fbede7;
     
@@ -390,7 +390,7 @@ svg {
   padding: 48px 44px;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: 36px;
   box-shadow: 0 20px 50px -34px rgba(41, 45, 42, 0.25);
 }
  
@@ -422,7 +422,7 @@ svg {
  
 .input {
   width: 100%;
-  height: 54px;
+  height: 52px;
   padding: 0 20px;
   border: 1px solid var(--field-border);
   border-radius: 999px;
@@ -601,7 +601,7 @@ svg {
 /* Primary Sign In button */
 .btn-primary {
   width: 100%;
-  height: 58px;
+  height: 56px;
   padding: 0 9px 0 28px;
   font-size: 16px;
 }

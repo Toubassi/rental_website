@@ -36,7 +36,7 @@
 }
 
 .about-pill-forest {
-  height: 58px;
+  height: 56px;
   padding: 0 8px 0 30px;
   font-size: 17px;
   background: #24483F;
@@ -258,7 +258,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 36px;
-  border-radius: 28px;
+  border-radius: 36px;
   border: 1.5px solid rgba(36, 72, 63, 0.14);
 }
 
@@ -518,14 +518,14 @@
   .about-different {
     margin: 56px 12px 0;
     padding: 40px 20px;
-    border-radius: 28px;
+    border-radius: 36px;
   }
   .about-cards-cream { gap: 14px; }
   .about-cards-cream .about-card {
     align-items: flex-start;
     gap: 16px;
     padding: 22px;
-    border-radius: 22px;
+    border-radius: 36px;
   }
   .about-cards-cream .about-card-icon { width: 48px; height: 48px; }
   .about-cards-cream .about-card-icon svg { width: 24px; height: 24px; }
@@ -538,7 +538,7 @@
     gap: 14px;
     margin: 12px 12px 0;
     padding: 56px 24px;
-    border-radius: 28px;
+    border-radius: 36px;
   }
   .about-cta p { font-size: 16px; max-width: none; }
   .about-cta::before,
