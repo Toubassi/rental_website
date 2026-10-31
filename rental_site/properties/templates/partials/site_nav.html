@@ -35,27 +35,29 @@
                 </span>
                 {# 'username' is the session key ... #}
                 <span>{{ request.session.username }}</span>
-                <span aria-hidden="true">⌄</span>
+                <svg class="site-user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
 
-            <div class="site-user-dropdown">
-                <a href="{% url 'profile' %}">
-                    <span aria-hidden="true">♙</span>
+                        <div class="site-user-dropdown">
+                <a href="{% url 'profile' %}"{% if request.path == '/profile/' %} class="site-user-current" aria-current="page"{% endif %}>
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
                     My Profile
                 </a>
 
-                <a href="{% url 'accommodation' %}">
-                    <span aria-hidden="true">▦</span>
+                <a href="{% url 'accommodation' %}"{% if request.path == '/accommodation/' %} class="site-user-current" aria-current="page"{% endif %}>
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>
                     My Accommodation
                 </a>
 
-                <a href="{% url 'add_accommodation' %}">
-                    <span aria-hidden="true">⌂</span>
+                <a href="{% url 'add_accommodation' %}"{% if request.path == '/add-accommodation/' %} class="site-user-current" aria-current="page"{% endif %}>
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
                     Add Accommodation
                 </a>
 
+                <div class="site-user-divider" aria-hidden="true"></div>
+
                 <a href="/logout/">
-                    <span aria-hidden="true">⇥</span>
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
                     Sign Out
                 </a>
             </div>

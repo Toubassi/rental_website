@@ -115,14 +115,14 @@
 
 .site-user-summary {
   display: flex;
-  min-height: 42px;
+  min-height: 44px;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px 6px 6px;
-  border: 1px solid #dce3dc;
+  padding: 5px 12px 5px 5px;
+  border: 1.5px solid #24483f;
   border-radius: 999px;
-  background: #ffffff;
-  color: var(--hf-forest);
+  background: #dce6da;
+  color: #24483f;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -137,15 +137,14 @@
 
 .site-user-avatar {
   display: inline-flex;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: var(--hf-forest);
-  color: #ffffff;
-  font-size: 17px;
   overflow: hidden;
+  border-radius: 50%;
+  background: #24483f;
+  color: #faf7f0;
 }
 
 .site-user-avatar-img {
@@ -155,38 +154,64 @@
   object-fit: cover;
 }
 
+.site-user-chevron {
+  flex: none;
+  transition: transform 0.15s ease;
+}
+
+.site-user-menu[open] .site-user-chevron {
+  transform: rotate(180deg);
+}
+
 .site-user-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  z-index: 20;
+  z-index: 30;
   display: flex;
-  width: 220px;
+  width: 232px;
+  box-sizing: border-box;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   padding: 8px;
-  border: 1px solid #e4e8e1;
-  border-radius: 16px;
+  border: 1px solid rgba(36, 72, 63, 0.12);
+  border-radius: 22px;
   background: #ffffff;
-  box-shadow: 0 12px 28px rgba(36, 72, 63, 0.13);
+  box-shadow: 0 14px 36px rgba(36, 72, 63, 0.16);
 }
 
 .site-user-dropdown a {
   display: flex;
-  min-height: 40px;
+  min-height: 44px;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: 10px;
-  color: var(--hf-forest);
+  gap: 12px;
+  padding: 0px 14px;
+  border-radius: 14px;
+  color: #24483f;
   font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
 }
 
+.site-user-dropdown a svg{
+  flex: none;
+}
+
 .site-user-dropdown a:hover {
-  background: var(--hf-sage);
+  background: #dce6da;
+}
+
+.site-user-dropdown a.site-user-current {
+  background: #24483f;
+  color: #ffffff;
+}
+
+.site-user-divider {
+  height: 1px;
+  margin: 4px 14px;
+  background: rgba(36, 72, 63, 0.12);
 }
 
 /* The page you are on */
