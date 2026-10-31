@@ -1,0 +1,125 @@
+/* My Booking Requests */
+.booking-message {
+  margin: 0 0 16px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 15px;
+  background: #dce6da;
+  color: #24483f;
+  border: 1.5px solid #dce6da;
+}
+.booking-message.error {
+  background: #fff;
+  color: #292d2a;
+  border-color: #c8795a;
+}
+
+.booking-table-container {
+  background: #fff;
+  border: 1.5px solid rgba(36, 72, 63, 0.12);
+  border-radius: 28px;
+  overflow-x: auto;
+}
+.booking-table {
+  width: 100%;
+  min-width: 880px;
+  border-collapse: collapse;
+}
+.booking-table th {
+  height: 46px;
+  padding: 0 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3a433e;
+  background: rgba(220, 230, 218, 0.5);
+  border-bottom: 1.5px solid rgba(36, 72, 63, 0.14);
+  white-space: nowrap;
+}
+.booking-table td {
+  padding: 14px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #292d2a;
+  border-bottom: 1px solid rgba(36, 72, 63, 0.1);
+  vertical-align: middle;
+}
+.booking-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.booking-table th:first-child,
+.booking-table td:first-child {
+  padding-left: 24px;
+}
+.booking-table th:last-child,
+.booking-table td:last-child {
+  padding-right: 24px;
+}
+
+/* Status pills */
+.booking-status {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  background: #e6e8e3;
+  color: #292d2a;
+  border: 1.5px solid #e6e8e3;
+}
+.booking-status-pending {
+  background: #faf7f0;
+  border-color: #c8795a;
+}
+.booking-status-approved {
+  background: #dce6da;
+  color: #24483f;
+  border-color: #dce6da;
+}
+.booking-status-rejected {
+  background: #fff;
+  border-color: #292d2a;
+}
+
+/* Action buttons */
+.booking-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.booking-actions form {
+  margin: 0;
+}
+.booking-btn {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+}
+.booking-btn-approve {
+  background: #24483f;
+  color: #fff;
+  border-color: #24483f;
+}
+.booking-btn-approve:hover {
+  background: #1b332d;
+}
+.booking-btn-reject {
+  background: #fff;
+  color: #292d2a;
+  border-color: rgba(41, 45, 42, 0.4);
+}
+.booking-btn-reject:hover {
+  background: #faf7f0;
+}
+.booking-btn:focus-visible {
+  outline: 3px solid #24483f;
+  outline-offset: 3px;
+}
