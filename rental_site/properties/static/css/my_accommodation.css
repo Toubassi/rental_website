@@ -194,7 +194,7 @@
   display: flex;
   flex-direction: column;
   padding: 14px 14px 18px;
-  border-radius: 28px;
+  border-radius: 36px;
   background: #fff;
   border: 1.5px solid rgba(36, 72, 63, 0.12);
 }

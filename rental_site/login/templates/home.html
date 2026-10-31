@@ -25,7 +25,7 @@
           class="d-flex align-items-center justify-content-between flex-wrap gap-3"
           aria-label="Main navigation"
         >
-          <a href="" class="brand">
+          <a href="{% url 'index' %}" class="brand">
             <span class="brand-icon" aria-hidden="true">⌂</span>
             HomeFinder
           </a>
@@ -208,7 +208,7 @@
             yours.
           </p>
 
-          <a href="" class="home-btn home-btn-light">
+          <a href="{% url 'register' %}" class="home-btn home-btn-light">
             Register Here To Find Your Next Home ↗
           </a>
         </section>
@@ -217,7 +217,7 @@
       <!-- Footer -->
       <footer class="site-footer">
         <div class="footer-brand">
-          <a href="" class="brand mb-3">
+          <a href="{% url 'index' %}" class="brand mb-3">
             <span class="brand-icon" aria-hidden="true">⌂</span>
             HomeFinder
           </a>
@@ -231,9 +231,9 @@
           <h3 class="footer-title">Quick Links</h3>
 
           <div class="footer-links">
-            <a href="">Home</a>
-            <a href="">Explore Apartments</a>
-            <a href="">About Us</a>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'explore' %}">Explore Apartments</a>
+            <a href="{% url 'about' %}">About Us</a>
           </div>
         </div>
 
@@ -241,9 +241,8 @@
           <h3 class="footer-title">For the Community</h3>
 
           <div class="footer-links">
-            <a href="">List a Property</a>
+            <a href="{% url 'add_accommodation' %}">List a Property</a>
             <a href="/contact/">Contact</a>
-            <a href="">Privacy</a>
           </div>
         </div>
 
@@ -251,7 +250,7 @@
         manually updating the copyright notice every year. #}
 
         <div class="footer-bottom">
-          <!-- © {% now "Y" %} HomeFinder. All rights reserved. -->
+          © {% now "Y" %} HomeFinder. All rights reserved.
         </div>
       </footer>
     </div>

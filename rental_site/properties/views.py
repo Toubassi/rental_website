@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import LandLord , Property , PropertyImage
 from django.db import transaction, DatabaseError
 from django.contrib import messages
@@ -30,6 +30,9 @@ def about(request):
 
 def contact(request):
     # Contact is open to everyone: visitors and logged-in users
+    if request.method == 'POST':
+        messages.success(request, "Thanks, we received your message.")
+        return redirect('contact')
     return render(request, 'contact.html')
 
 
@@ -95,7 +98,7 @@ def explore(request):
 def details(request, id):
     if 'username' not in request.session:
         return redirect('/login/')
-    property = Property.objects.get(id=id)
+    property = get_object_or_404(Property, id=id)
     property.increase_views()
     context = {
         'property': property,
@@ -103,7 +106,7 @@ def details(request, id):
     return render(request, 'details.html', context)
 
 def all_properties(request):
-    pass
+    return redirect('explore')
 
 
 def user_profile(request):

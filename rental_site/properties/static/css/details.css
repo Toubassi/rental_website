@@ -648,7 +648,7 @@ dd {
   gap: 18px;
   padding: 28px;
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: 36px;
   background: var(--white);
 }
  
@@ -695,7 +695,7 @@ dd {
 .panel-card {
   padding: 28px;
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: 36px;
   background: var(--white);
 }
  

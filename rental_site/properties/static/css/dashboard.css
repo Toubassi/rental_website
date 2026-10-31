@@ -141,6 +141,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     margin: 0 0 8px;
     padding: 14px 22px;
     border-radius: 18px;
+    border: 1.5px solid #24483F;
     background: #DCE6DA;
     color: #24483F;
     font-size: 16px;
@@ -263,7 +264,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     box-sizing: border-box;
     padding: 14px 14px 20px;
     border: 1.5px solid rgba(36, 72, 63, 0.12);
-    border-radius: 28px;
+    border-radius: 36px;
     background: #fff;
     transition: box-shadow 0.2s, transform 0.2s;
 }

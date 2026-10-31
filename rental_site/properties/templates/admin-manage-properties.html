@@ -22,7 +22,7 @@
     <div class="admin-shell">
       <!-- ============ SIDEBAR ============ -->
       <aside class="admin-sidebar">
-        <a href="" class="admin-brand">
+        <a href="{% url 'admin-dashboard' %}" class="admin-brand">
           <span class="brand-icon">⌂</span>
           <span>HomeFinder</span>
         </a>
@@ -145,7 +145,7 @@
                 Apply Filters
               </button>
 
-              <a href="" class="clear-filters"> Clear Filters </a>
+              <a href="{% url 'admin-manage-properties' %}" class="clear-filters"> Clear Filters </a>
             </div>
           </form>
         </section>
