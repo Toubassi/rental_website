@@ -160,3 +160,19 @@
   border: 1.5px solid #c8795a;
   color: #292d2a;
 }
+
+/* Flash messages: keep them inside the page width and make them smaller */
+.site-messages {
+  width: calc(100% - 48px);
+  max-width: 1200px;
+  margin: 16px auto 0;
+}
+.site-message {
+  margin: 0 0 8px;
+  padding: 10px 18px;
+  border-width: 1px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
