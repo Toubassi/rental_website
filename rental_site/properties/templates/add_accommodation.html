@@ -10,8 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}?v=4">
+  <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=3" />
+  
   <!-- leaflet api -->
    <link
     rel="stylesheet"
@@ -42,6 +43,106 @@
             {% if errors.form %}{{ errors.form }}{% else %}Please check the fields marked below.{% endif %}
           </div>
         {% endif %}
+
+        <!-- SECTION 2: Rental details -->
+        <div class="aa-section">
+          <h2>Rental Details</h2>
+          <div class="aa-grid">
+
+            <div>
+              <label for="id_monthly_rent" class="aa-label">Monthly Rent<span class="aa-req" aria-hidden="true">*</span></label>
+              <input type="number" id="id_monthly_rent" name="monthly_rent" class="aa-field{% if errors.monthly_rent %} is-error{% endif %}"
+                     value="{{ old.monthly_rent }}" placeholder="Enter monthly rent" min="1" step="1" inputmode="numeric" required
+                     {% if errors.monthly_rent %}aria-invalid="true" aria-describedby="rent-error"{% endif %}>
+              {% if errors.monthly_rent %}<p class="aa-msg" id="rent-error">{{ errors.monthly_rent }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label for="id_is_available" class="aa-label">Availability<span class="aa-req" aria-hidden="true">*</span></label>
+              <select id="id_is_available" name="is_available" class="aa-field aa-select{% if errors.is_available %} is-error{% endif %}" required
+                      {% if errors.is_available %}aria-invalid="true" aria-describedby="available-error"{% endif %}>
+                <option value="yes" {% if old.is_available != 'no' %}selected{% endif %}>Available</option>
+                <option value="no" {% if old.is_available == 'no' %}selected{% endif %}>Not available</option>
+              </select>
+              {% if errors.is_available %}<p class="aa-msg" id="available-error">{{ errors.is_available }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label for="id_bedrooms" class="aa-label">Bedrooms</label>
+              <select id="id_bedrooms" name="bedrooms" class="aa-field aa-select">
+                <option value="">Select</option>
+                <option value="1">1 bedroom</option>
+                <option value="2">2 bedrooms</option>
+                <option value="3">3 bedrooms</option>
+                <option value="4+">4+ bedrooms</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="id_bathrooms" class="aa-label">Bathrooms</label>
+              <select id="id_bathrooms" name="bathrooms" class="aa-field aa-select">
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3+">3+</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="id_pets" class="aa-label">Pets</label>
+              <select id="id_pets" name="pets" class="aa-field aa-select">
+                <option value="">Select</option>
+                <option value="Allowed">Pets allowed</option>
+                <option value="Not allowed">Pets not allowed</option>
+              </select>
+            </div>
+
+            <fieldset class="aa-features">
+              <legend class="aa-label">Features</legend>
+              <label class="aa-check"><input type="checkbox" name="features" value="Wi-Fi"> Wi-Fi</label>
+              <label class="aa-check"><input type="checkbox" name="features" value="Parking spot"> Parking spot</label>
+              <label class="aa-check"><input type="checkbox" name="features" value="Nearby transportation"> Nearby transportation</label>
+            </fieldset>
+
+          </div>
+        </div>
+
+        <!-- SECTION 3: Location -->
+        <div class="aa-section">
+          <h2>Location</h2>
+          <div class="aa-stack">
+            <div class="aa-grid">
+
+              <div>
+                <label for="id_city" class="aa-label">City<span class="aa-req" aria-hidden="true">*</span></label>
+                <input type="text" id="id_city" name="city" class="aa-field{% if errors.city %} is-error{% endif %}"
+                       value="{{ old.city }}" placeholder="Enter the city" maxlength="255" autocomplete="address-level2" required
+                       {% if errors.city %}aria-invalid="true" aria-describedby="city-error"{% endif %}>
+                {% if errors.city %}<p class="aa-msg" id="city-error">{{ errors.city }}</p>{% endif %}
+              </div>
+
+              <div>
+                <label for="id_address" class="aa-label">Area / Street<span class="aa-req" aria-hidden="true">*</span></label>
+                <input type="text" id="id_address" name="address" class="aa-field{% if errors.address %} is-error{% endif %}"
+                       value="{{ old.address }}" placeholder="Enter the area or street" maxlength="255" required
+                       aria-describedby="address-help{% if errors.address %} address-error{% endif %}"
+                       {% if errors.address %}aria-invalid="true"{% endif %}>
+                {% if errors.address %}<p class="aa-msg" id="address-error">{{ errors.address }}</p>{% endif %}
+              </div>
+
+            </div>
+            <p class="aa-help" id="address-help">Only what you type here will appear as the location of your listing. You do not need to give your exact house number.</p>
+            <!-- Map preview -->
+            <div class="aa-map-preview">
+              <p class="aa-label">Location preview</p>
+            <div id="listing-map" style="height: 300px; width: 100%;"></div>
+          </div>
+
+          <!-- Coordinates will be filled by JavaScript -->
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          </div>
+        </div>
 
         <!-- SECTION 1: Basic information -->
         <div class="aa-section">
@@ -84,69 +185,6 @@
             </div>
           </div>
 
-          </div>
-        </div>
-
-        <!-- SECTION 2: Rental details -->
-        <div class="aa-section">
-          <h2>Rental Details</h2>
-          <div class="aa-grid">
-
-            <div>
-              <label for="id_monthly_rent" class="aa-label">Monthly Rent<span class="aa-req" aria-hidden="true">*</span></label>
-              <input type="number" id="id_monthly_rent" name="monthly_rent" class="aa-field{% if errors.monthly_rent %} is-error{% endif %}"
-                     value="{{ old.monthly_rent }}" placeholder="Enter monthly rent" min="1" step="1" inputmode="numeric" required
-                     {% if errors.monthly_rent %}aria-invalid="true" aria-describedby="rent-error"{% endif %}>
-              {% if errors.monthly_rent %}<p class="aa-msg" id="rent-error">{{ errors.monthly_rent }}</p>{% endif %}
-            </div>
-
-            <div>
-              <label for="id_is_available" class="aa-label">Availability<span class="aa-req" aria-hidden="true">*</span></label>
-              <select id="id_is_available" name="is_available" class="aa-field aa-select{% if errors.is_available %} is-error{% endif %}" required
-                      {% if errors.is_available %}aria-invalid="true" aria-describedby="available-error"{% endif %}>
-                <option value="yes" {% if old.is_available != 'no' %}selected{% endif %}>Available</option>
-                <option value="no" {% if old.is_available == 'no' %}selected{% endif %}>Not available</option>
-              </select>
-              {% if errors.is_available %}<p class="aa-msg" id="available-error">{{ errors.is_available }}</p>{% endif %}
-            </div>
-
-          </div>
-        </div>
-
-        <!-- SECTION 3: Location -->
-        <div class="aa-section">
-          <h2>Location</h2>
-          <div class="aa-stack">
-            <div class="aa-grid">
-
-              <div>
-                <label for="id_city" class="aa-label">City<span class="aa-req" aria-hidden="true">*</span></label>
-                <input type="text" id="id_city" name="city" class="aa-field{% if errors.city %} is-error{% endif %}"
-                       value="{{ old.city }}" placeholder="Enter the city" maxlength="255" autocomplete="address-level2" required
-                       {% if errors.city %}aria-invalid="true" aria-describedby="city-error"{% endif %}>
-                {% if errors.city %}<p class="aa-msg" id="city-error">{{ errors.city }}</p>{% endif %}
-              </div>
-
-              <div>
-                <label for="id_address" class="aa-label">Area / Street<span class="aa-req" aria-hidden="true">*</span></label>
-                <input type="text" id="id_address" name="address" class="aa-field{% if errors.address %} is-error{% endif %}"
-                       value="{{ old.address }}" placeholder="Enter the area or street" maxlength="255" required
-                       aria-describedby="address-help{% if errors.address %} address-error{% endif %}"
-                       {% if errors.address %}aria-invalid="true"{% endif %}>
-                {% if errors.address %}<p class="aa-msg" id="address-error">{{ errors.address }}</p>{% endif %}
-              </div>
-
-            </div>
-            <p class="aa-help" id="address-help">Only what you type here will appear as the location of your listing. You do not need to give your exact house number.</p>
-            <!-- Map preview -->
-            <div class="aa-map-preview">
-              <p class="aa-label">Location preview</p>
-            <div id="listing-map" style="height: 300px; width: 100%;"></div>
-          </div>
-
-          <!-- Coordinates will be filled by JavaScript -->
-          <input type="hidden" name="latitude" id="latitude">
-          <input type="hidden" name="longitude" id="longitude">
           </div>
         </div>
 

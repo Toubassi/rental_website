@@ -861,11 +861,38 @@ def generate_description(request):
             'error': 'Please enter a valid monthly rent.'
         }, status=400)
 
+    # Extra details for the AI. Only values from these lists are accepted,
+    # because they are written into the AI prompt.
+    allowed_bedrooms = ['1', '2', '3', '4+']
+    allowed_bathrooms = ['1', '2', '3+']
+    allowed_pets = ['Allowed', 'Not allowed']
+    allowed_features = ['Wi-Fi', 'Parking spot', 'Nearby transportation']
+
+    bedrooms = request.POST.get('bedrooms', '')
+    if bedrooms not in allowed_bedrooms:
+        bedrooms = 'not specified'
+
+    bathrooms = request.POST.get('bathrooms', '')
+    if bathrooms not in allowed_bathrooms:
+        bathrooms = 'not specified'
+
+    pets = request.POST.get('pets', '')
+    if pets not in allowed_pets:
+        pets = 'not specified'
+
+    features = [f for f in request.POST.getlist('features') if f in allowed_features]
+    if not features:
+        features = 'none selected'
+
     property_info = {
         'title': title,
         'city': city,
         'address': address,
-        'monthly_rent': rent
+        'monthly_rent': rent,
+        'bedrooms': bedrooms,
+        'bathrooms': bathrooms,
+        'pets': pets,
+        'features': features,
     }
 
     try:

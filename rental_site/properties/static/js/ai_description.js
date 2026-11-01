@@ -26,6 +26,12 @@ if (generateButton) {
     formData.append("city", city);
     formData.append("address", address);
     formData.append("monthly_rent", rent);
+    formData.append("bedrooms", document.getElementById("id_bedrooms")?.value || "");
+    formData.append("bathrooms", document.getElementById("id_bathrooms")?.value || "");
+    formData.append("pets", document.getElementById("id_pets")?.value || "");
+    document
+      .querySelectorAll('input[name="features"]:checked')
+      .forEach((box) => formData.append("features", box.value));
 
     generateButton.disabled = true;
     status.textContent = "Generating your description...";
