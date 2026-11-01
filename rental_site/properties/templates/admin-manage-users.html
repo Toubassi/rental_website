@@ -92,6 +92,7 @@
               <input
                 type="search"
                 name="q"
+                value="{{ q }}"
                 placeholder="Search by name or email"
                 aria-label="Search users by name or email"
               />
@@ -101,6 +102,10 @@
               <span aria-hidden="true">⌕</span>
               Search
             </button>
+
+            {% if q %}
+            <a href="{% url 'admin-manage-users' %}" class="clear-filters">Clear</a>
+            {% endif %}
           </form>
 
           <div class="account-filter-heading">
@@ -120,6 +125,10 @@
             <a href="" class="filter-chip admin-filter">Administrators</a>
           </div>
         </section>
+
+        {% if q %}
+        <p class="pagination-info" role="status">{{ result_count }} result{{ result_count|pluralize }} for '{{ q|truncatechars:60 }}'</p>
+        {% endif %}
 
         <!-- ============ USERS TABLE ============ -->
         <section class="admin-panel users-table-panel">
