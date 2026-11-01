@@ -143,14 +143,14 @@ def explore(request):
             'detail_url': '/details/',
         })
 
-        return render(request, 'explore.html', {
-        'cards': cards,
-        'currency': '₪',
-        'filters': {'q': q, 'min_price': min_price, 'max_price': max_price, 'sort': sort},
-        'sort_choices': sort_choices,
-        'count': len(cards),
-        'price_limit': price_limit,
-    })
+    return render(request, 'explore.html', {
+    'cards': cards,
+    'currency': '₪',
+    'filters': {'q': q, 'min_price': min_price, 'max_price': max_price, 'sort': sort},
+    'sort_choices': sort_choices,
+    'count': len(cards),
+    'price_limit': price_limit,
+})
 
 
 def details(request, id):
@@ -389,13 +389,25 @@ def add_accommodation(request):
         is_available = request.POST['is_available']
         photos = request.FILES.getlist('photos')
 
+        phone_digits = ''.join(ch for ch in request.POST.get('phone', '') if ch.isdigit())
+        rent_text = str(rent_value).strip()
+        problems = []
+        if not rent_text.isdigit():
+            problems.append('Please enter the monthly rent as a number.')
+        if LandLord.objects.filter(user=user).first() is None and not phone_digits:
+            problems.append('Please enter a phone number.')
+        if problems:
+            for problem in problems:
+                messages.error(request, problem)
+            return redirect('add_accommodation')
+
         landlord = LandLord.objects.filter(user=user).first()
 
         if landlord is None:
             landlord = LandLord.objects.create(
                 user=user,
-                phone_num=int(request.POST['phone']),
-                bio=request.POST['bio']
+                phone_num=int(phone_digits),
+                bio=request.POST.get('bio', '')
                 )
 
         property = Property.objects.create(
@@ -427,7 +439,7 @@ def delete_property(request, id):
         return access
 
     if request.method == 'POST':
-        property = Property.objects.get(id=id)
+        property = Property.objects.filter(id=id).first()
 
         if property is None:
             messages.error(request, 'Property not found.')
@@ -486,7 +498,13 @@ def delete_user(request, id):
         return access
 
     if request.method == 'POST':
-        user = User.objects.get(id=id)
+            if request.method != 'POST':
+             return redirect('/admin-dashboard/')
+
+    user = User.objects.filter(id=id).first()
+    if user is None:
+        messages.error(request, 'User not found.')
+        return redirect('/admin-dashboard/')
 
     current_user = User.objects.filter(username=request.session['username']).first()
 
