@@ -27,8 +27,22 @@
         </div>
 
         <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
+        <div class="site-notifications">
+            <button type="button" id="notification-bell">
+            🔔
+            <span id="notification-count">0</span>
+            </button>
+
+            <div id="notification-dropdown">
+            <h3>Notifications</h3>
+            <div id="notification-list">
+            No notifications yet.
+            </div>
+            </div>
+        </div>
+        
         <details class="site-user-menu">
-                        <summary class="site-user-summary">
+            <summary class="site-user-summary">
                 <span class="site-user-avatar" aria-hidden="true">
                     {% if header_avatar_url %}
                         <img src="{{ header_avatar_url }}" alt="" class="site-user-avatar-img">

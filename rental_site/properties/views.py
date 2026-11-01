@@ -778,7 +778,43 @@ def update_booking_status(request, booking_id):
     messages.success(request, "Booking status updated successfully!")
 
     return redirect('/my-booking-requests/')
-  
+
+##################### Notification (acceptance/rejection)
+def get_notifications(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
+    
+    user = User.objects.filter(
+        username=request.session['username']
+        ).first()
+    
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+    bookings = Booking.objects.filter(
+        user=user
+    ).exclude(status='pending').order_by('-updated_at')
+
+    notifications = []
+
+    for booking in bookings:
+        if booking.status == 'approved':
+            message = f"Your booking for {booking.property.title} was accepted!"
+        elif booking.status == 'rejected':
+            message = f"Your booking for {booking.property.title} was rejected."
+        else:
+            continue
+        notifications.append({
+            'message': message,
+            'booking_id': booking.id,
+            'status': booking.status
+        })
+
+    return JsonResponse({
+        'notifications': notifications
+    })
+
+
 def admin_user_detail(request, id):
     username = request.session.get('username')
     if not username:
