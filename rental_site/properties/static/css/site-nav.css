@@ -35,7 +35,7 @@
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 100; /* above the dropdown (20) and page content */
+  z-index: 2000; /* above page content, the dropdown (20) and Leaflet maps (panes/controls up to 1000) */
   margin-top: 0;
   padding: 12px max(48px, calc((100% - 1328px) / 2)) 12px;
   background: var(--hf-cream);
