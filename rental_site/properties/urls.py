@@ -7,6 +7,10 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('accommodation/', views.accommodation, name='accommodation'),
     path('explore/', views.explore, name='explore'),
+
+    path('ai-recommendations/', views.ai_recommendations, name='ai-recommendations'),
+    path('generate-description/', views.generate_description, name='generate_description'),
+
     path('details/<int:id>/', views.details, name='details'),
     path('properties/', views.all_properties, name='all-properties'),
     path('profile/', views.user_profile, name='profile'),
@@ -25,4 +29,6 @@ urlpatterns = [
     path('admin-user-toggle/<int:id>/', views.toggle_user_level, name='admin-user-toggle'),
     path('admin-user-delete/<int:id>/', views.delete_user, name='admin-user-delete'),
     path('admin-user/<int:id>/', views.admin_user_detail, name='admin-user-detail'),
+
+
 ]

@@ -12,6 +12,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/add_accommodation.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=2" />
+  <!-- leaflet api -->
+   <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 </head>
 <body class="aa-body">
 
@@ -51,13 +56,33 @@
               {% if errors.title %}<p class="aa-msg" id="title-error">{{ errors.title }}</p>{% endif %}
             </div>
 
-            <div>
-              <label for="id_desc" class="aa-label">Description<span class="aa-req" aria-hidden="true">*</span></label>
-              <textarea id="id_desc" name="desc" class="aa-field aa-area{% if errors.desc %} is-error{% endif %}" rows="5"
-                        placeholder="Describe the room, the shared facilities, and who this accommodation suits." required
-                        {% if errors.desc %}aria-invalid="true" aria-describedby="desc-error"{% endif %}>{{ old.desc }}</textarea>
-              {% if errors.desc %}<p class="aa-msg" id="desc-error">{{ errors.desc }}</p>{% endif %}
+          <div>
+            <label for="id_desc" class="aa-label">
+                Description<span class="aa-req" aria-hidden="true">*</span>
+            </label>
+
+            <textarea
+                id="id_desc"
+                name="desc"
+                class="aa-field aa-area{% if errors.desc %} is-error{% endif %}"
+                rows="5"
+                placeholder="Describe the room, the shared facilities, and who this accommodation suits."
+                required
+                {% if errors.desc %}aria-invalid="true" aria-describedby="desc-error"{% endif %}
+            >{{ old.desc }}</textarea>
+
+            {% if errors.desc %}
+                <p class="aa-msg" id="desc-error">{{ errors.desc }}</p>
+            {% endif %}
+
+            <div class="ai-description-tools">
+                <button type="button" id="generate-description" class="aa-pill aa-pill-line">
+                    ✨ Generate Description with AI
+                </button>
+
+                <p id="ai-description-status" role="status" aria-live="polite"></p>
             </div>
+          </div>
 
           </div>
         </div>
@@ -113,6 +138,15 @@
 
             </div>
             <p class="aa-help" id="address-help">Only what you type here will appear as the location of your listing. You do not need to give your exact house number.</p>
+            <!-- Map preview -->
+            <div class="aa-map-preview">
+              <p class="aa-label">Location preview</p>
+            <div id="listing-map" style="height: 300px; width: 100%;"></div>
+          </div>
+
+          <!-- Coordinates will be filled by JavaScript -->
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
           </div>
         </div>
 
@@ -223,8 +257,10 @@
     </div>
     <p class="aa-copyright">© 2026 HomeFinder. All rights reserved.</p>
   </footer>
-
+  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="{% static 'js/add_accommodation.js' %}"></script>
+  <script src="{% static 'js/ai_description.js' %}"></script>
 
 </body>
 </html>
