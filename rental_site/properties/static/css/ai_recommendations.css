@@ -233,3 +233,77 @@ body {
   .ai-form button[type="submit"] { justify-self: stretch; }
   .recommendation-card { padding: 22px 20px; }
 }
+/* ---------- Card thumbnail (first photo of the property) ---------- */
+.recommendation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.recommendation-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* reset the pill style that ".recommendation-card a" gives every link */
+.recommendation-card .recommendation-thumb {
+  display: block;
+  flex-shrink: 0;
+  width: 240px;
+  height: 180px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #DCE6DA;
+}
+
+.recommendation-card .recommendation-thumb:hover {
+  background: #DCE6DA;
+}
+
+.recommendation-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* no photo: sage square with a small house icon */
+.recommendation-thumb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  color: #4F5651;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.recommendation-thumb-empty svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* tablets: a bit smaller so the text keeps room */
+@media (min-width: 641px) and (max-width: 900px) {
+  .recommendation-card .recommendation-thumb {
+    width: 200px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .recommendation-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .recommendation-card .recommendation-thumb {
+    width: 100%;
+    height: 220px;
+  }
+}
