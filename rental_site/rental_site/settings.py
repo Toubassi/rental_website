@@ -128,6 +128,9 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Log users out when they close the browser, so the site opens on the landing page next time
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

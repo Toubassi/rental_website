@@ -8,6 +8,9 @@ from properties.models import Property
 
 # Create your views here.
 def home(request):
+    # The landing page is for visitors only: logged-in users go to their dashboard
+    if 'username' in request.session:
+        return redirect('dashboard')
     properties = Property.objects.filter(is_available=True).order_by('-created_at')
 
     return render(request, 'home.html', {
