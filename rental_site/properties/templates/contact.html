@@ -6,13 +6,6 @@
 
 <main class="contact-page">
 
-  {% if messages %}
-  {% for message in messages %}
-    <div class="site-message {% if message.tags == 'error' %}site-message-error{% else %}site-message-success{% endif %}">
-      {{ message }}
-    </div>
-  {% endfor %}
-{% endif %}
 
   <!-- HERO -->
   <section class="contact-hero">
