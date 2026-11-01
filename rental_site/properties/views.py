@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import LandLord , Property , PropertyImage, Booking, Message
+from django.urls import reverse
+from .models import LandLord , Property , PropertyImage, Message, Booking
 from django.db import transaction, DatabaseError
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import EmailMessage
 from login.models import User, EMAIL_REGEX
 from datetime import date
 import bcrypt
 from .ai_services import recommend_properties
 from django.http import JsonResponse
 from .ai_services import generate_property_description
+from django.db.models import Max, Q
 
 # Create your views here.
 def dashboard(request):
@@ -35,7 +39,25 @@ def about(request):
 def contact(request):
     # Contact is open to everyone: visitors and logged-in users
     if request.method == 'POST':
-        messages.success(request, "Thanks, we received your message.")
+        errors = Message.objects.contact_validator(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request, error)
+            return redirect('contact')
+
+        name = request.POST['full_name'].strip()
+        email = request.POST['email'].strip()
+        letter = EmailMessage(
+            subject="HomeFinder Contact: " + request.POST['subject'].strip(),
+            body=f"From: {name} <{email}>\n\n{request.POST['message'].strip()}",
+            to=[settings.HOMEFINDER_NOTIFY_EMAIL],   # the site's own inbox
+            reply_to=[email],                   # "Reply" answers the visitor
+        )
+        try:
+            letter.send()
+            messages.success(request, "Thanks, your message was sent. We'll reply by email soon.")
+        except (OSError, ValueError):
+            messages.error(request, "Sorry, the message could not be sent. Please try again later.")
         return redirect('contact')
     return render(request, 'contact.html')
 
@@ -76,12 +98,43 @@ def accommodation(request):
 def explore(request):
     if 'username' not in request.session:
         return redirect('login')
-    properties = Property.objects.filter(is_available=True).order_by('-created_at')
+
+    available = Property.objects.filter(is_available=True)
+    properties = available
+
+    min_price = request.GET.get('min_price', '').strip()
+    max_price = (request.GET.get('max_price', '').strip()
+                 or request.GET.get('max_top', '').strip())
+    q = request.GET.get('q', '').strip()
+    if q:
+       properties = properties.filter(Q(city__icontains=q) | Q(title__icontains=q))
+    sort = request.GET.get('sort', 'newest')
+
+    if min_price.isdigit():
+        properties = properties.filter(monthly_rent__gte=int(min_price))
+    if max_price.isdigit():
+        properties = properties.filter(monthly_rent__lte=int(max_price))
+
+    sort_choices = [
+        ('newest', 'Newest first'),
+        ('popular', 'Most popular'),
+        ('price_asc', 'Price: low to high'),
+        ('price_desc', 'Price: high to low'),
+    ]
+    order = {
+        'newest': ('-created_at',),
+        'popular': ('-view_count', '-created_at'),
+        'price_asc': ('monthly_rent', '-created_at'),
+        'price_desc': ('-monthly_rent', '-created_at'),
+    }
+    properties = properties.order_by(*order.get(sort, order['newest']))
+
+    top = available.aggregate(Max('monthly_rent'))['monthly_rent__max'] or 1000
+    price_limit = ((int(top) // 100) + 1) * 100
 
     cards = []
     for property in properties:
         image = property.propertyimage_set.first()
-
         cards.append({
             'id': property.id,
             'title': property.title,
@@ -94,9 +147,13 @@ def explore(request):
         })
 
     return render(request, 'explore.html', {
-        'cards': cards,
-        'currency': '₪',
-    })
+    'cards': cards,
+    'currency': '₪',
+    'filters': {'q': q, 'min_price': min_price, 'max_price': max_price, 'sort': sort},
+    'sort_choices': sort_choices,
+    'count': len(cards),
+    'price_limit': price_limit,
+})
 
 
 def details(request, id):
@@ -111,6 +168,37 @@ def details(request, id):
         'currency': '₪',
     }
     return render(request, 'details.html', context)
+
+def send_message(request, id):
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(username=request.session['username']).first()
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    property = get_object_or_404(Property, id=id)
+    if request.method != 'POST':
+        return redirect('details', id=id)
+
+    errors = Message.objects.message_validator(request.POST, user)
+    back = reverse('details', args=[id]) + '#message-form'   # back to the message box, so the result is in view
+    if errors:
+        for error in errors.values():
+            messages.error(request, error)
+        return redirect(back)
+
+    message = Message.objects.create(
+        message=request.POST['message'].strip(),
+        profile_user=user,
+        property=property,
+    )
+    if message.send_notification():
+        messages.success(request, "Your message was sent. The provider will reply to your email.")
+    else:
+        messages.warning(request, "Your message was saved, but the email notification could not be sent.")
+    return redirect(back)
 
 def all_properties(request):
     return redirect('explore')
@@ -306,13 +394,25 @@ def add_accommodation(request):
         is_available = request.POST['is_available']
         photos = request.FILES.getlist('photos')
 
+        phone_digits = ''.join(ch for ch in request.POST.get('phone', '') if ch.isdigit())
+        rent_text = str(rent_value).strip()
+        problems = []
+        if not rent_text.isdigit():
+            problems.append('Please enter the monthly rent as a number.')
+        if LandLord.objects.filter(user=user).first() is None and not phone_digits:
+            problems.append('Please enter a phone number.')
+        if problems:
+            for problem in problems:
+                messages.error(request, problem)
+            return redirect('add_accommodation')
+
         landlord = LandLord.objects.filter(user=user).first()
 
         if landlord is None:
             landlord = LandLord.objects.create(
                 user=user,
-                phone_num=int(request.POST['phone']),
-                bio=request.POST['bio']
+                phone_num=int(phone_digits),
+                bio=request.POST.get('bio', '')
                 )
 
         try:
@@ -348,7 +448,7 @@ def add_accommodation(request):
             image_url=photo
             )
         messages.success(request, 'Accommodation added successfully!')
-        return redirect('/explore/')
+        return redirect('/accommodation/')
 
     return render(request, 'add_accommodation.html', {
         'account': user,
@@ -362,7 +462,7 @@ def delete_property(request, id):
         return access
 
     if request.method == 'POST':
-        property = Property.objects.get(id=id)
+        property = Property.objects.filter(id=id).first()
 
         if property is None:
             messages.error(request, 'Property not found.')
@@ -421,7 +521,13 @@ def delete_user(request, id):
         return access
 
     if request.method == 'POST':
-        user = User.objects.get(id=id)
+            if request.method != 'POST':
+             return redirect('/admin-dashboard/')
+
+    user = User.objects.filter(id=id).first()
+    if user is None:
+        messages.error(request, 'User not found.')
+        return redirect('/admin-dashboard/')
 
     current_user = User.objects.filter(username=request.session['username']).first()
 

@@ -12,6 +12,7 @@ urlpatterns = [
     path('generate-description/', views.generate_description, name='generate_description'),
 
     path('details/<int:id>/', views.details, name='details'),
+    path('details/<int:id>/message/', views.send_message, name='send_message'),
     path('properties/', views.all_properties, name='all-properties'),
     path('profile/', views.user_profile, name='profile'),
 

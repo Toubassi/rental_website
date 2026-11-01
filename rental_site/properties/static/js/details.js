@@ -139,6 +139,7 @@
     contactLinks.forEach((a) => a.addEventListener("click", (e) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // new tab: leave this page alone
     if (a.getAttribute("href").startsWith("mailto:")) return; // email opens the mail app and the page stays, so no "Opening…"
+    if (a.getAttribute("href").startsWith("#")) { $("#msg-text") && $("#msg-text").focus({ preventScroll: true }); return; } // jumps to the message box on this page
     contactLinks.forEach((b) => {
         const label = $(".btn-label", b);
         if (label) { label.dataset.label = label.dataset.label || label.textContent; label.textContent = "Opening…"; }

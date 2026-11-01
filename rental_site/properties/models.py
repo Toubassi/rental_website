@@ -1,12 +1,31 @@
 from django.db import models
-from login.models import User, UserManager, LandLord
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.timezone import localtime
+from login.models import User, UserManager, LandLord, EMAIL_REGEX
 # Create your models here.
 class MessageManager(models.Manager):
-    def message_validator(self, PostData):
+    def message_validator(self, PostData, user):
         errors = {}
 
-        if len(PostData['message']) < 1:
+        if len(PostData.get('message', '').strip()) < 1:
             errors['message'] = "Message cannot be empty"
+        if not user.email:
+            errors['email'] = "Please add an email to your profile before contacting a landlord."
+        return errors
+
+    def contact_validator(self, PostData):
+        # Checks the Contact page form before the email is sent
+        errors = {}
+        if not PostData.get('full_name', '').strip():
+            errors['full_name'] = "Please enter your full name."
+        if not EMAIL_REGEX.match(PostData.get('email', '').strip()):
+            errors['email'] = "Please enter a valid email."
+        if not PostData.get('subject', '').strip():
+            errors['subject'] = "Please enter a subject."
+        if len(PostData.get('message', '').strip()) < 10:
+            errors['message'] = "The message must be at least 10 characters."
         return errors
 
 
@@ -57,5 +76,39 @@ class Message(models.Model):
     message = models.TextField()
     objects = MessageManager()
     profile_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages_written")
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def send_notification(self):
+        # Emails the HomeFinder inbox about this message. Returns True if Gmail accepted it.
+        client = self.profile_user
+        sent_at = f"{localtime(self.created_at):%d %b %Y, %H:%M}"
+        body = (
+            f"Client name: {client.name}\n"
+            f"Client email: {client.email}\n"
+            f"Accommodation: {self.property.title}\n"
+            f"Date and time: {sent_at}\n\n"
+            f"Message:\n{self.message}"
+        )
+        email = EmailMultiAlternatives(
+            subject=f"New Support Message from {client.name} – HomeFinder",
+            body=body,   # plain-text version, for email apps that don't show HTML
+            to=[settings.HOMEFINDER_NOTIFY_EMAIL],
+            reply_to=[client.email],
+        )
+        html = render_to_string('emails/new_message.html', {
+            'client': client,
+            'property': self.property,
+            'message': self.message,
+            'sent_at': sent_at,
+        })
+        email.attach_alternative(html, "text/html")   # the designed version Gmail shows
+        try:
+            email.send()
+            return True
+        except (OSError, ValueError):
+            return False
+
+
+    

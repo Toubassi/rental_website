@@ -1,0 +1,86 @@
+{% comment %}
+    Email sent to HomeFinder Support when a client messages about an accommodation.
+    Email apps ignore style blocks and CSS files, so every style is written inline.
+    Colors are the website's: forest #24483f, cream #faf7f0, border #e3ddcf.
+{% endcomment %}
+<!doctype html>
+<html lang="en">
+  <body style="margin:0; padding:0; background:#faf7f0; font-family:Arial, Helvetica, sans-serif; color:#292d2a;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf7f0; padding:32px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; background:#ffffff; border:1px solid #e3ddcf; border-radius:16px; overflow:hidden;">
+
+            <!-- Header -->
+            <tr>
+              <td style="background:#24483f; padding:24px 32px; color:#ffffff;">
+                <p style="margin:0; font-size:22px; font-weight:bold;">&#8962; HomeFinder</p>
+                <p style="margin:6px 0 0; font-size:14px; color:#dce6da;">New support message</p>
+              </td>
+            </tr>
+
+            <!-- Intro -->
+            <tr>
+              <td style="padding:28px 32px 8px;">
+                <p style="margin:0; font-size:16px; line-height:1.5;">
+                  <strong>{{ client.name }}</strong> sent a message about <strong>{{ property.title }}</strong>.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Details -->
+            <tr>
+              <td style="padding:16px 32px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:10px 0; color:#4f5651; width:140px; border-bottom:1px solid #e3ddcf;">Client name</td>
+                    <td style="padding:10px 0; border-bottom:1px solid #e3ddcf;">{{ client.name }}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0; color:#4f5651; border-bottom:1px solid #e3ddcf;">Client email</td>
+                    <td style="padding:10px 0; border-bottom:1px solid #e3ddcf;"><a href="mailto:{{ client.email }}" style="color:#24483f;">{{ client.email }}</a></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0; color:#4f5651; border-bottom:1px solid #e3ddcf;">Accommodation</td>
+                    <td style="padding:10px 0; border-bottom:1px solid #e3ddcf;">{{ property.title }}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0; color:#4f5651;">Date and time</td>
+                    <td style="padding:10px 0;">{{ sent_at }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Message -->
+            <tr>
+              <td style="padding:8px 32px 8px;">
+                <p style="margin:0 0 8px; font-size:14px; color:#4f5651;">Message</p>
+                <div style="background:#f1f4ee; border-left:4px solid #24483f; border-radius:8px; padding:16px 18px; font-size:15px; line-height:1.6;">
+                  {{ message|linebreaksbr }}
+                </div>
+              </td>
+            </tr>
+
+            <!-- Reply hint -->
+            <tr>
+              <td style="padding:20px 32px 28px;">
+                <p style="margin:0; font-size:14px; color:#4f5651; line-height:1.5;">
+                  Press <strong>Reply</strong> to answer {{ client.name }} directly at {{ client.email }}.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background:#faf7f0; border-top:1px solid #e3ddcf; padding:16px 32px; font-size:12px; color:#4f5651;">
+                HomeFinder Support &middot; This email was sent automatically from the HomeFinder website.
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
