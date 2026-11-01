@@ -74,6 +74,7 @@ class Booking(models.Model):
 
 class Message(models.Model):
     message = models.TextField()
+    rating = models.PositiveSmallIntegerField(null=True,blank=True)
     objects = MessageManager()
     profile_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages_written")
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)

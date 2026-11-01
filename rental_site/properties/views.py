@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import LandLord , Property , PropertyImage, Message, Booking
-from django.db import transaction, DatabaseError
+from django.http import JsonResponse
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -161,11 +161,15 @@ def details(request, id):
         return redirect('/login/')
     property = get_object_or_404(Property, id=id)
     property.increase_views()
+
+    reviews = Message.objects.filter(property=property, rating__isnull=False).order_by('-created_at')
+    
     context = {
         'property': property,
         'images': property.get_images(),
         'landlord': property.landlord,
         'currency': '₪',
+        'reviews': reviews,
     }
     return render(request, 'details.html', context)
 
@@ -203,6 +207,72 @@ def send_message(request, id):
 def all_properties(request):
     return redirect('explore')
 
+############## REVIEWS ###################
+def add_review(request, property_id):
+    if 'username' not in request.session:
+        return JsonResponse({
+            'error': 'Please log in first.'
+        }, status=401)
+
+    if request.method != 'POST':
+        return JsonResponse({
+            'error': 'Invalid request method.'
+        }, status=405)
+
+    user = User.objects.filter(
+        username=request.session['username']
+    ).first()
+
+    if user is None:
+        return JsonResponse({
+            'error': 'User not found.'
+        }, status=401)
+
+    property = get_object_or_404(Property, id=property_id)
+
+    message = request.POST.get('message', '').strip()
+    rating = request.POST.get('rating', '')
+
+    if not message:
+        return JsonResponse({
+            'error': 'Please write a comment.'
+        }, status=400)
+
+    try:
+        rating = int(rating)
+        if rating < 1 or rating > 5:
+            raise ValueError
+    except (ValueError, TypeError):
+        return JsonResponse({
+            'error': 'Please select a rating between 1 and 5.'
+        }, status=400)
+
+    existing_review = Message.objects.filter(
+        profile_user=user,
+        property=property,
+        rating__isnull=False
+    ).first()
+
+    if existing_review:
+        return JsonResponse({
+            'error': 'You have already reviewed this property.'
+        }, status=400)
+
+    review = Message.objects.create(
+        profile_user=user,
+        property=property,
+        message=message,
+        rating=rating
+    )
+
+    return JsonResponse({
+        'success': True,
+        'message': 'Your review was submitted successfully!',
+        'username': user.username,
+        'review': review.message,
+        'rating': review.rating,
+        'created_at': review.created_at.strftime('%d %b %Y')
+    })
 
 def user_profile(request):
     if 'username' not in request.session:

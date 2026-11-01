@@ -660,6 +660,69 @@
     </dialog>
     {% endif %} {% endif %}
 
+    <section class="reviews-section">
+      <h2>Property Reviews</h2>
+
+      <form id="review-form" data-url="{% url 'add_review' property.id %}" method="POST">
+        {% csrf_token %}
+        <div class="rating-container">
+            <label>Rate this property:</label>
+            <div class="star-rating">
+                <input type="radio" name="rating" value="5" id="star5">
+                <label for="star5">★</label>
+                <input type="radio" name="rating" value="4" id="star4">
+                <label for="star4">★</label>
+                <input type="radio" name="rating" value="3" id="star3">
+                <label for="star3">★</label>
+                <input type="radio" name="rating" value="2" id="star2">
+                <label for="star2">★</label>
+                <input type="radio" name="rating" value="1" id="star1">
+                <label for="star1">★</label>
+            </div>
+        </div>
+
+        <textarea
+            name="message"
+            id="review-message"
+            placeholder="Share your experience..."
+            required
+        ></textarea>
+        <button type="submit">Submit Review</button>
+        <p id="review-status" role="status"></p>
+      </form>
+
+      <div id="reviews-list">
+
+    {% for review in reviews %}
+        <article class="review-card">
+
+            <h4>{{ review.profile_user.username }}</h4>
+
+            <p class="review-stars">
+                {% for star in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </p>
+
+            <p>{{ review.message }}</p>
+
+            <small>{{ review.created_at|date:"d M Y" }}</small>
+
+        </article>
+
+    {% empty %}
+        <p id="no-reviews">
+            No reviews yet. Be the first to review this property!
+        </p>
+    {% endfor %}
+
+</div>
+</section>
+
     <!-- Footer -->
     <footer class="site-footer">
       <div class="footer-panel">
@@ -689,7 +752,7 @@
         </p>
       </div>
     </footer>
- 
+    <script src="{% static 'js/property_reviews.js' %}"></script>
     <script src="{% static 'js/details.js' %}?v=2" defer></script>
   </body>
 </html>
