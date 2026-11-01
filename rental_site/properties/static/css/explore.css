@@ -1227,3 +1227,85 @@ a.page-btn:hover {
 @media (max-width: 600px) {
   .page { padding-left: 22px; padding-right: 22px; }
 }
+
+/* ============ AI RECOMMENDATIONS BANNER ============ */
+/* All rules are scoped to .ai-recommendations-cta so the other .btn and
+   .eyebrow elements on the page do not change. */
+.ai-recommendations-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 40px 0 56px;
+  padding: 36px 44px;
+  border-radius: 36px;
+  background: #DCE6DA;
+}
+
+.ai-recommendations-cta > div {
+  max-width: 640px;
+}
+
+.ai-recommendations-cta .eyebrow {
+  margin-bottom: 10px;
+  color: #24483F;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.ai-recommendations-cta h2 {
+  margin: 0 0 8px;
+  color: #24483F;
+  font-family: "Fraunces", serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ai-recommendations-cta p:not(.eyebrow) {
+  margin: 0;
+  color: #4F5651;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.ai-recommendations-cta .btn {
+  flex-shrink: 0;
+  justify-content: center;
+  padding: 15px 32px;
+  border-radius: 999px;
+  background: #24483F;
+  color: #FAF7F0;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ai-recommendations-cta .btn:hover {
+  background: #1B332D;
+  color: #FAF7F0;
+}
+
+.ai-recommendations-cta .btn:focus-visible {
+  outline: 3px solid #C8795A;
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .ai-recommendations-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    padding: 28px 24px;
+    border-radius: 28px;
+  }
+
+  .ai-recommendations-cta h2 {
+    font-size: 26px;
+  }
+
+  .ai-recommendations-cta .btn {
+    width: 100%;
+    white-space: normal;
+  }
+}
