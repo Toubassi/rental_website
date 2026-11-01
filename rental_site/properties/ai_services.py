@@ -97,7 +97,13 @@ def recommend_properties(user_preferences, properties):
 
     response = generate_with_retry(prompt, json_response=True)
 
-    return json.loads(response.text)
+    data = json.loads(response)
+
+    # The AI sometimes returns a bare list instead of {"recommendations": [...]}
+    if isinstance(data, list):
+        data = {"recommendations": data}
+
+    return data
 
 
 def generate_property_description(property_info):
