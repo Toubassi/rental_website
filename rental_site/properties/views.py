@@ -8,6 +8,9 @@ from django.core.mail import EmailMessage
 from login.models import User, EMAIL_REGEX
 from datetime import date
 import bcrypt
+from .ai_services import recommend_properties
+from django.http import JsonResponse
+from .ai_services import generate_property_description
 from django.db.models import Max, Q
 
 # Create your views here.
@@ -386,6 +389,8 @@ def add_accommodation(request):
         rent_value = request.POST['monthly_rent']
         city = request.POST['city']
         address = request.POST['address']
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
         is_available = request.POST['is_available']
         photos = request.FILES.getlist('photos')
 
@@ -410,6 +415,22 @@ def add_accommodation(request):
                 bio=request.POST.get('bio', '')
                 )
 
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+
+            if latitude < -90 or latitude > 90:
+                latitude = None
+                longitude = None
+
+            if longitude < -180 or longitude > 180:
+                latitude = None
+                longitude = None
+
+        except (ValueError, TypeError):
+            latitude = None
+            longitude = None
+
         property = Property.objects.create(
             landlord=landlord,
             title=title,
@@ -417,6 +438,8 @@ def add_accommodation(request):
             monthly_rent=int(rent_value),
             city=city,
             address=address,
+            latitude=latitude,
+            longitude=longitude,
             is_available=(is_available == 'yes')
         )
         for photo in photos:
@@ -700,3 +723,164 @@ def admin_user_detail(request, id):
         return redirect('admin-user-detail', id=target.id)
 
     return render(request, 'admin-user-detail.html', {'target': target})
+
+#################### Ai here ###################################
+
+def ai_recommendations(request):
+    if 'username' not in request.session:
+        return redirect('/login/')
+
+    user = User.objects.filter(
+        username=request.session['username']
+    ).first()
+
+    if user is None:
+        request.session.flush()
+        return redirect('/login/')
+
+    return render(request, 'ai_recommendations.html')
+
+
+def ai_recommendations(request):
+    if 'username' not in request.session:
+        return redirect('login')
+    if request.method == 'POST':
+
+        city = request.POST.get('city', '').strip()
+        budget = request.POST.get('budget', '').strip()
+        accommodation_type = request.POST.get('accommodation_type', '')
+        bedrooms = request.POST.get('bedrooms', '')
+        move_in_date = request.POST.get('move_in_date', '')
+        preferences = request.POST.get('preferences', '').strip()
+
+        # Validate required information
+        if not city or not budget:
+            return render(request, 'ai_recommendations.html', {
+                'error': 'Please enter your preferred city and budget.'
+            })
+
+        try:
+            budget = int(budget)
+            if budget <= 0:
+                raise ValueError
+        except ValueError:
+            return render(request, 'ai_recommendations.html', {
+                'error': 'Please enter a valid monthly budget.'
+            })
+
+        # Retrieve available properties within the user's budget
+        available_properties = Property.objects.filter(
+            is_available=True,
+            city__icontains=city,
+            monthly_rent__lte=budget
+        )
+
+        # Prepare property information for Gemini
+        property_data = []
+
+        for property in available_properties:
+            property_data.append({
+                'id': property.id,
+                'title': property.title,
+                'city': property.city,
+                'description': property.desc,
+                'monthly_rent': property.monthly_rent
+            })
+
+        user_preferences = {
+            'city': city,
+            'budget': budget,
+            'accommodation_type': accommodation_type,
+            'bedrooms': bedrooms,
+            'move_in_date': move_in_date,
+            'additional_preferences': preferences
+        }
+
+        recommendations = []
+
+        if property_data:
+            try:
+                ai_response = recommend_properties(
+                    user_preferences,
+                    property_data
+                )
+
+                # Only accept IDs belonging to our original database results
+                for recommendation in ai_response.get('recommendations', []):
+                    property_id = recommendation.get('property_id')
+
+                    for property in available_properties:
+                        if property.id == property_id:
+                            recommendations.append({
+                                'property': property,
+                                'reason': recommendation.get('reason', '')
+                            })
+                            break
+
+            except Exception as e:
+                print("AI recommendation error:", e)
+                return render(request, 'ai_recommendations.html', {
+                    'error': 'We could not generate recommendations. Please try again.'
+                })
+
+        return render(request, 'ai_recommendations.html', {
+            'recommendations': recommendations,
+            'submitted': True,
+            'preferences': user_preferences
+        })
+
+    return render(request, 'ai_recommendations.html')
+
+def generate_description(request):
+    if 'username' not in request.session:
+        return JsonResponse({
+            'error': 'Please log in first.'
+        }, status=401)
+
+    if request.method != 'POST':
+        return JsonResponse({
+            'error': 'Invalid request method.'
+        }, status=405)
+
+    title = request.POST.get('title', '').strip()
+    city = request.POST.get('city', '').strip()
+    address = request.POST.get('address', '').strip()
+    rent = request.POST.get('monthly_rent', '').strip()
+
+    if not title or not city or not address or not rent:
+        return JsonResponse({
+            'error': 'Please fill in the title, city, address, and rent first.'
+        }, status=400)
+
+    try:
+        rent = int(rent)
+        if rent <= 0:
+            raise ValueError
+    except ValueError:
+        return JsonResponse({
+            'error': 'Please enter a valid monthly rent.'
+        }, status=400)
+
+    property_info = {
+        'title': title,
+        'city': city,
+        'address': address,
+        'monthly_rent': rent
+    }
+
+    try:
+        description = generate_property_description(property_info)
+
+        if not description:
+            raise ValueError('Empty AI response')
+
+        return JsonResponse({
+            'description': description
+        })
+
+    except Exception as e:
+        print('Description generation error:', e)
+
+        return JsonResponse({
+            'error': 'Could not generate a description. Please try again.'
+        }, status=500)

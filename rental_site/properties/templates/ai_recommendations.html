@@ -1,0 +1,127 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Home Recommendations | HomeFinder</title>
+
+    <link rel="stylesheet" href="{% static 'css/ai_recommendations.css' %}" />
+  </head>
+  <body>
+    {% include 'partials/site_nav.html' %}
+
+    <main class="ai-page">
+      <section class="ai-intro">
+        <p class="eyebrow">Powered by AI</p>
+        <h1>Find Your Ideal Home</h1>
+        <p>
+          Tell us what you're looking for, and let our AI find properties that
+          match your needs.
+        </p>
+      </section>
+
+      <form method="POST" class="ai-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="city">Preferred City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="e.g. Ramallah"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Maximum Monthly Budget (₪)</label>
+          <input
+            type="number"
+            id="budget"
+            name="budget"
+            min="1"
+            placeholder="e.g. 1500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="accommodation_type">Accommodation Type</label>
+          <select id="accommodation_type" name="accommodation_type" required>
+            <option value="">Choose accommodation type</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="studio">Studio</option>
+            <option value="any">Any type</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bedrooms">Number of Bedrooms</label>
+          <select id="bedrooms" name="bedrooms">
+            <option value="">No preference</option>
+            <option value="1">1 bedroom</option>
+            <option value="2">2 bedrooms</option>
+            <option value="3">3 bedrooms</option>
+            <option value="4">4 or more bedrooms</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="move_in_date">Preferred Move-in Date</label>
+          <input type="date" id="move_in_date" name="move_in_date" />
+        </div>
+
+        <div class="form-group">
+          <label for="preferences">Additional Preferences</label>
+          <textarea
+            id="preferences"
+            name="preferences"
+            rows="5"
+            placeholder="Describe what matters to you. For example: quiet neighborhood, close to transportation, balcony..."
+          ></textarea>
+        </div>
+
+        <button type="submit">Find My Matches</button>
+      </form>
+      <!-- Error message -->
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <!-- AI Recommendations -->
+      {% if submitted %}
+      <section class="recommendations">
+        <h2>Your Recommended Properties</h2>
+
+        {% if recommendations %} {% for item in recommendations %}
+        <article class="recommendation-card">
+          <h3>{{ item.property.title }}</h3>
+
+          <p>
+            <strong>Monthly Rent:</strong>
+            ₪{{ item.property.monthly_rent }}
+          </p>
+
+          <p>
+            <strong>Location:</strong>
+            {{ item.property.city }}
+          </p>
+
+          <p>
+            <strong>Why we recommend it:</strong>
+            {{ item.reason }}
+          </p>
+
+          <a href="{% url 'details' item.property.id %}"> View Property </a>
+        </article>
+        {% endfor %} {% else %}
+        <p>No matching properties were found.</p>
+        {% endif %}
+      </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
