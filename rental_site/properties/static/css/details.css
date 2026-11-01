@@ -1388,3 +1388,218 @@ dd {
   z-index: 0;
   isolation: isolate;
 }
+
+/* =====================================================================
+   PROPERTY REVIEWS (section.reviews-section, bottom of details.html)
+   Sits outside <main class="page">, so it copies the page's side space
+   (same rule as .page above) to line up with the rest of the content.
+   All rules are scoped to this section.
+   ===================================================================== */
+.reviews-section {
+  max-width: none;
+  margin: 56px auto;
+  padding-left: max(48px, calc((100% - 1328px) / 2));
+  padding-right: max(48px, calc((100% - 1328px) / 2));
+}
+
+.reviews-section > h2 {
+  margin: 0 0 24px;
+  color: #24483F;
+  font-family: "Fraunces", serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ---------- Form card ---------- */
+#review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid #DCE6DA;
+  border-radius: 28px;
+  background: #FFFFFF;
+  box-shadow: 0 10px 28px rgba(36, 72, 63, 0.07);
+}
+
+#review-form .rating-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+#review-form .rating-container > label {
+  color: #24483F;
+  font-weight: 700;
+}
+
+/* ---------- Star picker ----------
+   DOM order is 5,4,3,2,1; row-reverse shows them 1..5 from left to right,
+   so "label:hover ~ label" and "input:checked ~ label" fill the lower stars. */
+#review-form .star-rating {
+  position: relative;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+#review-form .star-rating input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+#review-form .star-rating label {
+  color: #DCE6DA;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 150ms ease, transform 150ms ease;
+}
+
+#review-form .star-rating input:checked ~ label,
+#review-form .star-rating label:hover,
+#review-form .star-rating label:hover ~ label {
+  color: #C8795A;
+}
+
+#review-form .star-rating input:focus-visible + label {
+  outline: 2px solid #24483F;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- Textarea ---------- */
+#review-message {
+  width: 100%;
+  min-height: 110px;
+  padding: 14px 20px;
+  border: 1.5px solid #DCE6DA;
+  border-radius: 24px;
+  background: #FAF7F0;
+  color: #292D2A;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+#review-message:focus {
+  border-color: #24483F;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(36, 72, 63, 0.15);
+}
+
+/* ---------- Submit button (only this form's button) ---------- */
+#review-form button[type="submit"] {
+  align-self: flex-start;
+  padding: 13px 30px;
+  border: 0;
+  border-radius: 999px;
+  background: #24483F;
+  color: #FAF7F0;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+#review-form button[type="submit"]:hover {
+  background: #1B332D;
+}
+
+#review-form button[type="submit"]:focus-visible {
+  outline: 3px solid #C8795A;
+  outline-offset: 3px;
+}
+
+#review-status {
+  min-height: 1.4em;
+  margin: 0;
+  color: #4F5651;
+  font-size: 15px;
+}
+
+/* ---------- Review list (server cards have .review-card, JS cards have no class) ---------- */
+#reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+#reviews-list article {
+  padding: 22px 26px;
+  border: 1px solid #DCE6DA;
+  border-radius: 24px;
+  background: #FFFFFF;
+}
+
+#reviews-list article h4 {
+  margin: 0 0 4px;
+  color: #24483F;
+  font-family: "Fraunces", serif;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+#reviews-list article .review-stars {
+  margin: 0 0 10px;
+  color: #C8795A;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+#reviews-list article p:not(.review-stars) {
+  margin: 0 0 10px;
+  color: #292D2A;
+  line-height: 1.6;
+}
+
+#reviews-list article small {
+  color: #4F5651;
+  font-size: 13px;
+}
+
+#no-reviews {
+  margin: 0;
+  padding: 24px;
+  border-radius: 24px;
+  background: #DCE6DA;
+  color: #24483F;
+  text-align: center;
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  #review-form {
+    padding: 20px 18px;
+  }
+
+  #review-form .star-rating label {
+    font-size: 28px;
+  }
+
+  #review-form button[type="submit"] {
+    align-self: stretch;
+    width: 100%;
+  }
+
+  #reviews-list article {
+    padding: 18px 20px;
+  }
+}
+
+/* same side space as .page on phones */
+@media (max-width: 600px) {
+  .reviews-section {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
