@@ -1,0 +1,235 @@
+/* AI Recommendations page - HomeFinder style */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #FAF7F0;
+  color: #292D2A;
+  font-family: "DM Sans", system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+.ai-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+/* ---------- Intro ---------- */
+.ai-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #DCE6DA;
+  color: #24483F;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.ai-intro h1 {
+  margin: 0 0 12px;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(34px, 6vw, 52px);
+  line-height: 1.1;
+  color: #24483F;
+}
+
+.ai-intro p:not(.eyebrow) {
+  margin: 0 auto;
+  max-width: 560px;
+  font-size: 18px;
+  color: #4F5651;
+}
+
+/* ---------- Form card ---------- */
+.ai-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+  padding: 36px;
+  background: #FFFFFF;
+  border: 1px solid #DCE6DA;
+  border-radius: 36px;
+  box-shadow: 0 18px 40px rgba(36, 72, 63, 0.08);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group:has(textarea) {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #24483F;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1.5px solid #DCE6DA;
+  border-radius: 999px;
+  background: #FAF7F0;
+  color: #292D2A;
+  font-family: inherit;
+  font-size: 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group textarea {
+  border-radius: 24px;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #4F5651;
+  opacity: 0.7;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #24483F;
+  box-shadow: 0 0 0 3px rgba(36, 72, 63, 0.15);
+}
+
+.ai-form button[type="submit"] {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 15px 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #24483F;
+  color: #FAF7F0;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.ai-form button[type="submit"]:hover {
+  background: #1B332D;
+  transform: translateY(-1px);
+}
+
+.ai-form button[type="submit"]:focus-visible {
+  outline: 3px solid #C8795A;
+  outline-offset: 3px;
+}
+
+/* ---------- Error ---------- */
+.error-message {
+  margin-top: 24px;
+  padding: 16px 22px;
+  border: 1px solid #C8795A;
+  border-radius: 24px;
+  background: #FBEDE6;
+  color: #8A4A32;
+  font-weight: 500;
+}
+
+/* ---------- Results ---------- */
+.recommendations {
+  margin-top: 56px;
+}
+
+.recommendations h2 {
+  margin: 0 0 24px;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 32px;
+  color: #24483F;
+}
+
+.recommendations > p {
+  padding: 24px;
+  border-radius: 28px;
+  background: #DCE6DA;
+  color: #24483F;
+  text-align: center;
+}
+
+.recommendation-card {
+  margin-bottom: 20px;
+  padding: 28px 32px;
+  background: #FFFFFF;
+  border: 1px solid #DCE6DA;
+  border-radius: 28px;
+  box-shadow: 0 10px 28px rgba(36, 72, 63, 0.07);
+}
+
+.recommendation-card h3 {
+  margin: 0 0 12px;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #24483F;
+}
+
+.recommendation-card p {
+  margin: 0 0 8px;
+}
+
+.recommendation-card p strong {
+  color: #24483F;
+}
+
+/* "Why we recommend it" box = the last paragraph in the card */
+.recommendation-card p:last-of-type {
+  margin: 16px 0 20px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: #DCE6DA;
+  color: #292D2A;
+}
+
+.recommendation-card a {
+  display: inline-block;
+  padding: 11px 26px;
+  border-radius: 999px;
+  background: #24483F;
+  color: #FAF7F0;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.recommendation-card a:hover {
+  background: #1B332D;
+}
+
+.recommendation-card a:focus-visible {
+  outline: 3px solid #C8795A;
+  outline-offset: 3px;
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 640px) {
+  .ai-page { padding: 32px 16px 72px; }
+  .ai-form {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    border-radius: 28px;
+  }
+  .ai-form button[type="submit"] { justify-self: stretch; }
+  .recommendation-card { padding: 22px 20px; }
+}
