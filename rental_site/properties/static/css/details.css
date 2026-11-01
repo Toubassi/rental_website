@@ -1603,3 +1603,27 @@ dd {
     padding-right: 22px;
   }
 }
+
+/* ===== Request a Booking form: the two date fields in a row (stacked on phones) ===== */
+.booking-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.booking-fields .msg-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.booking-fields .msg-field {
+  height: 52px;
+  padding: 0 18px;
+  border-radius: 999px;
+}
+
+@media (max-width: 640px) {
+  .booking-fields {
+    grid-template-columns: 1fr;
+  }
+}

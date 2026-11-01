@@ -61,8 +61,9 @@ class Booking(models.Model):
 
     rental_type = models.CharField(max_length=20, default='monthly')
 
-    start_date = models.DateField()
-    end_date = models.DateField()
+    # Optional in the database (older test bookings have none); the booking form still requires them
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
     status = models.CharField(max_length=20, default='pending')
 

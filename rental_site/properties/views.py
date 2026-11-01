@@ -190,7 +190,7 @@ def send_message(request, id):
     back = reverse('details', args=[id]) + '#message-form'   # back to the message box, so the result is in view
     if errors:
         for error in errors.values():
-            messages.error(request, error)
+            messages.error(request, error, extra_tags='message-box')
         return redirect(back)
 
     message = Message.objects.create(
@@ -199,9 +199,9 @@ def send_message(request, id):
         property=property,
     )
     if message.send_notification():
-        messages.success(request, "Your message was sent. The provider will reply to your email.")
+        messages.success(request, "Your message was sent. The provider will reply to your email.", extra_tags='message-box')
     else:
-        messages.warning(request, "Your message was saved, but the email notification could not be sent.")
+        messages.warning(request, "Your message was saved, but the email notification could not be sent.", extra_tags='message-box')
     return redirect(back)
 
 def all_properties(request):
@@ -654,30 +654,26 @@ def create_booking(request, property_id):
         return redirect('/login/')
 
     property = get_object_or_404(Property, id=property_id)
+    back = f'/details/{property_id}/#booking'   # back to the booking box, so the result is in view
 
     if not property.is_available:
-        messages.error(request, "This property is unavailable.")
-        return redirect(f'/details/{property_id}/')
+        messages.error(request, "This property is unavailable.", extra_tags='booking')
+        return redirect(back)
 
     if user.id == property.landlord.user.id:
-        messages.error(request, "You cannot book your own property.")
-        return redirect(f'/details/{property_id}/')
+        messages.error(request, "You cannot book your own property.", extra_tags='booking')
+        return redirect(back)
     
     if request.method != 'POST':
-        return redirect(f'/details/{property_id}/')
+        return redirect(back)
     ######## we dont want a booking to be created when the link is visited through url
 
-    rental_type = request.POST.get('rental_type')
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
 
-    if not rental_type or not start_date or not end_date:
-        messages.error(request, "Please fill in all booking fields.")
-        return redirect(f'/details/{property_id}/')
-
-    if rental_type != 'monthly' and rental_type != 'flexible':
-        messages.error(request, "Invalid rental type.")
-        return redirect(f'/details/{property_id}/')
+    if not start_date or not end_date:
+        messages.error(request, "Please fill in all booking fields.", extra_tags='booking')
+        return redirect(back)
 
 
     ################ not allowing past dates/invalid
@@ -685,36 +681,31 @@ def create_booking(request, property_id):
         start_date = date.fromisoformat(start_date)
         end_date = date.fromisoformat(end_date)
     except ValueError:
-        messages.error(request, "Please enter valid dates.")
-        return redirect(f'/details/{property_id}/')
+        messages.error(request, "Please enter valid dates.", extra_tags='booking')
+        return redirect(back)
 
 
     if end_date <= start_date:
-        messages.error(request, "The end date must be after the start date.")
-        return redirect(f'/details/{property_id}/')
+        messages.error(request, "The end date must be after the start date.", extra_tags='booking')
+        return redirect(back)
 
     if start_date < date.today():
-        messages.error(request, "You cannot book dates in the past.")
-        return redirect(f'/details/{property_id}/')
+        messages.error(request, "You cannot book dates in the past.", extra_tags='booking')
+        return redirect(back)
 
-    if rental_type == 'monthly':
-        agreed_price = property.monthly_rent
-    else:
-        daily_price = property.monthly_rent / 30
-        number_of_days = (end_date - start_date).days
-        agreed_price = round(daily_price * number_of_days)
-    
+    # No rental type any more: every request is for the listed monthly rent
+    agreed_price = property.monthly_rent
+
     Booking.objects.create(
-        property=property, 
+        property=property,
         user=user,
-        rental_type=rental_type,
         start_date=start_date,
         end_date=end_date,
         agreed_price=agreed_price
         )
 
-    messages.success(request, "Your booking request was submitted successfully")
-    return redirect(f'/details/{property_id}/')
+    messages.success(request, "Your booking request was submitted successfully", extra_tags='booking')
+    return redirect(back)
 
 def my_booking_requests(request):
     if 'username' not in request.session:
