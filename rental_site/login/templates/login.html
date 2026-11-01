@@ -30,11 +30,6 @@
       <!-- Left: welcome -->
       <section class="welcome" aria-labelledby="welcome-title">
         <div class="welcome-copy">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <path d="M12 2.5 3.5 9v12.5h6.2v-6.3h4.6v6.3h6.2V9L12 2.5z" />
-            </svg>
-          </span>
           <h1 id="welcome-title">Welcome Back</h1>
           <p class="welcome-lead">
             Find your place, reconnect with HomeFinder, and continue your journey to a comfortable home.
@@ -69,7 +64,7 @@
             {% csrf_token %}
  
             <div class="field {% if error %}has-error{% endif %}">
-              <label for="username">Email or Username</label>
+              <label for="username">Email</label>
               <input
                 class="input"
                 type="text"
@@ -114,18 +109,6 @@
         <p class="field-error">{{ message }}</p>
     {% endfor %}
 {% endif %}</p>
-            </div>
- 
-            <div class="form-row">
-              <label class="check">
-                <input type="checkbox" name="remember" />
-                <span class="check-box" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12.5l4.5 4.5L19 7.5" />
-                  </svg>
-                </span>
-                <span>Remember me</span>
-              </label>
             </div>
  
             {% if success %}

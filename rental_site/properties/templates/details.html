@@ -17,7 +17,7 @@
     />
 
     <!-- our custom style -->
-    <link rel="stylesheet" href="{% static 'css/details.css' %}?v=6" />
+    <link rel="stylesheet" href="{% static 'css/details.css' %}?v=8" />
     <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=4" />
     <!-- leaflet API --->
      <link
@@ -133,9 +133,9 @@
     <main class="page" id="main">
             {% if messages %}
       <div class="hf-flash-stack" role="status">
-        {% for message in messages %}
+        {% for message in messages %}{% if 'booking' not in message.tags and 'message-box' not in message.tags %}
         <p class="hf-flash {{ message.tags }}">{{ message }}</p>
-        {% endfor %}
+        {% endif %}{% endfor %}
       </div>
       {% endif %}
       <!-- Breadcrumb: the middle step returns to the search results (back_url) or to Explore -->
@@ -400,26 +400,32 @@
           </section>
           {% endif %}
 
-          <!-- Booking Section -->
-          <section class="block" aria-labelledby="booking-title">
+          <!-- Booking Section: one button, the request is for the listed monthly rent -->
+          <section class="block" id="booking" aria-labelledby="booking-title">
             <h2 id="booking-title">Request a Booking</h2>
+            {% for message in messages %}{% if 'booking' in message.tags %}
+              <p class="msg-alert {% if 'error' in message.tags %}msg-alert-error{% endif %}" role="status">{{ message }}</p>
+            {% endif %}{% endfor %}
 
-            <form method="POST" action="{% url 'create_booking' property.id %}">
+            <form method="POST" action="{% url 'create_booking' property.id %}" class="provider-card">
               {% csrf_token %}
-
-              <label for="rental_type">Rental Type</label>
-              <select name="rental_type" id="rental_type" required>
-                <option value="monthly">Monthly</option>
-                <option value="flexible">Flexible Dates</option>
-              </select>
-
-              <label for="start_date">Start Date</label>
-              <input type="date" name="start_date" id="start_date" required />
-
-              <label for="end_date">End Date</label>
-              <input type="date" name="end_date" id="end_date" required />
-
-              <button type="submit" class="btn btn-cta">Request Booking</button>
+              <div class="booking-fields">
+                <div>
+                  <label class="msg-label" for="start_date">Start Date</label>
+                  <input class="msg-field" type="date" name="start_date" id="start_date" min="{% now 'Y-m-d' %}" required />
+                </div>
+                <div>
+                  <label class="msg-label" for="end_date">End Date</label>
+                  <input class="msg-field" type="date" name="end_date" id="end_date" min="{% now 'Y-m-d' %}" required />
+                </div>
+              </div>
+              <p class="privacy">The provider will review your request and you can follow its status.</p>
+              <button type="submit" class="btn btn-cta btn-inline">
+                <span class="btn-label">Request Booking</span>
+                <span class="btn-arrow" aria-hidden="true">
+                  <svg class="icon-arrow" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
+                </span>
+              </button>
             </form>
           </section>
 
@@ -555,9 +561,9 @@
             <!-- Message box: saves the message and emails HomeFinder (the sender's email comes from their account) -->
             <section class="block" id="message-form" aria-labelledby="message-title">
               <h2 id="message-title">Message the Provider</h2>
-              {% for message in messages %}
-                <p class="msg-alert {% if message.tags == 'error' %}msg-alert-error{% endif %}" role="status">{{ message }}</p>
-              {% endfor %}
+              {% for message in messages %}{% if 'message-box' in message.tags %}
+                <p class="msg-alert {% if 'error' in message.tags or 'warning' in message.tags %}msg-alert-error{% endif %}" role="status">{{ message }}</p>
+              {% endif %}{% endfor %}
               <form action="{% url 'send_message' property.id %}" method="post" class="provider-card">
                 {% csrf_token %}
                 <label class="msg-label" for="msg-text">Your message</label>
