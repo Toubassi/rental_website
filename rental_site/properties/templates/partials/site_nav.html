@@ -4,6 +4,7 @@
     Visitors (About Us and Contact pages): Home, About Us, Contact + Sign Up / Log In.
     The link for the current page is underlined.
 {% endcomment %}
+{% load static %}
 {% with page=request.resolver_match.url_name %}
 <header class="site-header">
     <nav class="site-nav" aria-label="Main navigation">
@@ -27,20 +28,6 @@
         </div>
 
         <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
-        <div class="site-notifications">
-            <button type="button" id="notification-bell">
-            🔔
-            <span id="notification-count">0</span>
-            </button>
-
-            <div id="notification-dropdown">
-            <h3>Notifications</h3>
-            <div id="notification-list">
-            No notifications yet.
-            </div>
-            </div>
-        </div>
-        
         <details class="site-user-menu">
             <summary class="site-user-summary">
                 <span class="site-user-avatar" aria-hidden="true">
@@ -105,4 +92,9 @@
         {% endif %}
     </nav>
 </header>
+{% if request.session.username %}
+<!-- Booking updates (approved / rejected), filled by js/booking_banner.js -->
+<div id="booking-banner" class="booking-banner" role="status" aria-live="polite" hidden></div>
+<script src="{% static 'js/booking_banner.js' %}" defer></script>
+{% endif %}
 {% endwith %}

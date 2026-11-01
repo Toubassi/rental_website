@@ -357,3 +357,81 @@
     padding: 6px 12px;
   }
 }
+
+/* ============ BOOKING BANNER (under the nav, logged-in users) ============
+   Same side space as .site-header, so it lines up with the nav pill. */
+.booking-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  margin: 12px auto 0;
+  padding: 0 max(48px, calc((100% - 1328px) / 2));
+}
+
+/* "display: flex" above would beat the hidden attribute without this */
+.booking-banner[hidden] {
+  display: none;
+}
+
+.booking-banner-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border: 1px solid;
+  border-radius: 24px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.booking-banner-item.is-approved {
+  border-color: #24483F;
+  background: #DCE6DA;
+  color: #24483F;
+}
+
+.booking-banner-item.is-rejected {
+  border-color: #C8795A;
+  background: #FBEDE6;
+  color: #8A4A32;
+}
+
+.booking-banner-icon {
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.booking-banner-text {
+  min-width: 0;
+}
+
+.booking-banner-close {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.booking-banner-close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .booking-banner {
+    padding: 0 22px;
+  }
+
+  .booking-banner-item {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
