@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('details/<int:id>/', views.details, name='details'),
     path('details/<int:id>/message/', views.send_message, name='send_message'),
+    path('property/<int:property_id>/review/', views.add_review, name='add_review'),
     path('properties/', views.all_properties, name='all-properties'),
     path('profile/', views.user_profile, name='profile'),
 
