@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('booking/<int:property_id>/', views.create_booking, name='create_booking'),
     path('my-booking-requests/', views.my_booking_requests, name='my_booking_requests'),
+    path('notifications/', views.get_notifications,  name='get_notifications'),
     path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
 
     path('admin-dashboard/', views.adminDashboard, name='admin-dashboard'),
