@@ -327,8 +327,18 @@ def admin_manage_users(request):
         return access
 
     users = User.objects.all()
+
+    # search box: ?q=... (case-insensitive, name / username / email)
+    q = request.GET.get('q', '').strip()
+    if q:
+        users = users.filter(
+            Q(name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q)
+        )
+
     context = {
         'users': users,
+        'q': q,
+        'result_count': users.count(),
     }
     return render(request, 'admin-manage-users.html', context)
 
@@ -338,8 +348,21 @@ def admin_manage_properties(request):
         return access
 
     properties = Property.objects.all().order_by('-created_at')
+
+    # search box: ?q=... (case-insensitive, title / city / address / owner's username)
+    q = request.GET.get('q', '').strip()
+    if q:
+        properties = properties.filter(
+            Q(title__icontains=q)
+            | Q(city__icontains=q)
+            | Q(address__icontains=q)
+            | Q(landlord__user__username__icontains=q)
+        )
+
     context = {
         'properties': properties,
+        'q': q,
+        'result_count': properties.count(),
     }
     return render(request, 'admin-manage-properties.html', context)
 

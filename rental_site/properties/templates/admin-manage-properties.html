@@ -92,6 +92,7 @@
                 <input
                   type="search"
                   name="q"
+                  value="{{ q }}"
                   placeholder="Search accommodation or provider"
                   aria-label="Search accommodation or provider"
                 />
@@ -101,6 +102,10 @@
                 <span aria-hidden="true">⌕</span>
                 Search
               </button>
+
+              {% if q %}
+              <a href="{% url 'admin-manage-properties' %}" class="clear-filters">Clear</a>
+              {% endif %}
             </div>
 
             <div class="accommodation-filter-row">
@@ -145,6 +150,10 @@
             </div>
           </form>
         </section>
+
+        {% if q %}
+        <p class="pagination-info" role="status">{{ result_count }} result{{ result_count|pluralize }} for '{{ q|truncatechars:60 }}'</p>
+        {% endif %}
 
         <!-- ============ ACCOMMODATION TABLE ============ -->
         <section class="admin-panel accommodation-table-panel">
@@ -237,7 +246,7 @@
     </tr>
     {% empty %}
     <tr>
-        <td colspan="8">No properties found.</td>
+        <td colspan="8">No accommodations found</td>
     </tr>
     {% endfor %}
 </tbody>
