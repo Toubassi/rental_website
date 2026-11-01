@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/site-nav.css' %}?v=3" />
-    <link rel="stylesheet" href="{% static 'css/ai_recommendations.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'css/ai_recommendations.css' %}?v=3" />
   </head>
   <body>
     {% include 'partials/site_nav.html' %}
@@ -100,6 +100,21 @@
 
         {% if recommendations %} {% for item in recommendations %}
         <article class="recommendation-card">
+          <!-- Thumbnail: the property's first photo (same way as the dashboard cards) -->
+          {% with image=item.property.propertyimage_set.first %}
+          <a href="{% url 'details' item.property.id %}" class="recommendation-thumb" aria-label="View {{ item.property.title }}">
+            {% if image %}
+            <img src="{{ image.image_url.url }}" alt="{{ item.property.title }}" loading="lazy" />
+            {% else %}
+            <span class="recommendation-thumb-empty">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+              No photo
+            </span>
+            {% endif %}
+          </a>
+          {% endwith %}
+
+          <div class="recommendation-body">
           <h3>{{ item.property.title }}</h3>
 
           <p>
@@ -118,6 +133,7 @@
           </p>
 
           <a href="{% url 'details' item.property.id %}"> View Property </a>
+          </div>
         </article>
         {% endfor %} {% else %}
         <p>No matching properties were found.</p>
