@@ -131,6 +131,13 @@
     {% include "partials/site_nav.html" %}
 
     <main class="page" id="main">
+            {% if messages %}
+      <div class="hf-flash-stack" role="status">
+        {% for message in messages %}
+        <p class="hf-flash {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
       <!-- Breadcrumb: the middle step returns to the search results (back_url) or to Explore -->
       {% url 'explore' as explore_url %} {% if not_found %} {% include "partials/breadcrumb.html" with parent_label="Explore Accommodation" parent_url=back_url|default:explore_url current="Not available" extra_class="crumbs" %}
       {% else %} 
@@ -475,6 +482,7 @@
                 </a>
               </div>
             </div>
+            {% endif %}
           </aside>
  
           <div class="main-col">
@@ -584,26 +592,6 @@
           </span>
         </a>
       </div>
-      <a
-        href="mailto:{{ landlord.user.email }}"
-        class="btn btn-cta btn-compact"
-        data-contact
-      >
-        <span class="btn-label">Contact Provider</span>
-        <span class="btn-arrow" aria-hidden="true">
-          <svg
-            class="icon-arrow"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="#i-arrow-up-right" />
-          </svg>
-          <span class="spinner"></span>
-        </span>
-      </a>
     </div>
 
     {% if images %}

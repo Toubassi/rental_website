@@ -1369,3 +1369,15 @@ dd {
   background: #f6e3dc;
   color: var(--error);
 }
+
+.hf-flash-stack { display: grid; gap: 10px; margin: 0 0 20px; }
+.hf-flash {
+  margin: 0;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  background: #dce6da;
+  color: #24483f;
+  border: 1.5px solid #dce6da;
+}
+.hf-flash.error { background: #fff; color: #292d2a; border-color: #c8795a; }
