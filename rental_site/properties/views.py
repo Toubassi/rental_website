@@ -413,7 +413,7 @@ def add_accommodation(request):
             image_url=photo
             )
         messages.success(request, 'Accommodation added successfully!')
-        return redirect('/explore/')
+        return redirect('/accommodation/')
 
     return render(request, 'add_accommodation.html', {
         'account': user,
