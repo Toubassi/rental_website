@@ -524,3 +524,40 @@ a { color: inherit; text-decoration: none; }   /* plain tag selector: the "aa-" 
 @media (max-width: 600px) {
   .aa-page { --aa-edge: 22px; }
 }
+
+/* ---------- Features checklist (Rental Details) ---------- */
+.aa-features {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.aa-features .aa-label {
+  width: 100%;
+}
+
+.aa-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid #DCE6DA;
+  border-radius: 999px;
+  background: #FAF7F0;
+  color: #292D2A;
+  cursor: pointer;
+}
+
+.aa-check input {
+  accent-color: #24483F;
+}
+
+.aa-check:has(input:checked) {
+  background: #DCE6DA;
+  border-color: #24483F;
+}
