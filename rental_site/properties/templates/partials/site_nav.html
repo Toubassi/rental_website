@@ -20,7 +20,10 @@
         <div class="site-nav-links">
             <a href="{% url 'dashboard' %}"{% if page == 'dashboard' %} aria-current="page"{% endif %}>Home</a>
             <a href="{% url 'explore' %}"{% if page == 'explore' or page == 'details' %} aria-current="page"{% endif %}>Explore</a>
-            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact Us</a>
+            {% if header_show_host %}
+            <a href="{% url 'add_accommodation' %}" class="site-nav-host">Become A Host</a>
+            {% endif %}
         </div>
 
         <!-- Account menu: <details> opens and closes on click, no JavaScript needed -->
@@ -77,7 +80,7 @@
         <div class="site-nav-links">
             <a href="{% url 'index' %}">Home</a>
             <a href="{% url 'about' %}"{% if page == 'about' %} aria-current="page"{% endif %}>About Us</a>
-            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+            <a href="{% url 'contact' %}"{% if page == 'contact' %} aria-current="page"{% endif %}>Contact Us</a>
         </div>
 
         <!-- Visitors: same Sign Up / Log In buttons as the landing page -->

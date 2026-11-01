@@ -106,6 +106,21 @@
   color: var(--hf-forest);
 }
 
+/* "Become A Host": small outlined pill (logged-in users who are not admins) */
+.site-nav-links .site-nav-host {
+  margin-left: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid #24483F;
+  border-radius: 999px;
+  color: #24483F;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.site-nav-links .site-nav-host:hover {
+  background: #24483F;
+  color: #FAF7F0;
+}
+
 /* ============ USER MENU (approved profile design, scaled to home proportions) ============ */
 
 .site-user-menu {
@@ -286,6 +301,10 @@
   .site-nav-links a {
     padding: 8px 10px;
   }
+
+  .site-nav-links .site-nav-host {
+    padding: 7px 14px;
+  }
 }
 
 /* ============ MOBILE ============ */
@@ -325,5 +344,16 @@
 
   .site-nav-links a {
     padding: 7px 8px;
+  }
+
+  /* 4 links can be wider than a phone: let them wrap instead of overflowing */
+  .site-nav-links {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .site-nav-links .site-nav-host {
+    margin-left: 0;
+    padding: 6px 12px;
   }
 }

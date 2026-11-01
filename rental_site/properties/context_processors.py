@@ -11,6 +11,8 @@ def header_avatar(request):
     data = {
         'header_is_admin': user.user_level == 1,
         'header_is_landlord': LandLord.objects.filter(user=user).exists(),
+        # "Become A Host" nav link: logged-in users who are not admins
+        'header_show_host': user.user_level != 1,
     }
     if user.avatar:
         data['header_avatar_url'] = user.avatar.url
